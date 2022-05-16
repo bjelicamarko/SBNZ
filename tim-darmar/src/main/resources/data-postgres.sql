@@ -1,22 +1,98 @@
-insert into AUTHORITY (name)
-values ('ROLE_ADMIN'); -- 1
-insert into AUTHORITY (name)
-values ('ROLE_EMPLOYER'); -- 2
-insert into AUTHORITY (name)
-values ('ROLE_EMPLOYEE'); -- 3
-insert into AUTHORITY (name)
-values ('ROLE_STUDENT'); -- 4
+-- ***************** ULOGE ******************
+insert into authority (name) values ('ROLE_ADMIN'); -- 1
+insert into authority (name) values ('ROLE_EMPLOYER'); -- 2
+insert into authority (name) values ('ROLE_EMPLOYEE'); -- 3
+insert into authority (name) values ('ROLE_STUDENT'); -- 4
 
+
+-- ***************** OBLASTI EKPERTIZE ******************
+insert into area_of_expertise(name_of_area) values ('Web programiranje');
+insert into specializations(id, specialization) values (1, 'Backend');
+insert into specializations(id, specialization) values (1, 'Frontend');
+insert into specializations(id, specialization) values (1, 'Devops');
+
+insert into area_of_expertise(name_of_area) values ('AI');
+insert into specializations(id, specialization) values (2, 'Machine-Learning');
+insert into specializations(id, specialization) values (2, 'Soft-compjuting');
+
+
+-- ***************** ADMINISTRATORI ******************
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
 values ('mare@maildrop.cc', '$2a$12$BN3TxQQYc9WTziVqPU5gcuxsL2nhW8IEuJXMfSLIefcx3eD/G5Vtq', 
 'Mare', 'Mare', 'ROLE_ADMIN', false, false);
 insert into admin(client) values (1);
-insert into client_authority (client_id, authority_id)
-values (1, 1); -- admin
+insert into client_authority (client_id, authority_id) values (1, 1); -- admin
 
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
 values ('dare@maildrop.cc', '$2a$12$5p9RcUuQQUM/O3Esp6Ut0OJwLyOzw6UR8OtoG2izRQru5kFXOEuuq', 
 'Dare', 'Dare', 'ROLE_ADMIN', false, false);
 insert into admin(client) values (2);
-insert into client_authority (client_id, authority_id)
-values (2, 1); -- admin
+insert into client_authority (client_id, authority_id) values (2, 1); -- admin
+
+
+-- ***************** POSLODAVCI ******************
+insert into client(email, password, first_name, last_name, role, blocked, deleted)
+values ('seneka@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 
+'Seneka', 'Senaka', 'ROLE_EMPLOYER', false, false);
+insert into employer(client, company_name, company_average_rating, penalty_points, penalty, employer_behavior, 
+status_pazljivosti) values (3, 'Seneka', 10.0, 0, false, 'NIJE_BEZOBRAZAN', 'NOT_CARELESS');
+insert into client_authority (client_id, authority_id) values (3, 2); -- employer
+
+-- zahtevi koji ce biti vezani za seneku :D
+insert into request_for_employer(type_of_employment, required_working_hours, required_salary) 
+values ('FULL_TIME', '08:00h-16:00h', 250000.0);
+insert into required_languages(id, language) values (1, 'english');
+insert into required_languages(id, language) values (1, 'serbian');
+
+insert into request_for_employer(type_of_employment, required_working_hours, required_salary) 
+values ('FULL_TIME', '08:30h-15:00h', 140000.0);
+insert into required_languages(id, language) values (2, 'english');
+insert into required_languages(id, language) values (2, 'french');
+
+insert into request_for_student(work_methods) values ('FROM_HOME');
+insert into request_for_student(work_methods) values ('DIRECT');
+-- kraj zahteva za seneku
+
+
+-- ***************** ZAPOSLENI ******************
+insert into client(email, password, first_name, last_name, role, blocked, deleted)
+values ('nikola@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 
+'Nikola', 'Jokic', 'ROLE_EMPLOYEE', false, false);
+insert into employee(client, preferred_working_hours, preferred_salary, points) values (4, '10:00h-21:00h', 10000.0, 0.0);
+insert into client_authority (client_id, authority_id) values (4, 3); -- employee
+insert into languages(id, language) values (4, 'english');
+insert into languages(id, language) values (4, 'serbian');
+insert into languages(id, language) values (4, 'french');
+
+-- radna iskustva vezana za Jokica :D
+insert into work_experience(type_of_employment, date_from, date_to, company_rating, employer_rating) 
+values ('FULL_TIME', 1589320800, 1620856800, 10.0, 10.0);
+insert into work_experience(type_of_employment, date_from) 
+values ('FULL_TIME', 1620856800);
+-- kraj radnih iskustava
+
+
+-- ***************** STUDENTI ******************
+insert into client(email, password, first_name, last_name, role, blocked, deleted)
+values ('luka@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 
+'Luka', 'Doncic', 'ROLE_STUDENT', false, false);
+insert into student(client, financial_status, status_of_student, points) values (5, 'MIDDLE_CLASS', 'DILIGENT_AND_GOOD', 0.0);
+insert into client_authority (client_id, authority_id) values (5, 4); -- student
+
+-- projekti vezani za Luku
+insert into project(mark, project_type, difficulty) values (10.0, 'TEAM', 5);
+insert into project(mark, project_type, difficulty) values (10.0, 'INDIVIDUAL', 6);
+insert into project(mark, project_type, difficulty) values (7.5, 'INDIVIDUAL', 8);
+insert into project(project_type, difficulty) values ('INDIVIDUAL', 5);
+-- kraj projekata
+
+-- prakse vezane za Luku
+insert into intership(date_from, date_to) values (1618264800, 1618876800);
+insert into mark_mentor(mark, mentor) values (6.9, 'Pera');
+insert into mark_mentor(mark, mentor) values (7.5, 'Dusko');
+
+insert into intership(date_from, date_to) values (1650412800, 1652572800);
+insert into mark_mentor(mark, mentor) values ('10.0', 'Pera');
+insert into mark_mentor(mark, mentor) values ('6.4', 'Dusko');
+insert into mark_mentor(mark, mentor) values ('4.3', 'Dunja');
+-- kraj praksi
