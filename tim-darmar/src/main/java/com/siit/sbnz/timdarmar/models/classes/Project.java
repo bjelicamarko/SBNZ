@@ -1,5 +1,6 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,12 +13,18 @@ import javax.validation.constraints.Min;
 
 import com.siit.sbnz.timdarmar.models.enums.ProjectType;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter 
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Project {
 
 	@Id
@@ -26,13 +33,16 @@ public class Project {
 	
 	@Column(nullable = true)
 	@Min(0) @Max(10)
-	private double mark;
+	@NonNull
+	private Double mark;
 	
 	@Enumerated(EnumType.STRING)
+	@NonNull
 	private ProjectType projectType;
 	
 	@Column(nullable = false)
 	@Min(1) @Max(10)
-	private int difficulty;
+	@NonNull
+	private Integer difficulty;
 	
 }

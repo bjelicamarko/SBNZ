@@ -9,13 +9,19 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "mark_mentor")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter 
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class MarkMentor {
 
 	@Id
@@ -24,8 +30,10 @@ public class MarkMentor {
 	
 	@Column(nullable = false)
 	@Min(0) @Max(10)
-	private double mark;
+	@NonNull
+	private Double mark;
 	
 	@Column(nullable = false)
+	@NonNull
 	private String mentor;
 }

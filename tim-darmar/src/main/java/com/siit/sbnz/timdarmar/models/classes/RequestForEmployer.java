@@ -16,13 +16,19 @@ import javax.persistence.Table;
 
 import com.siit.sbnz.timdarmar.models.enums.TypeOfEmployment;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "request_for_employer")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter 
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class RequestForEmployer {
 	
 	@Id
@@ -35,11 +41,14 @@ public class RequestForEmployer {
 	private List<String> requiredLanguages;
 	
 	@Enumerated(EnumType.STRING)
+	@NonNull
 	private TypeOfEmployment typeOfEmployment;
 	
 	@Column(nullable = false)
+	@NonNull
 	private String requiredWorkingHours;
 	
 	@Column(nullable = false)
-	private double requiredSalary;
+	@NonNull
+	private Double requiredSalary;
 }

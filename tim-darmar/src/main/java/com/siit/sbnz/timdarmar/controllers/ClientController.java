@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siit.sbnz.timdarmar.models.classes.Client;
+import com.siit.sbnz.timdarmar.models.classes.WorkExperience;
 import com.siit.sbnz.timdarmar.models.dtos.ClientTokenStateDTO;
+import com.siit.sbnz.timdarmar.models.enums.TypeOfEmployment;
 import com.siit.sbnz.timdarmar.security.TokenUtils;
 import com.siit.sbnz.timdarmar.security.auth.JwtAuthenticationRequest;
 import com.siit.sbnz.timdarmar.services.ClientService;
@@ -43,8 +45,8 @@ public class ClientController {
         Client client = (Client) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(client.getUsername(), client.getRole());
         int expiresIn = tokenUtils.getExpiredIn();
-
+       
         // Return token as answer
-        return ResponseEntity.ok(new ClientTokenStateDTO(jwt, expiresIn));
+        return ResponseEntity.ok(new ClientTokenStateDTO(jwt, (long)expiresIn));
     }
 }

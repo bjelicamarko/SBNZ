@@ -15,7 +15,8 @@ import lombok.Setter;
 
 @Entity
 @Table(name="AUTHORITY")
-@Getter @Setter @NoArgsConstructor 
+@Getter @Setter 
+@NoArgsConstructor 
 public class Authority implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;

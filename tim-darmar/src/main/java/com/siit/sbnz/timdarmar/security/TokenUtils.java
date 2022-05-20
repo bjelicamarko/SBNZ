@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.siit.sbnz.timdarmar.models.classes.Client;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -28,8 +26,6 @@ public class TokenUtils {
 	private String AUTH_HEADER;
 
 	private static final String AUDIENCE_WEB = "web";
-	private static final String AUDIENCE_MOBILE = "mobile";
-	private static final String AUDIENCE_TABLET = "tablet";
 
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
@@ -113,19 +109,6 @@ public class TokenUtils {
 		return request.getHeader(AUTH_HEADER);
 	}
 
-	private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
-		return (lastPasswordReset != null && created.before(lastPasswordReset));
-	}
-
-	private Boolean isTokenExpired(String token) {
-		final Date expiration = this.getExpirationDateFromToken(token);
-		return expiration.before(new Date());
-	}
-
-	private Boolean ignoreTokenExpiration(String token) {
-		String audience = this.getAudienceFromToken(token);
-		return (audience.equals(AUDIENCE_TABLET) || audience.equals(AUDIENCE_MOBILE));
-	}
 
 	private Claims getAllClaimsFromToken(String token) {
 		Claims claims;

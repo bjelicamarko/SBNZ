@@ -12,13 +12,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "area_of_expertise")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter 
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class AreaOfExpertise {
 
 	@Id
@@ -26,6 +32,7 @@ public class AreaOfExpertise {
 	private Long id;
 	
 	@Column(nullable = false, unique = true)
+	@NonNull
 	private String nameOfArea;
 	
 	@ElementCollection

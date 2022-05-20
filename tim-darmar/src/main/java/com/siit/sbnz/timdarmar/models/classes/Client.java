@@ -28,7 +28,7 @@ public abstract class Client implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", unique=true, nullable=false)
-	protected Integer id;
+	protected Long id;
 	
 	@Column(nullable = false, unique = true)
 	private String email;
@@ -93,14 +93,6 @@ public abstract class Client implements UserDetails{
 	@Override
 	public String getUsername() {
 		return this.email;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 	
 	

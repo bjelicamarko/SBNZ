@@ -13,13 +13,19 @@ import javax.validation.constraints.Min;
 
 import com.siit.sbnz.timdarmar.models.enums.TypeOfEmployment;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "work_experience")
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter 
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class WorkExperience {
 
 	@Id
@@ -27,19 +33,24 @@ public class WorkExperience {
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
+	@NonNull
 	private TypeOfEmployment typeOfEmployment;
 	
 	@Column(nullable = false)
-	private long dateFrom;
+	@NonNull
+	private Long dateFrom;
 	
 	@Column(nullable = true)
-	private long dateTo;
+	@NonNull
+	private Long dateTo;
 	
 	@Column(nullable = true)
 	@Min(0) @Max(10)
-	private double companyRating;
+	@NonNull
+	private Double companyRating;
 	
 	@Column(nullable = true)
 	@Min(0) @Max(10)
-	private double employerRating;
+	@NonNull
+	private Double employerRating;
 }
