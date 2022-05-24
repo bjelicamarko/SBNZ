@@ -6,6 +6,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.siit.sbnz.timdarmar.models.enums.WorkMethods;
@@ -32,4 +34,14 @@ public class RequestForStudent {
 	@Enumerated(EnumType.STRING)
 	@NonNull
 	private WorkMethods workMethods;
+	
+	@ManyToOne
+    @JoinColumn(name="employer_id", nullable=false)
+	@NonNull
+    private Employer employer;
+	
+	@ManyToOne
+    @JoinColumn(name="area_of_expertise_id", nullable=false)
+	@NonNull
+    private AreaOfExpertise areaOfExpertise;
 }

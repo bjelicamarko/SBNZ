@@ -1,0 +1,128 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Employee;
+import com.siit.sbnz.timdarmar.models.classes.RequestForEmployee;
+import com.siit.sbnz.timdarmar.models.enums.TypeOfEmployment;
+
+import java.util.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+function double absolute(double v1, double v2){
+    return Math.abs(v1 - v2);
+}
+
+function int timeMatch(String preferredWorkingHours, String requiredWorkingHours) {
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	String[] preferredWorkingHoursArr = preferredWorkingHours.split("-");
+	String[] requiredWorkingHoursArr = requiredWorkingHours.split("-");
+	
+	LocalTime p1 = LocalTime.parse(preferredWorkingHoursArr[0], formatter);
+	LocalTime k1 = LocalTime.parse(preferredWorkingHoursArr[1], formatter);
+	
+	LocalTime p2 = LocalTime.parse(requiredWorkingHoursArr[0], formatter);
+	LocalTime k2 = LocalTime.parse(requiredWorkingHoursArr[1], formatter);
+	
+	long hoursBetween = ChronoUnit.HOURS.between(p1, k1);
+	
+	if (p1.isAfter(p2) && k1.isBefore(k2) && hoursBetween >= 8)
+		return 2;
+	else if (((p1.isBefore(p2) && k1.isBefore(k2)) || (p1.isAfter(p2) && k1.isAfter(k2))) && hoursBetween >= 8)
+		return 1;
+	else
+		return 0;
+}
+
+rule "salary rule one"
+	salience 0
+	agenda-group "workingHours_salary"
+	lock-on-active true
+    when
+		$e: Employee(points >= 0.5, approval >= 1, preferredSalary > 0) 
+		$request: RequestForEmployee(requiredSalary > 0)
+		eval(absolute($e.getPreferredSalary(), $request.getRequiredSalary())  
+		<= $request.getRequiredSalary()/10)
+    then
+    
+    	System.out.println("Rule: salary rule one");
+    	
+        $e.setPoints($e.getPoints() + 0.3);
+        $e.setApproval($e.getApproval() + 1); 
+      
+		update($e);
+end
+
+
+rule "salary rule two"
+	salience 0
+	agenda-group "workingHours_salary"
+	lock-on-active true
+    when
+		$e: Employee(points >= 0.5, approval >= 1, preferredSalary > 0) 
+		$request: RequestForEmployee(requiredSalary > 0)
+		eval(absolute($e.getPreferredSalary(), $request.getRequiredSalary())  
+		> $request.getRequiredSalary()/10 && absolute($e.getPreferredSalary(), $request.getRequiredSalary())  
+		<= $request.getRequiredSalary()/5)
+    then
+    
+    	System.out.println("Rule: salary rule two");
+    
+        $e.setPoints($e.getPoints() + 0.2);
+        $e.setApproval($e.getApproval() + 1); 
+      
+		update($e);
+end
+
+rule "salary rule three"
+	salience 0
+	agenda-group "workingHours_salary"
+	lock-on-active true
+    when
+		$e: Employee(points >= 0.5, approval >= 1, preferredSalary > 0) 
+		$request: RequestForEmployee(requiredSalary > 0)
+		eval(absolute($e.getPreferredSalary(), $request.getRequiredSalary())  
+		> $request.getRequiredSalary()/5 && absolute($e.getPreferredSalary(), $request.getRequiredSalary())  
+		<= $request.getRequiredSalary()/2)
+    then
+    
+    	System.out.println("Rule: salary rule three");
+    	
+        $e.setPoints($e.getPoints() + 0.1);
+        $e.setApproval($e.getApproval() + 1); 
+      
+		update($e);
+end
+
+rule "working hours one"
+	salience 0
+	agenda-group "workingHours_salary"
+	lock-on-active true
+    when
+		$e: Employee(points >= 0.5, approval >= 1, preferredWorkingHours != null) 
+		$request: RequestForEmployee(requiredWorkingHours != null, typeOfEmployment != TypeOfEmployment.FREELANCE)
+		eval(timeMatch($e.getPreferredWorkingHours(), $request.getRequiredWorkingHours()) == 2)
+    then
+    
+    	System.out.println("Rule: working hours one");
+    	
+        $e.setPoints($e.getPoints() + 0.2);
+        $e.setApproval($e.getApproval() + 1); 
+      
+		update($e);
+end
+
+rule "working hours two"
+	salience 0
+	agenda-group "workingHours_salary"
+	lock-on-active true
+    when
+		$e: Employee(points >= 0.5, approval >= 1, preferredWorkingHours != null) 
+		$request: RequestForEmployee(requiredWorkingHours != null, typeOfEmployment != TypeOfEmployment.FREELANCE)
+		eval(timeMatch($e.getPreferredWorkingHours(), $request.getRequiredWorkingHours()) == 1)
+    then
+    	
+    	System.out.println("Rule: working hours two");
+    		
+        modify($e) {setPoints($e.getPoints() + 0.1); }
+end

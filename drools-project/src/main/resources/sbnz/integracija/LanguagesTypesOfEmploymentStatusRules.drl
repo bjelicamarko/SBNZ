@@ -1,0 +1,107 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Employee;
+import com.siit.sbnz.timdarmar.models.classes.RequestForEmployee;
+import com.siit.sbnz.timdarmar.models.classes.WorkExperience;
+
+import com.siit.sbnz.timdarmar.models.enums.StatusOfEmployee;
+
+import java.util.*;
+ 
+rule "calculating employee's points based on language skills"
+	salience 0
+	agenda-group "languages_typesOfEmployments_status"
+	lock-on-active true
+    when
+		$e : Employee(points >= 0.2, $languages : languages != null, languages.size() > 0)
+		$listOfLanguages: List(size > 0)
+		
+		$value: Number(intValue >= 1) from accumulate 
+		(
+			String($s: this) from $languages,
+			init
+			(
+				int count = 0;
+			),
+			action
+			(
+				if ($listOfLanguages.contains($s))
+					count += 1;
+			),
+			result 
+			(
+				count
+			)
+		)
+    then
+    	int count = $value.intValue();
+    	
+    	System.out.println("Rule: calculating employee's points based on language skills");
+        System.out.println( "Number of required languages " + count);
+        
+        $e.setPoints($e.getPoints() + 0.1 * count);
+        $e.setApproval($e.getApproval() + 1); 
+      
+		update($e);
+end
+
+
+rule "status of employee UNEMPLOYED"
+	salience 0
+	agenda-group "languages_typesOfEmployments_status"
+	lock-on-active true
+    when
+		$e: Employee(points >= 0.2, statusOfEmployee != null, statusOfEmployee == StatusOfEmployee.UNEMPLOYED)
+    then
+    	
+    	System.out.println("Rule: status of employee UNEMPLOYED");
+    	
+        modify($e) {setPoints($e.getPoints() + 0.2); }
+end
+
+rule "status of employee EMPLOYED"
+	salience 0
+	agenda-group "languages_typesOfEmployments_status"
+	lock-on-active true
+    when
+		$e: Employee(points >= 0.2, statusOfEmployee != null, statusOfEmployee == StatusOfEmployee.EMPLOYED)
+    then
+    	
+    	System.out.println("Rule: status of employee EMPLOYED");
+    	
+        modify($e) {setPoints($e.getPoints() + 0.1); }
+end
+
+rule "type of employment for employee"
+	salience 0
+	agenda-group "languages_typesOfEmployments_status"
+	lock-on-active true
+    when
+		$e: Employee(points >= 0.2, $workExperiences : workExperiences != null, workExperiences.size() > 0)
+		$request: RequestForEmployee()
+		
+		$value: Number(intValue >= 1) from accumulate 
+		(
+			WorkExperience($type: typeOfEmployment) from $workExperiences,
+			init
+			(
+				int count = 0;
+			),
+			action
+			(
+				if ($type.toString().equals($request.getTypeOfEmployment().toString()))
+					count += 1;
+			),
+			result 
+			(
+				count
+			)
+		)
+    then
+    	int count = $value.intValue();
+    	
+    	System.out.println("Rule: stype of employment for employee");
+        System.out.println("Number of same types of employment " + count);
+        
+        modify($e) {setPoints($e.getPoints() + 0.1 * count); }
+end

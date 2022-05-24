@@ -1,0 +1,58 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Employee;
+import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
+
+import java.util.*;
+
+rule "calculating employee's points based on expertises and specializations"
+	agenda-group "expertises_specializations"
+	no-loop
+    when
+    	$e : Employee($areasOfEmployee : areaOfExpertises != null, areaOfExpertises.size() > 0)
+		$areasOfRequest: Set(size > 0) 
+		
+		$map: Map() from accumulate
+		( 	
+			AreaOfExpertise($a1: this, $specOfEmployee: specializations != null, $specOfEmployee.size() > 0) from $areasOfEmployee
+			and 
+			AreaOfExpertise($a2: this, $specOfRequest: specializations != null, $specOfRequest.size() > 0) from $areasOfRequest,
+			init
+			(
+				Map<String, Integer> m = new HashMap<String, Integer>();
+				m.put("expertise", 0);
+				m.put("specialization", 0);
+			),
+			action
+			(
+				Set<String> intersection  = new HashSet<>();
+				
+				if ($a1.getNameOfArea().equals($a2.getNameOfArea())) {
+					m.put("expertise", m.get("expertise") + 1);
+					
+					intersection.addAll($specOfEmployee);
+					intersection.retainAll($specOfRequest);
+					
+					m.put("specialization", m.get("specialization") + intersection.size());
+				}	
+			),
+			result 
+			(
+				new HashMap(m)
+			)
+		)
+    then
+    	int countExpertises = ((HashMap<String, Integer>)$map).get("expertise");
+    	int countSpecializations = ((HashMap<String, Integer>)$map).get("specialization");
+    	
+    	System.out.println("Rule: calculating employee's points based on expertises and specializations");
+    	System.out.println("Same expertise: " + countExpertises);
+    	System.out.println("Same specializations: " + countSpecializations);
+    	
+    	modify($e) {setPoints($e.getPoints() + 0.1 * countExpertises + 0.1 * countSpecializations); }
+    	
+    	/*
+        kcontext.getKnowledgeRuntime().getAgenda()
+        		.getAgendaGroup("languages_typesOfEmployments_status").setFocus();
+        */
+end

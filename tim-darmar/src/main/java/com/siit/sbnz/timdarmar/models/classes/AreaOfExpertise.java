@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -31,13 +32,23 @@ public class AreaOfExpertise {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	@NonNull
 	private String nameOfArea;
 	
 	@ElementCollection
 	@CollectionTable(name = "specializations", joinColumns = @JoinColumn(name = "id")) // 2
     @Column(name = "specialization") // 3
+	@NonNull
 	private List<String> specializations;
 	
+	@ManyToOne
+    @JoinColumn(name="employee_id", nullable=true)
+	@NonNull
+    private Employee employee;
+	
+	@ManyToOne
+    @JoinColumn(name="request_for_employee_id", nullable=true)
+	@NonNull
+    private RequestForEmployee request;
 }

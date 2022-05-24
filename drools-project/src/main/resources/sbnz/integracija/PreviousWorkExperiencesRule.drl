@@ -1,0 +1,38 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Employee;
+import com.siit.sbnz.timdarmar.models.classes.WorkExperience;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+
+import java.util.*;
+
+rule "Previous work experiences from employee"
+	salience 0
+	agenda-group "previous_work_experiences"
+	lock-on-active true
+    when
+		$e: Employee(points >= 0.7, approval >= 2, $id : id, $workExperiences : workExperiences)
+		$value: Number() from accumulate 
+		(
+			WorkExperience($we1: this, $id1 : id, $employerRating : employerRating,
+			dateFrom >= LocalDate.now().minusMonths(6).getLong(ChronoField.EPOCH_DAY)) 
+			from $workExperiences 
+			and
+			List(size > 2) from collect 
+			(WorkExperience($we2: this, $id2 : id, $id1 != $id2, 
+			$id != $we2.getEmployee().getId()) 
+			from  $we1.getEmployer().getWorkExperiences()),
+			
+			average($employerRating)
+		)
+		eval($value.doubleValue() > 6)
+    then
+    	double value = $value.doubleValue();
+    	
+    	System.out.println("Rule: Previous work experiences from employee");
+      	System.out.println("Avg is " + $value);
+      	
+      	modify($e) {setPoints($e.getPoints() + value); }
+end

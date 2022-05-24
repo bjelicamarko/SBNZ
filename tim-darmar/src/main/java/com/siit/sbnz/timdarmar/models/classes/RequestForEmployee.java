@@ -1,17 +1,23 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 import com.siit.sbnz.timdarmar.models.enums.TypeOfEmployment;
 
@@ -23,16 +29,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "work_experience")
+@Table(name = "request_for_employee")
 @Getter @Setter 
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class WorkExperience {
-
+public class RequestForEmployee {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@ElementCollection
+	@CollectionTable(name = "required_languages", joinColumns = @JoinColumn(name = "id")) // 2
+    @Column(name = "language") // 3
+	private List<String> requiredLanguages;
 	
 	@Enumerated(EnumType.STRING)
 	@NonNull
@@ -40,34 +51,17 @@ public class WorkExperience {
 	
 	@Column(nullable = false)
 	@NonNull
-	private Long dateFrom;
+	private String requiredWorkingHours;
 	
-	@Column(nullable = true)
+	@Column(nullable = false)
 	@NonNull
-	private Long dateTo;
-	
-	@Column(nullable = true)
-	@Min(0) @Max(10)
-	@NonNull
-	private Double companyRating;
-	
-	@Column(nullable = true)
-	@Min(0) @Max(10)
-	@NonNull
-	private Double employerRating;
+	private Double requiredSalary;
 	
 	@ManyToOne
     @JoinColumn(name="employer_id", nullable=false)
 	@NonNull
     private Employer employer;
 	
-	@ManyToOne
-    @JoinColumn(name="employee_id", nullable=false)
-	@NonNull
-    private Employee employee;
-	
-	@ManyToOne
-    @JoinColumn(name="area_of_expertise_id", nullable=false)
-	@NonNull
-    private AreaOfExpertise areaOfExpertise;
+	@OneToMany(mappedBy="request", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<AreaOfExpertise> areaOfExpertises;
 }

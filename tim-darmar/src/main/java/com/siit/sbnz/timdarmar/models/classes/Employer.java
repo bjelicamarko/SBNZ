@@ -1,9 +1,14 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.siit.sbnz.timdarmar.models.enums.EmployerBehavior;
@@ -37,4 +42,12 @@ public class Employer extends Client{
 	@Enumerated(EnumType.STRING)
 	private StatusPazljivosti statusPazljivosti; // OVO PROMJENITI
 	
+	@OneToMany(mappedBy="employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<RequestForEmployee> requestsForEmployee;
+	
+	@OneToMany(mappedBy="employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<RequestForStudent> requestsForStudent;
+	
+	@OneToMany(mappedBy="employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<WorkExperience> workExperiences;
 }
