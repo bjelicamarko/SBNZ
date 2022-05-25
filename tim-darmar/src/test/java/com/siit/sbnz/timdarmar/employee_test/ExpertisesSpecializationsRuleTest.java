@@ -104,7 +104,7 @@ public class ExpertisesSpecializationsRuleTest {
 	
 	@Test
 	public void testExpertisesRule() {
-		KieSession kieSession = kieContainer.newKieSession();
+		KieSession kieSession = kieContainer.newKieSession("ksession-rule");
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
 		Employee e1 = employees.get(0);
@@ -118,7 +118,7 @@ public class ExpertisesSpecializationsRuleTest {
         
         Employee e2 = employees.get(1);
         // RESET kieSession
-        kieSession = kieContainer.newKieSession();
+        kieSession = kieContainer.newKieSession("ksession-rule");
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
 		kieSession.insert(e2);
@@ -126,5 +126,7 @@ public class ExpertisesSpecializationsRuleTest {
 		kieSession.fireAllRules();
 		
         assertEquals(0.6, e2.getPoints(), 0.1);
+        
+        kieSession.dispose();
 	}
 }

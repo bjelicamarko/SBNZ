@@ -43,7 +43,7 @@ public class WorkingHoursSalaryRulesTest {
 	
 	@Test
 	public void testSalaryRules() {
-		KieSession kieSession = kieContainer.newKieSession();
+		KieSession kieSession = kieContainer.newKieSession("ksession-rule");
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
 		Employee e1 = employees.get(0);
@@ -54,11 +54,13 @@ public class WorkingHoursSalaryRulesTest {
 		
 		assertEquals(0.8, e1.getPoints(), 0.1);
 		assertEquals(2, e1.getApproval());
+		
+		kieSession.dispose();
 	}
 	
 	@Test
 	public void testWorkingHoursRule_One() {
-		KieSession kieSession = kieContainer.newKieSession();
+		KieSession kieSession = kieContainer.newKieSession("ksession-rule");
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
         Employee e = new Employee();
@@ -73,11 +75,13 @@ public class WorkingHoursSalaryRulesTest {
 		
 		assertEquals(0.7, e.getPoints(), 0.1);
 		assertEquals(2, e.getApproval());
+		
+		kieSession.dispose();
 	}
 	
 	@Test
 	public void testWorkingHoursRule_Two() {
-		KieSession kieSession = kieContainer.newKieSession();
+		KieSession kieSession = kieContainer.newKieSession("ksession-rule");
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
         Employee e = new Employee();
@@ -92,5 +96,7 @@ public class WorkingHoursSalaryRulesTest {
 		
 		assertEquals(0.6, e.getPoints(), 0.01);
 		assertEquals(1, e.getApproval());
+		
+		kieSession.dispose();
 	}
 }

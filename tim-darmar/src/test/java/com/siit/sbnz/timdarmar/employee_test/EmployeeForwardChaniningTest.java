@@ -172,7 +172,7 @@ public class EmployeeForwardChaniningTest {
 
 	@Test
 	public void testForwardChainining_One() {
-		KieSession kieSession = kieContainer.newKieSession();
+		KieSession kieSession = kieContainer.newKieSession("ksession-rule");
 		
 		Employee e = new Employee();
 		e.setId(8L);
@@ -235,5 +235,7 @@ public class EmployeeForwardChaniningTest {
 		kieSession.getAgenda().getAgendaGroup("previous_work_experiences").setFocus();
 		kieSession.fireAllRules();
 		assertEquals(9.9, e.getPoints(), 0.01);
+		
+		kieSession.dispose();
 	}
 }

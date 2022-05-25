@@ -158,13 +158,15 @@ public class PreviousWorkExperiencesRuleTest {
 		we2.setDateFrom(1653256800L);
         we2.setEmployerRating(9.0);
         
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("ksession-rule");
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
         kieSession.insert(test);
 		kieSession.fireAllRules();
 		
 		assertEquals(9.2, test.getPoints(), 0.1);
+		
+		kieSession.dispose();
 	}
 	
 }

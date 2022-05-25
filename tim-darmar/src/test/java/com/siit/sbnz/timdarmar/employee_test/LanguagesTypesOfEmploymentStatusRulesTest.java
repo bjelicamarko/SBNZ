@@ -92,7 +92,7 @@ public class LanguagesTypesOfEmploymentStatusRulesTest {
 	
 	@Test
 	public void testParametersOfRequestForEmployeeRules() {
-		KieSession kieSession = kieContainer.newKieSession();
+		KieSession kieSession = kieContainer.newKieSession("ksession-rule");
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
 		Employee e1 = employees.get(0);
@@ -109,7 +109,7 @@ public class LanguagesTypesOfEmploymentStatusRulesTest {
 		
 		Employee e2 = employees.get(1);
         // RESET kieSession
-		kieSession = kieContainer.newKieSession();
+		kieSession = kieContainer.newKieSession("ksession-rule");
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
 		
 		kieSession.insert(e2);
@@ -119,5 +119,7 @@ public class LanguagesTypesOfEmploymentStatusRulesTest {
 		
         assertEquals(0.4, e2.getPoints(), 0.1);
         assertEquals(1, e1.getApproval());
+        
+        kieSession.dispose();
 	}
 }
