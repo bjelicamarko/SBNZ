@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -158,13 +159,14 @@ public class PreviousWorkExperiencesRuleTest {
 		we2.setDateFrom(1653256800L);
         we2.setEmployerRating(9.0);
         
-        KieSession kieSession = kieContainer.newKieSession("ksession-rule");
+        KieBase kieBase = kieContainer.getKieBase("classic");
+		KieSession kieSession = kieBase.newKieSession();
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
         kieSession.insert(test);
 		kieSession.fireAllRules();
 		
-		assertEquals(9.2, test.getPoints(), 0.1);
+		assertEquals(9.2, test.getPoints(), 0.01);
 		
 		kieSession.dispose();
 	}

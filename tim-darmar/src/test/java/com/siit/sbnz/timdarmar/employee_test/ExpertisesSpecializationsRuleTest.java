@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -104,29 +105,23 @@ public class ExpertisesSpecializationsRuleTest {
 	
 	@Test
 	public void testExpertisesRule() {
-		KieSession kieSession = kieContainer.newKieSession("ksession-rule");
+		KieBase kieBase = kieContainer.getKieBase("classic");
+		KieSession kieSession = kieBase.newKieSession();
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
 		Employee e1 = employees.get(0);
+		Employee e2 = employees.get(1);
 		
+		System.out.println(kieSession.getFactCount());
 		kieSession.insert(e1);
-		kieSession.insert(expertises);
-		kieSession.fireAllRules();
-		
-        assertEquals(0.7, e1.getPoints(), 0.1);
-        
-        
-        Employee e2 = employees.get(1);
-        // RESET kieSession
-        kieSession = kieContainer.newKieSession("ksession-rule");
-        kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
-        
 		kieSession.insert(e2);
 		kieSession.insert(expertises);
 		kieSession.fireAllRules();
 		
-        assertEquals(0.6, e2.getPoints(), 0.1);
+        assertEquals(0.7, e1.getPoints(), 0.01);
+        assertEquals(0.6, e2.getPoints(), 0.01);
         
         kieSession.dispose();
+
 	}
 }

@@ -1,0 +1,10 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Employee;
+
+rule "simple rule"
+	when
+		Employee()
+	then
+		System.out.println("Pozdrav svete!");
+end

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -45,7 +46,7 @@ public class LanguagesTypesOfEmploymentStatusRulesTest {
         e1.getLanguages().add("French");
         e1.getLanguages().add("Italian");
         e1.setStatusOfEmployee(StatusOfEmployee.UNEMPLOYED);
-        e1.setPoints(0.2); // da bi se pokrenula pravila
+        e1.setPoints(0.2); 
         e1.setWorkExperiences(new HashSet<>());
         
         WorkExperience we1 = new WorkExperience();
@@ -75,15 +76,12 @@ public class LanguagesTypesOfEmploymentStatusRulesTest {
         
         WorkExperience we5 = new WorkExperience();
         we5.setTypeOfEmployment(TypeOfEmployment.FULL_TIME);
-        e1.getWorkExperiences().add(we5);
+        e2.getWorkExperiences().add(we5);
         
         employees.add(e2);
         
         Employee e3 = new Employee();
         e3.setLanguages(new ArrayList<>());
-        e3.getLanguages().add("English");
-        e3.getLanguages().add("Serbian");
-        e3.getLanguages().add("French");
         e3.setStatusOfEmployee(StatusOfEmployee.UNEMPLOYED);
         e3.setPoints(0.2);
         e3.setWorkExperiences(new HashSet<>());
@@ -92,33 +90,29 @@ public class LanguagesTypesOfEmploymentStatusRulesTest {
 	
 	@Test
 	public void testParametersOfRequestForEmployeeRules() {
-		KieSession kieSession = kieContainer.newKieSession("ksession-rule");
+		KieBase kieBase = kieContainer.getKieBase("classic");
+		KieSession kieSession = kieBase.newKieSession();
         kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
         
-		Employee e1 = employees.get(0);
+		Employee e1 = employees.get(0); // 2 jezika, UNEMPLOYED, 2 iskustva presjecnog tipa = 0.8 (0.6+0.2)
+		Employee e2 = employees.get(1);  // 1 jezik, EMPLOYED, 1 iskustvo presjecno = 0.5 (0.3 + 0.2)
+		Employee e3 = employees.get(2); // 0 jezik, UNEMPLOYED, 0 iskustva = 0.4 (0.2 + 0.2)
 		
-		// FactHandle handle = kieSession.insert(e1);
-		// kieSession.delete(handle);
 		kieSession.insert(e1);
+		kieSession.insert(e2);
+		kieSession.insert(e3);
 		kieSession.insert(languages);
 		kieSession.insert(requestForEmployee);
 		kieSession.fireAllRules();
 	
-		assertEquals(0.8, e1.getPoints(), 0.1);
+		assertEquals(0.8, e1.getPoints(), 0.01);
 		assertEquals(1, e1.getApproval());
 		
-		Employee e2 = employees.get(1);
-        // RESET kieSession
-		kieSession = kieContainer.newKieSession("ksession-rule");
-        kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
-		
-		kieSession.insert(e2);
-		kieSession.insert(languages);
-		kieSession.insert(requestForEmployee);
-		kieSession.fireAllRules();
-		
-        assertEquals(0.4, e2.getPoints(), 0.1);
-        assertEquals(1, e1.getApproval());
+        assertEquals(0.5, e2.getPoints(), 0.01);
+        assertEquals(1, e2.getApproval());
+        
+        assertEquals(0.4, e3.getPoints(), 0.01);
+        assertEquals(0, e3.getApproval());
         
         kieSession.dispose();
 	}

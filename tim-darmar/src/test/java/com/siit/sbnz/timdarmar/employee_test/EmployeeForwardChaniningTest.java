@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.kie.api.KieBase;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -172,7 +173,8 @@ public class EmployeeForwardChaniningTest {
 
 	@Test
 	public void testForwardChainining_One() {
-		KieSession kieSession = kieContainer.newKieSession("ksession-rule");
+		KieBase kieBase = kieContainer.getKieBase("classic");
+		KieSession kieSession = kieBase.newKieSession();
 		
 		Employee e = new Employee();
 		e.setId(8L);
@@ -215,8 +217,49 @@ public class EmployeeForwardChaniningTest {
         e.setPreferredSalary(11000.0);
         e.setPreferredWorkingHours("10:00-18:00");
         
+        Employee e2 = new Employee();
+		e2.setId(9L);
+        e2.setAreaOfExpertises(new HashSet<>());
+        AreaOfExpertise aoe1 = new AreaOfExpertise("Web programiranje", new ArrayList<>(), e2, new RequestForEmployee());
+        aoe1.getSpecializations().add("Java");
+        e2.getAreaOfExpertises().add(aoe1);
+        e2.setLanguages(new ArrayList<>());
+        e2.getLanguages().add("English");
+        e2.getLanguages().add("Italian");
+        e2.getLanguages().add("Serbian");
+        e2.setStatusOfEmployee(StatusOfEmployee.EMPLOYED);
+        
+        e2.setWorkExperiences(new HashSet<>());
+        WorkExperience wee1 = new WorkExperience();
+        wee1.setId(8L);
+        wee1.setTypeOfEmployment(TypeOfEmployment.FULL_TIME);
+        wee1.setEmployer(employers.get(0));
+        employers.get(0).getWorkExperiences().add(wee1);
+        wee1.setEmployee(e);
+        wee1.setDateFrom(1653256800L);
+        wee1.setEmployerRating(8.0);
+        e2.getWorkExperiences().add(wee1);
+        
+        WorkExperience wee2 = new WorkExperience();
+        wee2.setId(9L);
+        wee2.setTypeOfEmployment(TypeOfEmployment.FULL_TIME);
+        wee2.setEmployer(employers.get(1));
+        employers.get(1).getWorkExperiences().add(wee2);
+        wee2.setEmployee(e);
+        wee2.setDateFrom(1653256800L);
+        wee2.setEmployerRating(9.0);
+        e2.getWorkExperiences().add(wee2);
+        
+        WorkExperience wee3 = new WorkExperience();
+        wee3.setId(10L);
+        wee3.setTypeOfEmployment(TypeOfEmployment.PART_TIME);
+        e2.getWorkExperiences().add(wee3);
+        
+        e2.setPreferredSalary(8000.0);
+        e2.setPreferredWorkingHours("10:00-18:00");
         
         kieSession.insert(e);
+        kieSession.insert(e2);
 		kieSession.insert(expertises);
 		kieSession.insert(languages);
 		kieSession.insert(requestForEmployee);
@@ -224,17 +267,23 @@ public class EmployeeForwardChaniningTest {
 		kieSession.getAgenda().getAgendaGroup("expertises_specializations").setFocus();
 		kieSession.fireAllRules();
 		assertEquals(0.3, e.getPoints(), 0.01);
+		assertEquals(0.2, e2.getPoints(), 0.01);
 		kieSession.getAgenda().getAgendaGroup("languages_typesOfEmployments_status").setFocus();
 		kieSession.fireAllRules();
 		assertEquals(0.9, e.getPoints(), 0.01);
 		assertEquals(1, e.getApproval());
+		assertEquals(0.8, e2.getPoints(), 0.01);
+		assertEquals(1, e2.getApproval());
 		kieSession.getAgenda().getAgendaGroup("workingHours_salary").setFocus();
 		kieSession.fireAllRules();
 		assertEquals(1.4, e.getPoints(), 0.01);
 		assertEquals(3, e.getApproval());
+		assertEquals(1.2, e2.getPoints(), 0.01);
+		assertEquals(3, e2.getApproval());
 		kieSession.getAgenda().getAgendaGroup("previous_work_experiences").setFocus();
 		kieSession.fireAllRules();
 		assertEquals(9.9, e.getPoints(), 0.01);
+		assertEquals(9.7, e2.getPoints(), 0.01);
 		
 		kieSession.dispose();
 	}

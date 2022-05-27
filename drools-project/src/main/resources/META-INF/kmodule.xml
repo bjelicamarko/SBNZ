@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule" 
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <kbase name="sbnz.integracija" packages="sbnz.integracija">
-        <ksession name="ksession-rule"/>
+   <kbase name="classic" packages="sbnz.integracija">
+        <ksession name="classic-session" type="stateful"/>
+    </kbase>
+    <kbase name="cep" eventProcessingMode="stream" packages="sbnz.cep">
+        <ksession name="cep-session" type="stateful"/>
     </kbase>
 </kmodule>
+ 
