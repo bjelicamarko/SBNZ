@@ -20,7 +20,7 @@ rule "Previous intership experience"
 	agenda-group "previous_intership_experience"
 	lock-on-active true
     when
-		$s: Student($interships : interships, interships.size() > 0)
+		$s: Student($interships : interships, interships != null, interships.size() > 0)
 		accumulate 
 		(
 			Intership($i: this, TimeUnit.DAYS.convert(dateTo - dateFrom, TimeUnit.MILLISECONDS) >= 21) 
