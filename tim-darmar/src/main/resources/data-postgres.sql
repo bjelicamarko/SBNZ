@@ -41,8 +41,9 @@ insert into client_authority (client_id, authority_id) values (2, 1); -- admin
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
 values ('seneka@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 
 'Seneka', 'Senaka', 'ROLE_EMPLOYER', false, false);
-insert into employer(client, company_name, company_average_rating, penalty_points, penalty, employer_behavior, 
-status_pazljivosti) values (3, 'Seneka', 10.0, 0, false, 'NIJE_BEZOBRAZAN', 'NOT_CARELESS');
+insert into employer(client, company_name, company_average_rating, penalty_points, penalty, 
+employer_recklessness_type, employer_carelessness_type) values 
+(3, 'Seneka', 10.0, 0, false, 'NOT_RECKLESS', 'NOT_CARELESS');
 insert into client_authority (client_id, authority_id) values (3, 2); -- employer
 
 -- zahtevi koji ce biti vezani za seneku :D

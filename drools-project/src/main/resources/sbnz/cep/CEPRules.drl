@@ -1,10 +1,283 @@
 package com.sample
 
-import com.siit.sbnz.timdarmar.models.classes.Employee;
+import com.siit.sbnz.timdarmar.models.classes.Employer;
+import com.siit.sbnz.timdarmar.models.events.UnmarkedWorkExperienceEvent;
+import com.siit.sbnz.timdarmar.models.classes.WorkExperience;
+import com.siit.sbnz.timdarmar.models.events.UnpaidWorkExperienceEvent;
+import com.siit.sbnz.timdarmar.models.events.MarkedWorkExperienceEvent;
 
-rule "simple rule"
+import com.siit.sbnz.timdarmar.models.enums.EmployerCarelessnessType;
+import com.siit.sbnz.timdarmar.models.enums.EmployerRecklessnessType;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
+
+declare CarelessEvent
+	@role(event)
+	employer: Employer
+	reason: String
+end
+
+declare RecklessEvent
+	@role(event)
+	employer: Employer
+	reason: String
+end
+
+declare PunishmentEvent
+	@role(event)
+	employer: Employer
+	reason: String
+end
+
+declare PotentialBan
+	@role(event)
+	employer: Employer
+	reason: String
+end
+
+declare CounterForAvgMark
+	val: double
+	inc: int
+end
+
+rule "Calculating avg rating from marked working experiences from employer"
 	when
-		Employee()
+		$mw: MarkedWorkExperienceEvent($e: employer, $we: WorkExperience,
+		$we.dateTo != null, $we.companyRating != null, $we.employerRating != null)
+		$counter: CounterForAvgMark()
+		from accumulate
+		(
+			$mw2: MarkedWorkExperienceEvent 
+			(
+				this != $mw,
+				$mw2.getEmployer().getId() == $e.getId(),
+				$mw2.getWorkExperience().getId() != $we.getId(),
+				$mw2.getWorkExperience().getDateTo() != null,
+				$mw2.getWorkExperience().getCompanyRating() != null,
+				$mw2.getWorkExperience().getEmployerRating() != null,
+				this meets[24h] $mw
+			),
+			init
+			(
+				CounterForAvgMark c = new CounterForAvgMark();
+				c.setVal(0.0);
+				c.setInc(0);
+			),
+			action
+			(
+				c.setVal(c.getVal() + $mw2.getWorkExperience().getEmployerRating());
+				c.setInc(c.getInc() + 1);
+			),
+			result
+			(
+				c
+			)
+		)
+		not (PotentialBan(employer == $e, reason == "Low avg"))
+		not (PotentialBan(employer == $e, reason == "not"))
 	then
-		System.out.println("Pozdrav svete!");
+		double val = $counter.getVal() + $we.getEmployerRating();
+		int inc = $counter.getInc() + 1;
+		double avg = val/inc;
+		String indikator;
+		if (avg < 6.0)
+			indikator = "Low avg";
+		else
+			indikator = "not";
+		insert(new PotentialBan($e, indikator));
+end
+
+rule "Catching umarked working experiences from employer"
+	when
+		$uw: UnmarkedWorkExperienceEvent($e: employer, $we: WorkExperience, 
+		$we.dateTo != null, $we.companyRating == null)
+		$value: Number(intValue >= 5) 
+		from accumulate 
+		(
+			$uw2: UnmarkedWorkExperienceEvent 
+			(
+				this != $uw,
+				$uw2.getEmployer().getId() == $e.getId(),
+				$uw2.getWorkExperience().getId() != $we.getId(),
+				$uw2.getWorkExperience().getDateTo() != null,
+				$uw2.getWorkExperience().getCompanyRating() == null,
+				this meets[24h] $uw
+			),
+			count($uw2)
+		)
+		not (CarelessEvent(employer == $e, reason == "Little Careless"))
+		not (CarelessEvent(employer == $e, reason == "Careless"))
+	then
+		int value = $value.intValue() + 1;
+		if (value >= 5 && value <= 10)
+			insert(new CarelessEvent($e, "Little Careless"));
+		else
+			insert(new CarelessEvent($e, "Careless"));	
+end
+
+declare CounterForEvent
+	littleReckless: int
+	reckless: int
+end
+
+rule "Catching unpaid working experiences from employer"
+	when
+		$uw: UnpaidWorkExperienceEvent($e: employer, $we: WorkExperience,
+		$we.dateTo != null)
+		$counter: CounterForEvent() 
+		from accumulate 
+		(
+			$uw2: UnpaidWorkExperienceEvent 
+			(
+				this != $uw,
+				$uw2.getEmployer().getId() == $e.getId(),
+				$uw2.getWorkExperience().getId() != $we.getId(),
+				$uw2.getWorkExperience().getDateTo() != null,
+				this meets[24h] $uw
+			),
+			init
+			(
+				CounterForEvent c = new CounterForEvent();
+				c.setLittleReckless(0);
+				c.setReckless(0);
+			),
+			action
+			(
+				LocalDateTime tempTime =
+                LocalDateTime.ofInstant(Instant.ofEpochMilli
+                ($uw2.getWorkExperience().getDateTo()),
+                        TimeZone.getDefault().toZoneId());
+                        
+                if (YearMonth.now().atDay(1).minusDays(1).isBefore(tempTime.toLocalDate()) && 
+                YearMonth.now().atDay(1).plusDays(5).isAfter(tempTime.toLocalDate()))
+                	c.setLittleReckless(c.getLittleReckless() + 1);
+                else if (YearMonth.now().atDay(1).plusDays(5).isEqual(tempTime.toLocalDate())
+                 || YearMonth.now().atDay(1).plusDays(5).isBefore(tempTime.toLocalDate()))
+                 c.setReckless(c.getReckless() + 1);
+			),
+			result
+			(
+				c
+			)
+		)
+		not (RecklessEvent(employer == $e, reason == "Little Reckless"))
+		not (RecklessEvent(employer == $e, reason == "Reckless"))
+	then
+		if ($counter.getLittleReckless() - $counter.getReckless() > 0)
+			insert(new RecklessEvent($e, "Little Reckless"));
+		else
+			insert(new RecklessEvent($e, "Reckless"));	
+end
+
+
+rule "inserting PunishmentEvent one"
+	when
+		CarelessEvent($e:employer, reason == "Little Careless")
+		RecklessEvent($e1:employer, reason == "Little Reckless")
+		eval($e.getId() == $e1.getId())
+		not (PunishmentEvent(employer == $e, reason == "Punishment One"))
+	then
+		insert(new PunishmentEvent($e, "Punishment One"));		
+end
+
+rule "Catching a punishment event one"
+	when
+		PunishmentEvent($e:employer, reason == "Punishment One", $reason: reason)
+	then
+		System.out.println("Id: " + $e.getId() + " reason: " + $reason);
+		
+		$e.setEmployerRecklessnessType(EmployerRecklessnessType.LITTLE_RECKLESS);
+        $e.setEmployerCarelessnessType(EmployerCarelessnessType.LITTLE_CARELESS); 
+      
+		update($e);
+end
+
+
+rule "inserting PunishmentEvent two"
+	when
+		CarelessEvent($e:employer, reason == "Little Careless")
+		RecklessEvent($e1:employer, reason == "Reckless")
+		eval($e.getId() == $e1.getId())
+		not (PunishmentEvent(employer == $e, reason == "Punishment Two"))
+	then		
+		insert(new PunishmentEvent($e, "Punishment Two"));
+end
+
+rule "Catching a punishment event two"
+	when
+		PunishmentEvent($e:employer, reason == "Punishment Two", $reason: reason)
+	then
+		System.out.println("Id: " + $e.getId() + " reason: " + $reason);
+		
+		$e.setEmployerRecklessnessType(EmployerRecklessnessType.RECKLESS);
+        $e.setEmployerCarelessnessType(EmployerCarelessnessType.LITTLE_CARELESS); 
+      
+		update($e);
+end
+
+
+rule "inserting PunishmentEvent three"
+	when
+		CarelessEvent($e:employer, reason == "Careless")
+		RecklessEvent($e1:employer, reason == "Little Reckless")
+		eval($e.getId() == $e1.getId())
+		not (PunishmentEvent(employer == $e, reason == "Punishment Three"))
+	then		
+		insert(new PunishmentEvent($e, "Punishment Three"));
+end
+
+rule "Catching a punishment event three"
+	when
+		PunishmentEvent($e:employer, reason == "Punishment Three", $reason: reason)
+		not (PotentialBan(employer == $e, reason == "Punishment"))
+	then
+		System.out.println("Id: " + $e.getId() + " reason: " + $reason);
+		
+		$e.setEmployerRecklessnessType(EmployerRecklessnessType.LITTLE_RECKLESS);
+        $e.setEmployerCarelessnessType(EmployerCarelessnessType.CARELESS); 
+		update($e);
+		
+		insert(new PotentialBan($e, "Punishment"));
+end
+
+
+rule "inserting PunishmentEvent four"
+	when
+		CarelessEvent($e:employer, reason == "Careless")
+		RecklessEvent($e1:employer, reason == "Reckless")
+		eval($e.getId() == $e1.getId())
+		not (PunishmentEvent(employer == $e, reason == "Punishment Four"))
+	then		
+		insert(new PunishmentEvent($e, "Punishment Four"));
+end
+
+rule "Catching a punishment event four"
+	when
+		PunishmentEvent($e:employer, reason == "Punishment Four", $reason: reason)
+		not (PotentialBan(employer == $e, reason == "Punishment"))
+	then
+		System.out.println("Id: " + $e.getId() + " reason: " + $reason);
+		
+		$e.setEmployerRecklessnessType(EmployerRecklessnessType.RECKLESS);
+        $e.setEmployerCarelessnessType(EmployerCarelessnessType.CARELESS);   
+		update($e);
+		
+		insert(new PotentialBan($e, "Punishment"));
+end
+
+
+rule "Ban scenario"
+	when
+		PotentialBan($e:employer, reason == "Punishment")
+		PotentialBan($e1:employer, reason == "Low avg")
+		eval($e.getId() == $e1.getId())
+	then		
+		System.out.println("Id: " + $e.getId() + " is banned");
+		
+		modify($e) { setPenalty(true); }
 end

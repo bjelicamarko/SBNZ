@@ -11,8 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import com.siit.sbnz.timdarmar.models.enums.EmployerBehavior;
-import com.siit.sbnz.timdarmar.models.enums.StatusPazljivosti;
+import com.siit.sbnz.timdarmar.models.enums.EmployerRecklessnessType;
+import com.siit.sbnz.timdarmar.models.enums.EmployerCarelessnessType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,10 +37,10 @@ public class Employer extends Client{
 	private boolean penalty;
 	
 	@Enumerated(EnumType.STRING)
-	private EmployerBehavior employerBehavior;
+	private EmployerRecklessnessType employerRecklessnessType;
 	
 	@Enumerated(EnumType.STRING)
-	private StatusPazljivosti statusPazljivosti; // OVO PROMJENITI
+	private EmployerCarelessnessType employerCarelessnessType; // OVO PROMJENITI
 	
 	@OneToMany(mappedBy="employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RequestForEmployee> requestsForEmployee;
