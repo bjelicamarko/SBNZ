@@ -1,9 +1,14 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.Min;
 
@@ -28,5 +33,18 @@ public class Student extends Client{
 	
 	@Column(nullable = false)
 	@Min(0)
+	private double monthlyIncomeByFamilyMember;
+	
+	@Column(nullable = false)
+	@Min(0)
 	private double points;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Intership> interships;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<UniSubject> passedSubjects;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Project> uniProjects;
 }

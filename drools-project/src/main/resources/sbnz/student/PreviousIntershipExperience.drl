@@ -1,0 +1,51 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Student;
+import com.siit.sbnz.timdarmar.models.classes.Project;
+import com.siit.sbnz.timdarmar.models.classes.Intership;
+import com.siit.sbnz.timdarmar.models.classes.MarkMentor;
+import com.siit.sbnz.timdarmar.models.classes.UniSubject;
+import com.siit.sbnz.timdarmar.models.classes.RequestForStudent;
+import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertiseIntership;
+
+import com.siit.sbnz.timdarmar.models.enums.FinancialStatus;
+import com.siit.sbnz.timdarmar.models.enums.StatusOfStudent;
+import com.siit.sbnz.timdarmar.models.enums.WorkMethods;
+
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+rule "Previous intership experience"
+	salience 0
+	agenda-group "previous_intership_experience"
+	lock-on-active true
+    when
+		$s: Student($interships : interships, interships.size() > 0)
+		accumulate 
+		(
+			Intership($i: this, TimeUnit.DAYS.convert(dateTo - dateFrom, TimeUnit.MILLISECONDS) >= 21) 
+			from $interships 
+			and
+			List(size >= 2) from collect 
+			(MarkMentor( mark >= 8, $m: this) 
+			from $i.mentorMarks)
+			and 
+			List(size > 0) from collect 
+			(Project($proj: this, difficulty >= 7, projectType==ProjectType.INDIVIDUAL) 
+			from $i.intershipProjects)
+			and 
+			List(size > 0) from collect 
+			(Project($proj: this, difficulty >= 7, projectType==ProjectType.TEAM) 
+			from $i.intershipProjects),
+			
+			$succesfulInterships: collectList($i)
+		)	
+		eval($succesfulInterships.size() >= 1)
+    then
+    	int numOfMentors = $succesfulInterships.size();
+    	
+    	System.out.println("Rule: Previous intership experiences");
+      	System.out.println("Number of interships which satisfy the condition:  " + numOfMentors);
+      	
+      	modify($s) {setPoints($s.getPoints() + 20); }
+end

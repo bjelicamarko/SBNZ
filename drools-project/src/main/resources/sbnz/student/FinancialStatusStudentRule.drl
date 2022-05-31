@@ -1,0 +1,46 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Student;
+
+import com.siit.sbnz.timdarmar.models.enums.FinancialStatus;
+
+import java.util.*;
+
+rule "student monthly income per family member bellow 5000"
+	salience 0
+	agenda-group "student_financial_status"
+	lock-on-active true
+    when
+		$s: Student(monthlyIncomeByFamilyMember <= 5000)
+    then
+    	
+    	System.out.println("Rule: student has income pfm bellow 5000");
+    	
+        modify($s) {setFinancialStatus(FinancialStatus.POOR); }
+end
+
+rule "student monthly income per family member between 5000 and 20000"
+	salience 0
+	agenda-group "student_financial_status"
+	lock-on-active true
+    when
+		$s: Student(monthlyIncomeByFamilyMember > 5000 && monthlyIncomeByFamilyMember <= 20000)
+    then
+    	
+    	System.out.println("Rule: student has income pfm between 5000 and 20000");
+    	
+        modify($s) {setFinancialStatus(FinancialStatus.MIDDLE_CLASS); }
+end
+
+rule "student monthly income per family member higher than 20000"
+	salience 0
+	agenda-group "student_financial_status"
+	lock-on-active true
+    when
+		$s: Student(monthlyIncomeByFamilyMember > 20000)
+    then
+    	
+    	System.out.println("Rule: student has income pfm higher than 20000");
+    	
+        modify($s) {setFinancialStatus(FinancialStatus.RICH); }
+end

@@ -1,5 +1,6 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,8 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,11 +21,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "uni_subject")
 @Getter @Setter 
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Intership {
+public class UniSubject {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,15 +34,9 @@ public class Intership {
 	
 	@Column(nullable = false)
 	@NonNull
-	private Long dateFrom;
-	
-	@Column(nullable = true)
-	@NonNull
-	private Long dateTo;
+	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<MarkMentor> mentorMarks;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Project> intershipProjects;
+    private Set<AreaOfExpertiseIntership> subjectAreaOfExpertises;
+
 }
