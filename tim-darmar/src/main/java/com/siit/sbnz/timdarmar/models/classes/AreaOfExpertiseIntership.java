@@ -1,17 +1,16 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,11 +20,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "area_of_expertise_intership")
 @Getter @Setter 
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class Intership {
+public class AreaOfExpertiseIntership {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,15 +33,11 @@ public class Intership {
 	
 	@Column(nullable = false)
 	@NonNull
-	private Long dateFrom;
+	private String nameOfArea;
 	
-	@Column(nullable = true)
-	@NonNull
-	private Long dateTo;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<MarkMentor> mentorMarks;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Project> intershipProjects;
+	@ElementCollection
+	@CollectionTable(name = "specializations_intership", joinColumns = @JoinColumn(name = "id")) // 2
+    @Column(name = "specialization") // 3
+	private List<String> specializations;
+
 }

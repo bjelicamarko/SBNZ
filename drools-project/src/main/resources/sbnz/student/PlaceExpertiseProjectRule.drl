@@ -1,0 +1,265 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Student;
+import com.siit.sbnz.timdarmar.models.classes.Project;
+import com.siit.sbnz.timdarmar.models.classes.UniSubject;
+import com.siit.sbnz.timdarmar.models.classes.RequestForStudent;
+import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertiseIntership;
+
+import com.siit.sbnz.timdarmar.models.enums.FinancialStatus;
+import com.siit.sbnz.timdarmar.models.enums.StatusOfStudent;
+import com.siit.sbnz.timdarmar.models.enums.WorkMethods;
+
+import java.util.*;
+
+rule "place rule: student is POOR, and intership type is FROM_HOME or HYBRID"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+    when
+		$s: Student(financialStatus == FinancialStatus.POOR)
+		$r: RequestForStudent(workMethods == WorkMethods.FROM_HOME || workMethods == WorkMethods.HYBRID)
+    then
+    	
+    	System.out.println("Rule: student is POOR and intership is type of FROM_HOME or HYBRID");
+        
+        modify($s) {setPoints($s.getPoints() + 3); }
+end
+
+rule "place rule: student is MIDDLE_CLASS, and intership type is FROM_HOME or HYBRID"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+	when
+		$s: Student(financialStatus == FinancialStatus.MIDDLE_CLASS)
+		$r: RequestForStudent(workMethods == WorkMethods.FROM_HOME || workMethods == WorkMethods.HYBRID)
+    then
+    	
+    	System.out.println("Rule: student is MIDDLE_CLASS and intership is type of FROM_HOME or HYBRID");
+        
+        modify($s) {setPoints($s.getPoints() + 2); }
+end
+
+rule "place rule: student is RICH, and intership type is FROM_HOME or HYBRID"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+    when
+		$s: Student(financialStatus == FinancialStatus.RICH)
+		$r: RequestForStudent(workMethods == WorkMethods.FROM_HOME || workMethods == WorkMethods.HYBRID)
+    then
+    	
+    	System.out.println("Rule: student is RICH and intership is type of FROM_HOME or HYBRID");
+        
+        modify($s) {setPoints($s.getPoints() + 1); }
+end
+
+rule "place rule: student is POOR, and intership type is DIRECT"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+    when
+		$s: Student(financialStatus == FinancialStatus.POOR)
+		$r: RequestForStudent(workMethods == WorkMethods.DIRECT)
+    then
+    	
+    	System.out.println("Rule: student is POOR and internship is type of DIRECT");
+        
+        modify($s) {setPoints($s.getPoints() + 6); }
+end
+
+rule "place rule: student is MIDDLE_CLASS, and internship type is DIRECT"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+    when
+		$s: Student(financialStatus == FinancialStatus.MIDDLE_CLASS)
+		$r: RequestForStudent(workMethods == WorkMethods.DIRECT)
+    then
+    	
+    	System.out.println("Rule: student is MIDDLE_CLASS and internship is type of DIRECT");
+        
+        modify($s) {setPoints($s.getPoints() + 3); }
+end
+
+rule "place rule: student is RICH, and internship type is DIRECT"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+    when
+		$s: Student(financialStatus == FinancialStatus.RICH)
+		$r: RequestForStudent(workMethods == WorkMethods.DIRECT)
+    then
+    	
+    	System.out.println("Rule: student is RICH and internship is type of DIRECT");
+        
+        modify($s) {setPoints($s.getPoints() + 0.5); }
+end
+
+
+
+
+
+declare ExpertiseSpecCounter
+    expertise: int
+    specialization: int
+end
+
+rule "expertise rule"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+    when
+    	$s : Student($passedSubjects : passedSubjects != null, passedSubjects.size() > 0)
+		$areasOfRequest: RequestForStudent(areaOfExpertiseIntership != null) 
+		
+		$counter: ExpertiseSpecCounter() from accumulate
+		( 	
+			UniSubject($subject: this) from $passedSubjects
+			and
+			AreaOfExpertiseIntership($a1: this, $specOfSubject: specializations != null, $specOfSubject.size() > 0) from $subject.subjectAreaOfExpertises
+			and 
+			AreaOfExpertiseIntership($a2: this, $specOfRequest: specializations != null, $specOfRequest.size() > 0) from $areasOfRequest.areaOfExpertiseIntership,
+			init
+			(
+				ExpertiseSpecCounter counter = new ExpertiseSpecCounter();
+				counter.setExpertise(0);
+				counter.setSpecialization(0);
+			),
+			action
+			(
+				Set<String> intersection  = new HashSet<>();
+				
+				if ($a1.getNameOfArea().equals($a2.getNameOfArea())) {
+					counter.setExpertise(counter.getExpertise() + 1);
+				}	
+				
+				intersection.addAll($specOfSubject);
+				intersection.retainAll($specOfRequest);
+					
+				counter.setSpecialization(counter.getSpecialization() + intersection.size());
+			),
+			result 
+			(
+				counter
+			)
+		)
+    then
+    	int countExpertises = $counter.getExpertise();
+    	int countSpecializations = $counter.getSpecialization();
+    	
+    	System.out.println("Rule: calculating employee's points based on expertises and specializations");
+    	System.out.println("Same expertise: " + countExpertises);
+    	System.out.println("Same specializations: " + countSpecializations);
+    	
+    	modify($s) {setPoints($s.getPoints() + 1 * countExpertises + 3 * countSpecializations); }
+    	
+end
+
+
+
+
+
+rule "project rule: student has more than 10 projects, average score is larger than 80%"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+	when
+		$s: Student($uniProjects : uniProjects != null && uniProjects.size() >= 3)
+		$value: Number() from accumulate 
+		(
+			Project($p1: this, $mark : mark) 
+			from $uniProjects,
+			
+			average($mark)
+		)
+		eval($value.doubleValue() >= 8.0)
+    then
+    	double value = $value.doubleValue();
+    	
+    	System.out.println("Rule: student has more than 10 projects, average score is larger than 80%");
+      	System.out.println("Avg is " + $value);
+      	
+      	modify($s) {setStatusOfStudent(StatusOfStudent.DILIGENT_AND_EXCELENT); }
+end
+
+rule "project rule: student has more than 10 projects, average score is between 40% and 80%"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+	when
+		$s: Student($uniProjects : uniProjects != null && uniProjects.size() >= 3)
+		$value: Number() from accumulate 
+		(
+			Project($p1: this, $mark : mark) 
+			from $uniProjects,
+			
+			average($mark)
+		)
+		eval($value.doubleValue() >= 4.0 && $value.doubleValue() < 8.0)
+    then
+    	double value = $value.doubleValue();
+    	
+    	System.out.println("Rule: student has more than 10 projects, average score is between 40% and 80%");
+      	System.out.println("Avg is " + $value);
+      	
+      	modify($s) {setStatusOfStudent(StatusOfStudent.DILIGENT_AND_GOOD); }
+end
+
+rule "project rule: student has more than 10 projects, average score is between 20% and 40%"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+	when
+		$s: Student($uniProjects : uniProjects != null && uniProjects.size() >= 3)
+		$value: Number() from accumulate 
+		(
+			Project($p1: this, $mark : mark) 
+			from $uniProjects,
+			
+			average($mark)
+		)
+		eval($value.doubleValue() >= 2.0 && $value.doubleValue() < 4.0)
+    then
+    	double value = $value.doubleValue();
+    	
+    	System.out.println("Rule: student has more than 10 projects, average score is between 20% and 40%");
+      	System.out.println("Avg is " + $value);
+      	
+      	modify($s) {setStatusOfStudent(StatusOfStudent.DILIGENT_AND_MEDIOCRE); }
+end
+
+rule "project rule: student has more than 10 projects, average score is less than 20%"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+	when
+		$s: Student($uniProjects : uniProjects != null && uniProjects.size() >= 3)
+		$value: Number() from accumulate 
+		(
+			Project($p1: this, $mark : mark) 
+			from $uniProjects,
+			
+			average($mark)
+		)
+		eval($value.doubleValue() < 2.0)
+    then
+    	double value = $value.doubleValue();
+    	
+    	System.out.println("Rule: student has more than 10 projects, average score is less than 20%");
+      	System.out.println("Avg is " + $value);
+      	
+      	modify($s) {setStatusOfStudent(StatusOfStudent.BAD); }
+end
+
+rule "project rule: student has less than 10 projects"
+	salience 0
+	agenda-group "place_expertise_project"
+	lock-on-active true
+	when
+		$s: Student($uniProjects : uniProjects != null && uniProjects.size() < 3)
+    then
+    	System.out.println("Rule: student has less than 10 projects");
+      	
+      	modify($s) {setStatusOfStudent(StatusOfStudent.BAD); }
+end

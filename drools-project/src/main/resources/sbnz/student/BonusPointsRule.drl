@@ -1,0 +1,65 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Student;
+import com.siit.sbnz.timdarmar.models.classes.Project;
+import com.siit.sbnz.timdarmar.models.classes.UniSubject;
+import com.siit.sbnz.timdarmar.models.classes.RequestForStudent;
+import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertiseIntership;
+
+import com.siit.sbnz.timdarmar.models.enums.FinancialStatus;
+import com.siit.sbnz.timdarmar.models.enums.StatusOfStudent;
+import com.siit.sbnz.timdarmar.models.enums.WorkMethods;
+
+import java.util.*;
+
+rule "Bonus points rule: student has more than 15 points and status DILIGENT_AND_EXCELENT"
+	salience 0
+	agenda-group "student_bonus_points"
+	lock-on-active true
+    when
+		$s: Student(points > 15 && statusOfStudent == StatusOfStudent.DILIGENT_AND_EXCELENT)
+    then
+    	
+    	System.out.println("Rule: student has more than 15 points and status DILIGENT_AND_EXCELENT");
+        
+        modify($s) {setPoints($s.getPoints() + 20); }
+end
+
+rule "Bonus points rule: student has more than 20 points and status DILIGENT_AND_GOOD"
+	salience 0
+	agenda-group "student_bonus_points"
+	lock-on-active true
+    when
+		$s: Student(points > 20 && statusOfStudent == StatusOfStudent.DILIGENT_AND_GOOD)
+    then
+    	
+    	System.out.println("Rule: student has more than 20 points and status DILIGENT_AND_GOOD");
+        
+        modify($s) {setPoints($s.getPoints() + 18); }
+end
+
+rule "Bonus points rule: student has more than 30 points and status DILIGENT_AND_MEDIOCRE"
+	salience 0
+	agenda-group "student_bonus_points"
+	lock-on-active true
+    when
+		$s: Student(points > 30 && statusOfStudent == StatusOfStudent.DILIGENT_AND_MEDIOCRE)
+    then
+    	
+    	System.out.println("Rule: student has more than 30 points and status DILIGENT_AND_MEDIOCRE");
+        
+        modify($s) {setPoints($s.getPoints() + 16); }
+end
+
+rule "Bonus points rule: student is BAD"
+	salience 0
+	agenda-group "student_bonus_points"
+	lock-on-active true
+    when
+		$s: Student(statusOfStudent == StatusOfStudent.BAD)
+    then
+    	
+    	System.out.println("Rule: student has status BAD");
+        
+        modify($s) {setPoints($s.getPoints() - 5); }
+end

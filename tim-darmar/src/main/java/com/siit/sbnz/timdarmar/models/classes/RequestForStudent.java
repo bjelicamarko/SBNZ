@@ -43,5 +43,5 @@ public class RequestForStudent {
 	@ManyToOne
     @JoinColumn(name="area_of_expertise_id", nullable=false)
 	@NonNull
-    private AreaOfExpertise areaOfExpertise;
+    private AreaOfExpertiseIntership areaOfExpertiseIntership;
 }
