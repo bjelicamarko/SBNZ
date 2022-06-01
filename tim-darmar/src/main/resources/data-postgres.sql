@@ -92,14 +92,15 @@ insert into specializations_globally(id, specialization) values (1, 'Frontend-Re
 insert into area_of_expertise(name_of_area) values ('Web programiranje');
 insert into specializations(id, specialization) values (1, 'Backend');
 insert into work_experience(type_of_employment, date_from, date_to, company_rating, employer_rating, 
-employer_id, employee_id, area_of_expertise_id) 
-values ('FULL_TIME', 1589320800, 1620856800, 10.0, 10.0, 3, 4, 5);
+paid, employer_id, employee_id, area_of_expertise_id) 
+values ('FULL_TIME', 1589320800, 1620856800, 10.0, 10.0, false, 3, 4, 5);
 
 insert into area_of_expertise(name_of_area) values ('Web programiranje');
 insert into specializations_globally(id, specialization) values (1, 'Frontend-React');
 insert into specializations_globally(id, specialization) values (1, 'Frontend-Angular');
-insert into work_experience(type_of_employment, date_from, employer_id, employee_id, area_of_expertise_id) 
-values ('FULL_TIME', 1620856800, 3, 4, 6);
+insert into work_experience(type_of_employment, date_from, employer_id, employee_id, area_of_expertise_id,
+paid) 
+values ('FULL_TIME', 1620856800, 3, 4, 6, false);
 -- kraj radnih iskustava
 
 

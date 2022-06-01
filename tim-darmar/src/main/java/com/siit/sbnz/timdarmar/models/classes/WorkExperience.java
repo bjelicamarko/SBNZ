@@ -56,6 +56,10 @@ public class WorkExperience {
 	@NonNull
 	private Double employerRating;
 	
+	@Column(nullable = true)
+	@NonNull
+	private Boolean paid;
+	
 	@ManyToOne
     @JoinColumn(name="employer_id", nullable=false)
 	@NonNull
@@ -70,4 +74,6 @@ public class WorkExperience {
     @JoinColumn(name="area_of_expertise_id", nullable=false)
 	@NonNull
     private AreaOfExpertise areaOfExpertise;
+	
+	
 }
