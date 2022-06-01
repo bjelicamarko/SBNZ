@@ -14,6 +14,12 @@ import { HeaderAdminComponent } from './components/header-admin/header-admin.com
 import { AuthModule } from '../auth/auth.module';
 import { SharedModule } from '../shared/shared.module';
 import { AdminModule } from '../admin/admin.module';
+import { EmployerModule } from '../employer/employer.module';
+import { HeaderEmployerComponent } from './components/header-employer/header-employer.component';
+import { EmployeeModule } from '../employee/employee.module';
+import { HeaderEmployeeComponent } from './components/header-employee/header-employee.component';
+import { StudentModule } from '../student/student.module';
+import { HeaderStudentComponent } from './components/header-student/header-student.component';
 
 @NgModule({
     declarations: [
@@ -21,7 +27,10 @@ import { AdminModule } from '../admin/admin.module';
       RootLayoutPageComponent,
       NotFoundPageComponent,
       HeaderCommonComponent,
-      HeaderAdminComponent
+      HeaderAdminComponent,
+      HeaderEmployerComponent,
+      HeaderEmployeeComponent,
+      HeaderStudentComponent
     ],
     imports: [
       BrowserModule,
@@ -30,7 +39,10 @@ import { AdminModule } from '../admin/admin.module';
       HttpClientModule,
       AuthModule,
       SharedModule,
-      AdminModule
+      AdminModule,
+      EmployerModule,
+      EmployeeModule,
+      StudentModule
     ],
     providers: [],
     bootstrap: [AppComponent]

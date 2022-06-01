@@ -25,13 +25,13 @@ insert into specializations_globally(id, specialization) values (3, 'MySQL');
 
 -- ***************** ADMINISTRATORI ******************
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
-values ('mare@maildrop.cc', '$2a$12$BN3TxQQYc9WTziVqPU5gcuxsL2nhW8IEuJXMfSLIefcx3eD/G5Vtq', 
+values ('mare@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
 'Mare', 'Mare', 'ROLE_ADMIN', false, false);
 insert into admin(client) values (1);
 insert into client_authority (client_id, authority_id) values (1, 1); -- admin
 
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
-values ('dare@maildrop.cc', '$2a$12$5p9RcUuQQUM/O3Esp6Ut0OJwLyOzw6UR8OtoG2izRQru5kFXOEuuq', 
+values ('dare@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
 'Dare', 'Dare', 'ROLE_ADMIN', false, false);
 insert into admin(client) values (2);
 insert into client_authority (client_id, authority_id) values (2, 1); -- admin
@@ -39,7 +39,7 @@ insert into client_authority (client_id, authority_id) values (2, 1); -- admin
 
 -- ***************** POSLODAVCI ******************
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
-values ('seneka@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 
+values ('seneka@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
 'Seneka', 'Senaka', 'ROLE_EMPLOYER', false, false);
 insert into employer(client, company_name, company_average_rating, penalty_points, penalty, 
 employer_recklessness_type, employer_carelessness_type) values 
@@ -74,7 +74,7 @@ insert into specializations(id, specialization) values (2, 'Machine-Learning');
 
 -- ***************** ZAPOSLENI ******************
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
-values ('nikola@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 
+values ('nikola@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
 'Nikola', 'Jokic', 'ROLE_EMPLOYEE', false, false);
 insert into employee(client, preferred_working_hours, preferred_salary, points, approval) 
 values (4, '10:00h-21:00h', 10000.0, 0.0, 0);

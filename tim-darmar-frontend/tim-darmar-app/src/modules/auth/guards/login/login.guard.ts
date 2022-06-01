@@ -14,16 +14,16 @@ export class LoginGuard implements CanActivate {
       let role = this.utilsService.getLoggedUserRole();
 
       if (role === "ROLE_ADMIN") {
-        this.router.navigate(["darmar-app"]);
+        this.router.navigate(["darmar-app/admin/home-page"]);
       }
       else if (role === "ROLE_EMPLOYER") {
-        this.router.navigate(["darmar-app"]);
+        this.router.navigate(["darmar-app/employer/home-page"]);
       }
       else if (role === "ROLE_EMPLOYEE") {
-        this.router.navigate(["darmar-app"]);
+        this.router.navigate(["darmar-app/employee/home-page"]);
       }
       else if (role === "ROLE_STUDENT") {
-        this.router.navigate(["darmar-app"]);
+        this.router.navigate(["darmar-app/student/home-page"]);
       }
       return false;
     }

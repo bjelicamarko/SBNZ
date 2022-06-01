@@ -1,6 +1,9 @@
 <div>
     <div class="col">
       <app-header-admin *ngIf="role === 'ROLE_ADMIN'"></app-header-admin>
+      <app-header-employer *ngIf="role === 'ROLE_EMPLOYER'"></app-header-employer>
+      <app-header-employee *ngIf="role === 'ROLE_EMPLOYEE'"></app-header-employee>
+      <app-header-student *ngIf="role === 'ROLE_STUDENT'"></app-header-student>
     </div>
   
     <div class="container-fluid" style="height: 100%;">
