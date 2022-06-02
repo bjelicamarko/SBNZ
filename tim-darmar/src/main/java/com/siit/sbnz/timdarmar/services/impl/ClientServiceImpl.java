@@ -1,4 +1,4 @@
-package com.siit.sbnz.timdarmar.services;
+package com.siit.sbnz.timdarmar.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.siit.sbnz.timdarmar.models.classes.Client;
 import com.siit.sbnz.timdarmar.repositories.ClientRepository;
+import com.siit.sbnz.timdarmar.services.ClientService;
 
 @Service
 public class ClientServiceImpl implements ClientService{
