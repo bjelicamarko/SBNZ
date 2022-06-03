@@ -123,13 +123,14 @@
 
         <div class="form-group row">
           <div id="role-div" class="col-md">
-            <mat-form-field appearance="fill">
-              <select  matNativeControl  class="form-control" id="role" name="role" 
+            <mat-form-field>
+              <mat-label>Role</mat-label>
+              <mat-select  matNativeControl name="role" 
               formControlName="role">
-                  <option value="ROLE_EMPLOYER" selected>Employer</option>
-                  <option value="ROLE_EMPLOYEE">Employee</option>
-                  <option value="ROLE_STUDENT">Student</option>
-              </select>
+                  <mat-option value="ROLE_EMPLOYER" selected>Employer</mat-option>
+                  <mat-option value="ROLE_EMPLOYEE">Employee</mat-option>
+                  <mat-option value="ROLE_STUDENT">Student</mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
         </div>
