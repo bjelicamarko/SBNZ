@@ -42,13 +42,13 @@ public class AreaOfExpertise {
 	@NonNull
 	private List<String> specializations;
 	
-	@ManyToOne
-    @JoinColumn(name="employee_id", nullable=true)
-	@NonNull
-    private Employee employee;
-	
-	@ManyToOne
-    @JoinColumn(name="request_for_employee_id", nullable=true)
-	@NonNull
-    private RequestForEmployee request;
+//	@ManyToOne
+//    @JoinColumn(name="employee_id", nullable=true)
+//	@NonNull
+//    private Employee employee;
+//	
+//	@ManyToOne
+//    @JoinColumn(name="request_for_employee_id", nullable=true)
+//	@NonNull
+//    private RequestForEmployee request;
 }

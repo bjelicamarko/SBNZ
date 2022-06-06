@@ -62,6 +62,6 @@ public class RequestForEmployee {
 	@NonNull
     private Employer employer;
 	
-	@OneToMany(mappedBy="request", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<AreaOfExpertise> areaOfExpertises;
 }

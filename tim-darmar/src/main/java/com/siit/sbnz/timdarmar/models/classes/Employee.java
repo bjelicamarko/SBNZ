@@ -1,5 +1,7 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,13 +13,13 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.Min;
 
+import com.siit.sbnz.timdarmar.models.dtos.RegistrationDTO;
 import com.siit.sbnz.timdarmar.models.enums.StatusOfEmployee;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,9 +53,21 @@ public class Employee extends Client{
 	@OneToMany(mappedBy="employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<WorkExperience> workExperiences;
 	
-	@OneToMany(mappedBy="employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<AreaOfExpertise> areaOfExpertises;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusOfEmployee statusOfEmployee;
+	
+	public Employee (RegistrationDTO reg) {
+		super(reg);
+		this.languages = new ArrayList<>();
+		this.preferredWorkingHours = "not";
+		this.preferredSalary = 0.0;
+		this.points = 0.0;
+		this.approval = 0;
+		this.workExperiences = new HashSet<>();
+		this.areaOfExpertises = new HashSet<>();
+		// this.statusOfEmployee = StatusOfEmployee.UNEMPLOYED;
+	}
 }

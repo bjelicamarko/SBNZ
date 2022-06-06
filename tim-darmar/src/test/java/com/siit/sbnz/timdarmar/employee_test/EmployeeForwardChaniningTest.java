@@ -38,7 +38,7 @@ public class EmployeeForwardChaniningTest {
 		KieServices kieServices = KieServices.Factory.get();
         kieContainer = kieServices.newKieContainer(kieServices.newReleaseId("sbnz.integracija", "drools-project", "0.0.1-SNAPSHOT"));
         
-        AreaOfExpertise globAoe1 = new AreaOfExpertise("Web programiranje", new ArrayList<>(), new Employee(), new RequestForEmployee());
+        AreaOfExpertise globAoe1 = new AreaOfExpertise("Web programiranje", new ArrayList<>());
         globAoe1.getSpecializations().add("Java");
         globAoe1.getSpecializations().add("Spring");
         globAoe1.getSpecializations().add(".NET");
@@ -46,13 +46,13 @@ public class EmployeeForwardChaniningTest {
         globAoe1.getSpecializations().add("React");
         globAoe1.getSpecializations().add("Angular");
         
-        AreaOfExpertise globAoe2 = new AreaOfExpertise("AI", new ArrayList<>(), new Employee(), new RequestForEmployee());
+        AreaOfExpertise globAoe2 = new AreaOfExpertise("AI", new ArrayList<>());
         globAoe2.getSpecializations().add("Machine Learning");
         globAoe2.getSpecializations().add("Soft Kompjuting");
         globAoe2.getSpecializations().add("Racunarska Inteligencija");
         globAoe2.getSpecializations().add("Racunarska Vizija");
         
-        AreaOfExpertise globAoe3 = new AreaOfExpertise("Data Science", new ArrayList<>(), new Employee(), new RequestForEmployee());
+        AreaOfExpertise globAoe3 = new AreaOfExpertise("Data Science", new ArrayList<>());
         globAoe3.getSpecializations().add("SQL");
         globAoe3.getSpecializations().add("MY SQL");
         globAoe2.getSpecializations().add("Mongo");
@@ -179,7 +179,7 @@ public class EmployeeForwardChaniningTest {
 		Employee e = new Employee();
 		e.setId(8L);
         e.setAreaOfExpertises(new HashSet<>());
-        AreaOfExpertise aoe = new AreaOfExpertise("Web programiranje", new ArrayList<>(), e, new RequestForEmployee());
+        AreaOfExpertise aoe = new AreaOfExpertise("Web programiranje", new ArrayList<>());
         aoe.getSpecializations().add("Java");
         aoe.getSpecializations().add("Spring");
         e.getAreaOfExpertises().add(aoe);
@@ -220,7 +220,7 @@ public class EmployeeForwardChaniningTest {
         Employee e2 = new Employee();
 		e2.setId(9L);
         e2.setAreaOfExpertises(new HashSet<>());
-        AreaOfExpertise aoe1 = new AreaOfExpertise("Web programiranje", new ArrayList<>(), e2, new RequestForEmployee());
+        AreaOfExpertise aoe1 = new AreaOfExpertise("Web programiranje", new ArrayList<>());
         aoe1.getSpecializations().add("Java");
         e2.getAreaOfExpertises().add(aoe1);
         e2.setLanguages(new ArrayList<>());
