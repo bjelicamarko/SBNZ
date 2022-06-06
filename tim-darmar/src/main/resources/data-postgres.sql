@@ -5,7 +5,7 @@ insert into authority (name) values ('ROLE_EMPLOYEE'); -- 3
 insert into authority (name) values ('ROLE_STUDENT'); -- 4
 
 
--- ***************** OBLASTI EKPERTIZE GLOBALNI (BICE DEFINISANI i ADMIN Ih Dodaje) ******************
+-- ***************** OBLASTI EKPERTIZE GLOBALNI I JEZICI (BICE DEFINISANI i ADMIN Ih Dodaje) ******************
 insert into area_of_expertise_globally(name_of_area) values ('Web programiranje');
 insert into specializations_globally(id, specialization) values (1, 'Backend');
 insert into specializations_globally(id, specialization) values (1, 'Frontend-React');
@@ -23,6 +23,10 @@ insert into specializations_globally(id, specialization) values (3, 'SQL');
 insert into specializations_globally(id, specialization) values (3, 'Mongo');
 insert into specializations_globally(id, specialization) values (3, 'MySQL');
 
+
+insert into language_globally(name) values ('English');
+insert into language_globally(name) values ('French');
+insert into language_globally(name) values ('Serbian');
 -- ***************** ADMINISTRATORI ******************
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
 values ('mare@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
