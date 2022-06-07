@@ -1,6 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { AreaOfExpertiseGlobally } from 'src/modules/shared/models/AreaOfExpertiseGlobally';
 import { SnackBarService } from 'src/modules/shared/services/snack-bar.service';
-import { AreaOfExpertiseGlobally } from '../../models/AreaOfExpertiseGlobally';
+import { UtilService } from 'src/modules/shared/services/util.service';
 import { AdminService } from '../../services/admin.service';
 
 @Component({
@@ -15,10 +16,10 @@ export class ExpertisesGloballyPageComponent implements AfterViewInit {
   
   inputValue: string = '';
 
-  constructor(private adminService: AdminService, private snackBarService: SnackBarService) { }
+  constructor(private adminService: AdminService, private utilService: UtilService, private snackBarService: SnackBarService) { }
 
   ngAfterViewInit(): void {
-    this.adminService.findAllExpertisesGlobally()
+    this.utilService.findAllExpertisesGlobally()
     .subscribe((response) => {
       this.expertises = response.body as AreaOfExpertiseGlobally[];
     })

@@ -8,11 +8,13 @@ import { MaterialExampleModule } from 'src/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
+import { RequestForEmployeePageComponent } from './pages/request-for-employee-page/request-for-employee-page.component';
 
 
 @NgModule({
   declarations: [
-    HomepageComponent
+    HomepageComponent,
+    RequestForEmployeePageComponent
   ],
   imports: [
     CommonModule,

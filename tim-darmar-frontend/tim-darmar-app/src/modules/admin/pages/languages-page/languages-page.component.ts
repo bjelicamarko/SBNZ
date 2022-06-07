@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+import { LanguageGlobally } from 'src/modules/shared/models/LanguageGlobally';
 import { SnackBarService } from 'src/modules/shared/services/snack-bar.service';
-import { LanguageGlobally } from '../../models/LanguageGlobally';
+import { UtilService } from 'src/modules/shared/services/util.service';
 import { AdminService } from '../../services/admin.service';
 
 @Component({
@@ -14,10 +15,10 @@ export class LanguagesPageComponent implements AfterViewInit {
   
   inputValue: string = '';
 
-  constructor(private adminService: AdminService, private snackBarService: SnackBarService) { }
+  constructor(private adminService: AdminService, private utilService: UtilService, private snackBarService: SnackBarService) { }
 
   ngAfterViewInit(): void {
-    this.adminService.findAllLanguages()
+    this.utilService.findAllLanguages()
     .subscribe((response) => {
       this.languages = response.body as LanguageGlobally[];
     })

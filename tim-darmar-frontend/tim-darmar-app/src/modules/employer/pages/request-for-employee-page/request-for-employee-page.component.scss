@@ -13,19 +13,7 @@
       min-width: 90%;
     }
   }
-  
-  #username-div, #pass-div, #email-div, #firstname-div, #lastname-div, #repeatPassword-div, #role-div{
-    text-align: center;
-  }
-  
-  #username, #password, #firstname, #lastname, #email, #repeatPassword, #role {
-    position: relative;
-    margin: auto;
-    width: 70%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
+
   #login-button {
     position: relative;
     margin: auto;
@@ -34,12 +22,16 @@
   }
   
   .login-label {
-    font-size: 40px;
+    font-size: 30px;
     text-transform: uppercase;
     font-weight: 350;
     letter-spacing: 1px;
     text-align: center;
-    margin: 20px 0px;
+    margin: 0px 0px;
     font-weight: 400;
   }
+
+.bold-label {
+  font-weight: bold;
+}
   

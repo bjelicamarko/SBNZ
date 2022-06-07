@@ -1,0 +1,30 @@
+<div class="row justify-content-center align-items-center loginForm">
+    <form class="col-md-12 box" (ngSubmit)="submit()">
+        <fieldset>
+            <p class="login-label">Create Request for Employee</p>
+            <label class="bold-label">Languages:</label>
+            <div style="margin-left: 25px;" *ngFor="let language of languages">
+                <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="language.checked" [checked]="language.checked"> {{language.name}}
+            </div>
+            <label  class="bold-label">Expertises and specializations:</label>
+            <div style="margin-left: 25px;">
+                <ul *ngFor="let expertise of tempExpertises">
+                    <li>{{ expertise.nameOfArea }}</li>
+                    <ul>
+                        <li *ngFor="let specialization of expertise.specializations"
+                        
+                        ><input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="specialization.checked" 
+                        [checked]="specialization.checked">  
+                         {{ specialization.name }}</li>
+                    </ul>
+                </ul>
+            </div>
+
+            <div class="row">
+                <button id="login-button" type="submit" class="btn btn-primary">
+                  Create
+                </button>
+            </div>
+        </fieldset>
+    </form>
+</div>

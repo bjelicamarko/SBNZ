@@ -8,9 +8,7 @@ insert into authority (name) values ('ROLE_STUDENT'); -- 4
 -- ***************** OBLASTI EKPERTIZE GLOBALNI I JEZICI (BICE DEFINISANI i ADMIN Ih Dodaje) ******************
 insert into area_of_expertise_globally(name_of_area) values ('Web programiranje');
 insert into specializations_globally(id, specialization) values (1, 'Backend');
-insert into specializations_globally(id, specialization) values (1, 'Frontend-React');
-insert into specializations_globally(id, specialization) values (1, 'Frontend-Angular');
-insert into specializations_globally(id, specialization) values (1, 'Frontend-VUE');
+insert into specializations_globally(id, specialization) values (1, 'Frontend');
 insert into specializations_globally(id, specialization) values (1, 'Devops');
 insert into specializations_globally(id, specialization) values (1, 'NodeJS');
 
@@ -42,13 +40,13 @@ insert into client_authority (client_id, authority_id) values (2, 1); -- admin
 
 
 -- ***************** POSLODAVCI ******************
---insert into client(email, password, first_name, last_name, role, blocked, deleted)
---values ('seneka@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
---'Seneka', 'Senaka', 'ROLE_EMPLOYER', false, false);
---insert into employer(client, company_average_rating, penalty_points, penalty, 
---employer_recklessness_type, employer_carelessness_type) values 
---(3, 10.0, 0, false, 'NOT_RECKLESS', 'NOT_CARELESS');
---insert into client_authority (client_id, authority_id) values (3, 2); -- employer
+insert into client(email, password, first_name, last_name, role, blocked, deleted)
+values ('seneka@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
+'Seneka', 'Senaka', 'ROLE_EMPLOYER', false, false);
+insert into employer(client, company_average_rating, penalty_points, penalty, 
+employer_recklessness_type, employer_carelessness_type) values 
+(3, 10.0, 0, false, 'NOT_RECKLESS', 'NOT_CARELESS');
+insert into client_authority (client_id, authority_id) values (3, 2); -- employer
 --
 ---- zahtevi koji ce biti vezani za seneku :D
 --insert into area_of_expertise(name_of_area) values ('Web programiranje');
