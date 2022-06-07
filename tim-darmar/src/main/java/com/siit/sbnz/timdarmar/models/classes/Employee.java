@@ -1,5 +1,6 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ import javax.validation.constraints.Min;
 import com.siit.sbnz.timdarmar.models.enums.StatusOfEmployee;
 
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import lombok.Getter;
@@ -51,9 +53,30 @@ public class Employee extends Client{
 	@OneToMany(mappedBy="employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<WorkExperience> workExperiences;
 	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Employee> friendsGroup;
+	
 	@OneToMany(mappedBy="employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<AreaOfExpertise> areaOfExpertises;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusOfEmployee statusOfEmployee;
+	
+	public boolean isAFriendOf(Long id, Set<Long> visitedIds) {
+		System.out.println("THIS: " + this.getId());
+		HashSet<Long> setic = (HashSet<Long>) visitedIds;
+		System.out.println("ID " + id);
+		if (setic.contains(this.getId())) {
+			//System.out.println("contains false");
+			return false;
+		}
+		for (Employee em : friendsGroup) {
+			if (em.getId().equals(id)) {
+				//System.out.println("true");
+				return true;
+			}
+		}
+		//System.out.println("nije frend false");
+		return false;
+	}
 }

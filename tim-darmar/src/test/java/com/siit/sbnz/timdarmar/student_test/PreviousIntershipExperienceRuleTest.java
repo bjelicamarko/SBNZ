@@ -1,5 +1,7 @@
 package com.siit.sbnz.timdarmar.student_test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -142,6 +144,8 @@ public class PreviousIntershipExperienceRuleTest {
 		kieSession.fireAllRules();
 		
 		System.out.println("Points: " + s1.getPoints());
+		
+		assertEquals(s1.getPoints(), 20.0, 3);
 		
         
         kieSession.dispose();
