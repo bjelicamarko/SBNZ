@@ -1,1 +1,53 @@
-<p>employee-recommendation works!</p>
+<div>
+    <p style="text-align: center; font-weight: bold; color: red;">Employee table</p>
+    <div class="example-container mat-elevation-z8" style="width: 100%;">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+        matSort (matSortChange)="announceSortChange($event)">
+    
+            <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef
+                mat-sort-header sortActionDescription="Sort by firstName"> First Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef
+                mat-sort-header sortActionDescription="Sort by lastName"> Last Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef
+                mat-sort-header sortActionDescription="Sort by email"> email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+            </ng-container>
+        
+            <ng-container matColumnDef="preferredSalary">
+                <th mat-header-cell *matHeaderCellDef
+                mat-sort-header sortActionDescription="Sort by preferredSalary"> Preferred Salary </th>
+                <td mat-cell *matCellDef="let element"> {{element.preferredSalary}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="preferredWorkingHours">
+                <th mat-header-cell *matHeaderCellDef
+                mat-sort-header sortActionDescription="Sort by preferredWorkingHours"> Preferred Working Hours </th>
+                <td mat-cell *matCellDef="let element"> {{element.preferredWorkingHours}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="approval">
+                <th mat-header-cell *matHeaderCellDef
+                mat-sort-header sortActionDescription="Sort by approval"> Approval </th>
+                <td mat-cell *matCellDef="let element"> {{element.approval}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="points">
+                <th mat-header-cell *matHeaderCellDef
+                mat-sort-header sortActionDescription="Sort by points"> Points </th>
+                <td mat-cell *matCellDef="let element"> {{element.points}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>
