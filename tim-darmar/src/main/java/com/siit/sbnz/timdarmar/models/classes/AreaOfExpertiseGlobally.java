@@ -14,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +38,8 @@ public class AreaOfExpertiseGlobally {
 	@NonNull
 	private String nameOfArea;
 	
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection()
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@CollectionTable(name = "specializations_globally", joinColumns = @JoinColumn(name = "id")) // 2
     @Column(name = "specialization") // 3
 	private List<String> specializations;

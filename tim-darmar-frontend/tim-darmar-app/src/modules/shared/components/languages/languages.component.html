@@ -1,0 +1,3 @@
+<div style="margin-left: 25px;" *ngFor="let language of languages">
+    <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="language.checked" [checked]="language.checked"> {{language.name}}
+</div>

@@ -2,25 +2,53 @@
     <form class="col-md-12 box" (ngSubmit)="submit()">
         <fieldset>
             <p class="login-label">Create Request for Employee</p>
-            <label class="bold-label">Languages:</label>
-            <div style="margin-left: 25px;" *ngFor="let language of languages">
-                <input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="language.checked" [checked]="language.checked"> {{language.name}}
+            
+            <div class="form-group row">
+                <label class="bold-label">Required working hours for employee:</label>
+                <div id="lastname-div" class="col-md">
+                    <input type="text" class="form-control" 
+                    placeholder="Required Working Hours" 
+                    [(ngModel)]="requiredWorkingHours" [ngModelOptions]="{standalone: true}"
+                    />
+                </div>
             </div>
-            <label  class="bold-label">Expertises and specializations:</label>
-            <div style="margin-left: 25px;">
-                <ul *ngFor="let expertise of tempExpertises">
-                    <li>{{ expertise.nameOfArea }}</li>
-                    <ul>
-                        <li *ngFor="let specialization of expertise.specializations"
-                        
-                        ><input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="specialization.checked" 
-                        [checked]="specialization.checked">  
-                         {{ specialization.name }}</li>
-                    </ul>
-                </ul>
+            
+            <div class="form-group row">
+                <label class="bold-label">Salary for employee:</label>
+                <div id="lastname-div" class="col-md">
+                    <input type="number" class="form-control"  oninput="this.value = 
+                    !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null"
+                    placeholder="Required Salary" 
+                    [(ngModel)]="requiredSalary" [ngModelOptions]="{standalone: true}"
+                    />
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label class="bold-label">Types of employment:</label>
+                <div id="role-div" class="col-md">
+                  <mat-form-field>
+                    <mat-label>Type of employment</mat-label>
+                    <mat-select  [(ngModel)]="typeOfEmployment" [ngModelOptions]="{standalone: true}">
+                        <mat-option value="FULL_TIME" selected>FULL_TIME</mat-option>
+                        <mat-option value="PART_TIME">PART_TIME</mat-option>
+                        <mat-option value="FREELANCE">FREELANCE</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
             </div>
 
-            <div class="row">
+            <div class="form-group row">
+                <label class="bold-label">Languages:</label>
+                <app-languages [languages]="languages"></app-languages>
+                <label  class="bold-label">Expertises and specializations:</label>
+                <div style="margin-left: 25px;">
+                    <app-areas [tempExpertises]="tempExpertises"></app-areas>
+                </div>
+            </div>
+
+
+            <div class="form-group row">
                 <button id="login-button" type="submit" class="btn btn-primary">
                   Create
                 </button>

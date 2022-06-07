@@ -18,6 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.Min;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.siit.sbnz.timdarmar.models.dtos.RegistrationDTO;
 import com.siit.sbnz.timdarmar.models.enums.StatusOfEmployee;
 
@@ -31,7 +34,8 @@ import lombok.Setter;
 public class Employee extends Client{
 	private static final long serialVersionUID = 1L;
 
-	@ElementCollection
+	@ElementCollection()
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@CollectionTable(name = "languages", joinColumns = @JoinColumn(name = "id")) // 2
     @Column(name = "language") // 3
 	private List<String> languages;
