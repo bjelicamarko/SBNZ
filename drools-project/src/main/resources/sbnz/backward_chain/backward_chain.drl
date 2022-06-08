@@ -1,0 +1,69 @@
+package com.sample
+
+import com.siit.sbnz.timdarmar.models.classes.Employee;
+import com.siit.sbnz.timdarmar.models.classes.WorkExperience;
+
+import com.siit.sbnz.timdarmar.models.events.EmployerWorkExperienceEvent;
+
+import com.siit.sbnz.timdarmar.models.enums.EmployerCarelessnessType;
+import com.siit.sbnz.timdarmar.models.enums.EmployerRecklessnessType;
+import java.util.*;
+
+query hasFriend( Long employeeID, Long fatherID, String areaOfInterest, Set setic, Set rez)
+  Employee ($currWorker : this, id == fatherID, $workExperiences : workExperiences != null)
+  and 
+  (
+	  $value: Number(intValue >= 1) from accumulate 
+			(
+				WorkExperience($we: this) 
+				from $workExperiences 
+				and
+				List(size > 0) from collect 
+				(String(this == areaOfInterest) 
+				from $we.areaOfExpertise.specializations),
+				init
+				(
+					int count = 0;
+				),
+				action
+				(
+					count += 1;
+					HashSet<Long> seticCasted2 = (HashSet<Long>) rez;
+					seticCasted2.add($currWorker.getId());
+					
+					//System.out.println("rez: " + $currWorker.getId());
+				),
+				result 
+				(
+					count
+				)
+			)
+	  or
+	  ( 
+	    Employee ( workerID : id, $wf : this) 
+	    and
+    	$value: Number(intValue != null) from accumulate 
+		(
+			Employee($friendID : id, id == $wf.id) from $currWorker.friendsGroup,
+			init
+			(
+				Long id = null;
+			),
+			action
+			(
+				HashSet<Long> seticCasted = (HashSet<Long>) setic;
+				if (seticCasted.contains($friendID)){
+					id = null;
+				}else{
+					seticCasted.add($friendID);
+					id = $friendID;
+					//System.out.println("haha :" + id);
+				}
+			),
+			result 
+			(
+				id
+			)
+		)
+    	and ?hasFriend( $value, $value, areaOfInterest, setic, rez; ) ) )
+end

@@ -55,35 +55,35 @@ public class BonusPointsRuleTest {
 	
 	@Test
 	public void testParametersOfRequestForEmployeeRules() {
-		LocalDateTime now = LocalDateTime.now();
-	    LocalDateTime tenSecondsLater = now.plusMonths(3);
-	    
-	    long diff = TimeUnit.DAYS.convert(86420000, TimeUnit.MILLISECONDS);
-	    System.out.println(diff);
+//		LocalDateTime now = LocalDateTime.now();
+//	    LocalDateTime tenSecondsLater = now.plusMonths(3);
+//	    
+//	    long diff = TimeUnit.DAYS.convert(86420000, TimeUnit.MILLISECONDS);
+//	    System.out.println(diff);
 
 //	    long diff = ChronoUnit.MONTHS.between(now, tenSecondsLater);
 //	    System.out.println(diff);
 		
-//		KieBase kieBase = kieContainer.getKieBase("student");
-//		KieSession kieSession = kieBase.newKieSession();
-//        kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
-//        
-//		Student s1 = students.get(0); 
-//		Student s2 = students.get(1); 
-//		Student s3 = students.get(2);
-//		Student s4 = students.get(3);
-//		
-//		kieSession.insert(s1);
-//		kieSession.insert(s2);
-//		kieSession.insert(s3);
-//		kieSession.insert(s4);
-//		kieSession.fireAllRules();
-//		
-//		assertEquals(41, s1.getPoints(), 2);
-//		assertEquals(36, s2.getPoints(), 2);
-//		assertEquals(49, s3.getPoints(), 2);
-//		assertEquals(17, s4.getPoints(), 2);
-//        
-//        kieSession.dispose();
+		KieBase kieBase = kieContainer.getKieBase("student");
+		KieSession kieSession = kieBase.newKieSession();
+        kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
+        
+		Student s1 = students.get(0); 
+		Student s2 = students.get(1); 
+		Student s3 = students.get(2);
+		Student s4 = students.get(3);
+		
+		kieSession.insert(s1);
+		kieSession.insert(s2);
+		kieSession.insert(s3);
+		kieSession.insert(s4);
+		kieSession.fireAllRules();
+		
+		assertEquals(41, s1.getPoints(), 2);
+		assertEquals(36, s2.getPoints(), 2);
+		assertEquals(49, s3.getPoints(), 2);
+		assertEquals(17, s4.getPoints(), 2);
+        
+        kieSession.dispose();
 	}
 }

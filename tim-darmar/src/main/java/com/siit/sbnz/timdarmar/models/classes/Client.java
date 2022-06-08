@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 
+import org.kie.api.definition.type.Position;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -33,11 +34,12 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 public abstract class Client implements UserDetails{
 	private static final long serialVersionUID = 1L;
-
+	
 	@Version
     @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     private Long version;
 	
+	@Position(0)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id", unique=true, nullable=false)

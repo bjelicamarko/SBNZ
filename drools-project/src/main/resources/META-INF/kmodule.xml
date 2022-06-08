@@ -7,6 +7,9 @@
     <kbase name="cep" eventProcessingMode="stream" packages="sbnz.cep">
         <ksession name="cep-session" type="stateful"/>
     </kbase>
+    <kbase name="backward_chain" packages="sbnz.backward_chain">
+        <ksession name="backward-chain-session" type="stateful"/>
+    </kbase>
     <kbase name="student" packages="sbnz.student">
         <ksession name="student-session" type="stateful"/>
     </kbase>
