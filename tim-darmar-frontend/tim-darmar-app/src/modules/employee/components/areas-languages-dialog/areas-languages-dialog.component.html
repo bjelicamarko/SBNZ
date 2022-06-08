@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Nestoc</h1>
+<div mat-dialog-content>
+    <label class="bold-label">Languages:</label>
+    <app-languages [languages]="languages"></app-languages>
+    <label  class="bold-label">Expertises and specializations:</label>
+    <div style="margin-left: 25px;">
+        <app-areas [tempExpertises]="tempExpertises"></app-areas>
+    </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="submit()">Submit</button>
+</div>

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
 import com.siit.sbnz.timdarmar.models.classes.Employee;
 import com.siit.sbnz.timdarmar.models.classes.RequestForEmployee;
+import com.siit.sbnz.timdarmar.models.dtos.EmployeeDTO;
+import com.siit.sbnz.timdarmar.models.enums.StatusOfEmployee;
 import com.siit.sbnz.timdarmar.repositories.EmployeeRepository;
 import com.siit.sbnz.timdarmar.services.EmployeeService;
 
@@ -46,12 +48,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 		kieSession.fireAllRules();
 		kieSession.getAgenda().getAgendaGroup("workingHours_salary").setFocus();
 		kieSession.fireAllRules();
-		kieSession.getAgenda().getAgendaGroup("previous_work_experiences").setFocus();
-		kieSession.fireAllRules();
+//		kieSession.getAgenda().getAgendaGroup("previous_work_experiences").setFocus();
+//		kieSession.fireAllRules();
 		
 		kieSession.dispose();
 		
 		return employees;
+	}
+
+	@Override
+	public Employee findEmployeeByEmail(String email) {
+		return employeeRepository.findEmployeeByEmail(email);
+	}
+
+	@Override
+	public void updateEmployee(EmployeeDTO emp, Employee e) {
+		e.setPreferredSalary(emp.getPreferredSalary());
+		e.setPreferredWorkingHours(emp.getPreferredWorkingHours());
+		e.setStatusOfEmployee(StatusOfEmployee.valueOf(emp.getStatusOfEmployee()));
+		e.setLanguages(emp.getLanguages());
+		e.setAreaOfExpertises(emp.getAreaOfExpertises());
+		employeeRepository.save(e);
 	}
 	
 }

@@ -1,0 +1,92 @@
+<div class="main-content" style="margin-top: 20px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Edit Profile</h4>
+                        <p class="card-category">Complete your profile</p>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-5">
+                                  <label class="bolded-label">First Name:</label>
+                                  <mat-form-field class="example-full-width">
+                                      <input readonly type="text" [(ngModel)]="employee.firstName" name="firstName" matInput placeholder="First Name">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="bolded-label">Preferred Salary:</label>
+                                    <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Preferred Salary" type="number"
+                                      [(ngModel)]="employee.preferredSalary" name="preferredSalary">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="bolded-label">Last Name:</label> 
+                                  <mat-form-field class="example-full-width">
+                                    <input readonly matInput placeholder="Last Name" type="text"
+                                    [(ngModel)]="employee.lastName" name="lastName">
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="bolded-label">Working Hours:</label>
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Preferred Working Hours" type="text"
+                                    [(ngModel)]="employee.preferredWorkingHours" name="preferredWorkingHours">
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="bolded-label">Email address:</label>
+                                  <mat-form-field class="example-full-width">
+                                    <input  readonly matInput placeholder="Email adress" type="text"
+                                    [(ngModel)]="employee.email" name="email">
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="bolded-label">Status of Employee:</label>
+                                    <mat-form-field class="example-full-width">
+                                        <mat-select [(ngModel)]="employee.statusOfEmployee" name="statusOfEmployee">
+                                            <mat-option  value="UNEMPLOYED">UNEMPLOYED</mat-option>
+                                            <mat-option  value="EMPLOYED">EMPLOYED</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-body">
+                        <h6 class="card-category text-gray">Employee</h6>
+                        <h4 class="card-title">{{employee.firstName}} {{employee.lastName}}</h4>
+                        <p class="card-description">
+                            Number of languages: {{employee.languages.length}}
+                        </p>
+                        <ul *ngFor="let language of employee.languages">
+                            <li class="parentNav">{{ language }}</li>
+                        </ul>
+                        <p class="card-description">
+                            Number of expertises: {{employee.areaOfExpertises.length}}
+                        </p>
+                        <ul *ngFor="let expertise of employee.areaOfExpertises">
+                            <li class="parentNav">{{ expertise.nameOfArea }}</li>
+                            <ul>
+                                <li *ngFor="let specialization of expertise.specializations">{{ specialization }}</li>
+                            </ul>
+                        </ul>
+                        <a (click)="openDialog()" class="btn btn-danger btn-round">Change</a>
+                        <a (click)="updateEmployee()" style="margin-left: 10px;" class="btn btn-primary btn-round">Update User</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

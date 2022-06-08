@@ -1,4 +1,4 @@
--- ***************** ULOGE ******************
+ -- ***************** ULOGE ******************
 insert into authority (name) values ('ROLE_ADMIN'); -- 1
 insert into authority (name) values ('ROLE_EMPLOYER'); -- 2
 insert into authority (name) values ('ROLE_EMPLOYEE'); -- 3
@@ -25,6 +25,7 @@ insert into specializations_globally(id, specialization) values (3, 'MySQL');
 insert into language_globally(name) values ('English');
 insert into language_globally(name) values ('French');
 insert into language_globally(name) values ('Serbian');
+insert into language_globally(name) values ('Italian');
 
 -- ***************** ADMINISTRATORI ******************
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
@@ -48,77 +49,59 @@ insert into employer(client, company_average_rating, penalty_points, penalty,
 employer_recklessness_type, employer_carelessness_type) values 
 (3, 10.0, 0, false, 'NOT_RECKLESS', 'NOT_CARELESS');
 insert into client_authority (client_id, authority_id) values (3, 2); -- employer
---
----- zahtevi koji ce biti vezani za seneku :D
---insert into area_of_expertise(name_of_area) values ('Web programiranje');
---insert into specializations(id, specialization) values (1, 'Backend');
---insert into specializations(id, specialization) values (1, 'Frontend-React');
---
---insert into request_for_employee(type_of_employment, required_working_hours, required_salary, 
---employer_id) 
---values ('FULL_TIME', '08:00h-16:00h', 250000.0, 3);
---insert into required_languages(id, language) values (1, 'english');
---insert into required_languages(id, language) values (1, 'serbian');
---
---insert into request_for_employee(type_of_employment, required_working_hours, required_salary, 
---employer_id) 
---values ('FULL_TIME', '08:30h-15:00h', 140000.0, 3);
---insert into required_languages(id, language) values (2, 'english');
---insert into required_languages(id, language) values (2, 'french');
---
---
---insert into area_of_expertise(name_of_area) values ('AI');
---insert into specializations(id, specialization) values (2, 'Machine-Learning');
---
-----insert into request_for_student(work_methods, employer_id, area_of_expertise_id) values ('FROM_HOME', 3, 2);
-----insert into request_for_student(work_methods, employer_id, area_of_expertise_id) values ('DIRECT', 3, 2);
----- kraj zahteva za seneku
---
---
+
+
 ---- ***************** ZAPOSLENI ******************
+-- ZAPOSLEN #1
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
 values ('nikola@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
 'Nikola', 'Jokic', 'ROLE_EMPLOYEE', false, false);
-insert into employee(client, preferred_working_hours, preferred_salary, points, approval) 
-values (4, '10:00h-21:00h', 10000.0, 0.0, 0);
+insert into employee(client, preferred_working_hours, preferred_salary, points, approval, 
+status_of_employee) 
+values (4, '10:00-18:00', 5000.0, 0.0, 0, 'EMPLOYED');
 insert into client_authority (client_id, authority_id) values (4, 3); -- employee
---insert into languages(id, language) values (4, 'english');
---insert into languages(id, language) values (4, 'serbian');
---insert into languages(id, language) values (4, 'french');
---
+
+insert into languages(id, language) values (4, 'English');
+insert into languages(id, language) values (4, 'Serbian');
+
 insert into area_of_expertise(name_of_area) values ('Web programiranje');
 insert into specializations(id, specialization) values (1, 'Backend');
 insert into specializations(id, specialization) values (1, 'Frontend');
 insert into employee_area_of_expertises(employee_client, area_of_expertises_id) values (4, 1);
---
----- radna iskustva vezana za Jokica :D
---insert into area_of_expertise(name_of_area) values ('Web programiranje');
---insert into specializations(id, specialization) values (1, 'Backend');
---insert into work_experience(type_of_employment, date_from, date_to, company_rating, employer_rating, 
---paid, employer_id, employee_id, area_of_expertise_id) 
---values ('FULL_TIME', 1589320800, 1620856800, 10.0, 10.0, false, 3, 4, 5);
---
---insert into area_of_expertise(name_of_area) values ('Web programiranje');
---insert into specializations_globally(id, specialization) values (1, 'Frontend-React');
---insert into specializations_globally(id, specialization) values (1, 'Frontend-Angular');
---insert into work_experience(type_of_employment, date_from, employer_id, employee_id, area_of_expertise_id,
---paid) 
---values ('FULL_TIME', 1620856800, 3, 4, 6, false);
--- kraj radnih iskustava
 
+insert into area_of_expertise(name_of_area) values ('Web programiranje');
+insert into specializations(id, specialization) values (2, 'Backend');
+insert into work_experience(type_of_employment, date_from, date_to, company_rating, employer_rating, paid,
+employer_id, employee_id, area_of_expertise_id) values 
+('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 4, 2);
+
+insert into area_of_expertise(name_of_area) values ('Web programiranje');
+insert into specializations(id, specialization) values (3, 'Frontend');
+insert into work_experience(type_of_employment, date_from, date_to, company_rating, employer_rating, paid,
+employer_id, employee_id, area_of_expertise_id) values 
+('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 4, 3);
+
+-- ZAPOSLEN #2
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
 values ('boban@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
 'Boban', 'Marjanovic', 'ROLE_EMPLOYEE', false, false);
-insert into employee(client, preferred_working_hours, preferred_salary, points, approval) 
-values (5, '10:00h-21:00h', 10000.0, 0.0, 0);
+insert into employee(client, preferred_working_hours, preferred_salary, points, approval,
+status_of_employee) 
+values (5, '15:00-23:00', 11000.0, 0.0, 0, 'UNEMPLOYED');
 insert into client_authority (client_id, authority_id) values (5, 3); -- employee
---insert into languages(id, language) values (4, 'english');
---insert into languages(id, language) values (4, 'serbian');
---insert into languages(id, language) values (4, 'french');
---
+
+insert into languages(id, language) values (5, 'English');
+
 insert into area_of_expertise(name_of_area) values ('AI');
-insert into specializations(id, specialization) values (2, 'Machine-Learning');
-insert into employee_area_of_expertises(employee_client, area_of_expertises_id) values (5, 2);
+insert into specializations(id, specialization) values (4, 'Machine-Learning');
+insert into employee_area_of_expertises(employee_client, area_of_expertises_id) values (5, 4);
+
+insert into area_of_expertise(name_of_area) values ('AI');
+insert into specializations(id, specialization) values (5, 'Machine-Learning');
+insert into work_experience(type_of_employment, date_from, date_to, company_rating, employer_rating, paid,
+employer_id, employee_id, area_of_expertise_id) values 
+('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 5, 5);
+
 -- ***************** STUDENTI ******************
 --insert into client(email, password, first_name, last_name, role, blocked, deleted)
 --values ('luka@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 

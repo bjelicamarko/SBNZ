@@ -12,6 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.siit.sbnz.timdarmar.models.dtos.RegistrationDTO;
 import com.siit.sbnz.timdarmar.models.enums.EmployerCarelessnessType;
 import com.siit.sbnz.timdarmar.models.enums.EmployerRecklessnessType;
@@ -39,7 +42,7 @@ public class Employer extends Client{
 	private EmployerRecklessnessType employerRecklessnessType;
 	
 	@Enumerated(EnumType.STRING)
-	private EmployerCarelessnessType employerCarelessnessType; // OVO PROMJENITI
+	private EmployerCarelessnessType employerCarelessnessType;
 	
 	@OneToMany(mappedBy="employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RequestForEmployee> requestsForEmployee;
@@ -47,7 +50,8 @@ public class Employer extends Client{
 	@OneToMany(mappedBy="employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RequestForStudent> requestsForStudent;
 	
-	@OneToMany(mappedBy="employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="employer", cascade = CascadeType.ALL)
     private Set<WorkExperience> workExperiences;
 	
 	public Employer (RegistrationDTO reg) {

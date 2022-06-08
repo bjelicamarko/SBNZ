@@ -14,4 +14,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	@Query("select distinct e from Employee e left join fetch e.areaOfExpertises"
 			+ " left join fetch e.workExperiences where e.blocked = false and e.deleted = false")
 	List<Employee> findAllEmployees();
+	
+	@Query("select distinct e from Employee e left join fetch e.areaOfExpertises"
+			+ " left join fetch e.workExperiences where e.blocked = false and e.deleted = false and e.email = ?1")
+	Employee findEmployeeByEmail(String email);
 }

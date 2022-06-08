@@ -23,7 +23,7 @@ public class AreaOfExpertiseController {
 	private AreaOfExpertiseService areaOfExpertiseService;
 	
 	@GetMapping(value = "/findAllExpertisesGlobally")
-	@PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYER')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYER', 'EMPLOYEE')")
 	public ResponseEntity<List<AreaOfExpertiseGlobally>> findAllExpertisesGlobally() {
 		return new ResponseEntity<>(areaOfExpertiseService.findAllExpertisesGlobally(), HttpStatus.OK);
 	}

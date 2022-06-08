@@ -8,10 +8,14 @@ import { MaterialExampleModule } from 'src/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { AreasLanguagesDialogComponent } from './components/areas-languages-dialog/areas-languages-dialog.component';
 
 @NgModule({
   declarations: [
-    HomepageComponent
+    HomepageComponent,
+    ProfilePageComponent,
+    AreasLanguagesDialogComponent
   ],
   imports: [
     CommonModule,

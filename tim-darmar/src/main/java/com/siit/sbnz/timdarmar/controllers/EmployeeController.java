@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,5 +46,31 @@ public class EmployeeController {
 		for (Employee e : employees)
 			dtos.add(new EmployeeDTO(e));
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/findEmployeeByEmail/{email}")
+	@PreAuthorize("hasRole('EMPLOYER')")
+	public ResponseEntity<EmployeeDTO> findEmployeeByEmail(@PathVariable String email) {
+		Employee e  = employeeService.findEmployeeByEmail(email);
+		return new ResponseEntity<>(new EmployeeDTO(e), HttpStatus.OK);	
+	}
+	
+	@GetMapping(value = "/profileOfEmployee")
+	@PreAuthorize("hasRole('EMPLOYEE')")
+	public ResponseEntity<EmployeeDTO> profileOfEmployee() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Employee employee = (Employee)auth.getPrincipal();
+		Employee e  = employeeService.findEmployeeByEmail(employee.getEmail());
+		return new ResponseEntity<>(new EmployeeDTO(e), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/updateEmployee")
+	@PreAuthorize("hasRole('EMPLOYEE')")
+	public ResponseEntity<EmployeeDTO> updateEmployee(@RequestBody EmployeeDTO emp) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Employee employee = (Employee)auth.getPrincipal();
+		Employee e  = employeeService.findEmployeeByEmail(employee.getEmail());
+		employeeService.updateEmployee(emp, e);
+		return new ResponseEntity<>(new EmployeeDTO(e), HttpStatus.OK);
 	}
 }

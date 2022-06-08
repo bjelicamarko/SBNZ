@@ -23,7 +23,7 @@ public class LanguageController {
 	private LanguageService languageService;
 	
 	@GetMapping(value = "/findAllLanguages")
-	@PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYER')")
+	@PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYER', 'EMPLOYEE')")
 	public ResponseEntity<List<LanguageGlobally>> findAllLanguages() {
 		return new ResponseEntity<>(languageService.findAllLanguages(), HttpStatus.OK);
 	}
