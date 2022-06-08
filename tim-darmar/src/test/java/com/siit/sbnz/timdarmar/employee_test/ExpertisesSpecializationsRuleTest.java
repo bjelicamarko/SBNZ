@@ -32,7 +32,7 @@ public class ExpertisesSpecializationsRuleTest {
 		KieServices kieServices = KieServices.Factory.get();
         kieContainer = kieServices.newKieContainer(kieServices.newReleaseId("sbnz.integracija", "drools-project", "0.0.1-SNAPSHOT"));
         
-        AreaOfExpertise globAoe1 = new AreaOfExpertise("Web programiranje", new ArrayList<>(), new Employee(), new RequestForEmployee());
+        AreaOfExpertise globAoe1 = new AreaOfExpertise("Web programiranje", new ArrayList<>());
         globAoe1.getSpecializations().add("Java");
         globAoe1.getSpecializations().add("Spring");
         globAoe1.getSpecializations().add(".NET");
@@ -40,13 +40,13 @@ public class ExpertisesSpecializationsRuleTest {
         globAoe1.getSpecializations().add("React");
         globAoe1.getSpecializations().add("Angular");
         
-        AreaOfExpertise globAoe2 = new AreaOfExpertise("AI", new ArrayList<>(), new Employee(), new RequestForEmployee());
+        AreaOfExpertise globAoe2 = new AreaOfExpertise("AI", new ArrayList<>());
         globAoe2.getSpecializations().add("Machine Learning");
         globAoe2.getSpecializations().add("Soft Kompjuting");
         globAoe2.getSpecializations().add("Racunarska Inteligencija");
         globAoe2.getSpecializations().add("Racunarska Vizija");
         
-        AreaOfExpertise globAoe3 = new AreaOfExpertise("Data Science", new ArrayList<>(), new Employee(), new RequestForEmployee());
+        AreaOfExpertise globAoe3 = new AreaOfExpertise("Data Science", new ArrayList<>());
         globAoe3.getSpecializations().add("SQL");
         globAoe3.getSpecializations().add("MY SQL");
         globAoe2.getSpecializations().add("Mongo");
@@ -58,16 +58,16 @@ public class ExpertisesSpecializationsRuleTest {
         Employee e1 = new Employee();
         e1.setAreaOfExpertises(new HashSet<>());
         
-        AreaOfExpertise aoe1 = new AreaOfExpertise("Web programiranje", new ArrayList<>(), e1, new RequestForEmployee());
+        AreaOfExpertise aoe1 = new AreaOfExpertise("Web programiranje", new ArrayList<>());
         aoe1.getSpecializations().add("Java");
         aoe1.getSpecializations().add("Spring");
         e1.getAreaOfExpertises().add(aoe1);
         
-        AreaOfExpertise aoe2 = new AreaOfExpertise("AI", new ArrayList<>(), e1, new RequestForEmployee());
+        AreaOfExpertise aoe2 = new AreaOfExpertise("AI", new ArrayList<>());
         aoe2.getSpecializations().add("Soft Kompjuting");
         e1.getAreaOfExpertises().add(aoe2);
         
-        AreaOfExpertise aoe3 = new AreaOfExpertise("Data Science", new ArrayList<>(), e1, new RequestForEmployee());
+        AreaOfExpertise aoe3 = new AreaOfExpertise("Data Science", new ArrayList<>());
         aoe3.getSpecializations().add("MY SQL");
         e1.getAreaOfExpertises().add(aoe3);
         
@@ -77,15 +77,15 @@ public class ExpertisesSpecializationsRuleTest {
         Employee e2 = new Employee();
         e2.setAreaOfExpertises(new HashSet<>());
         
-        AreaOfExpertise aoe4 = new AreaOfExpertise("Web programiranje", new ArrayList<>(), e1, new RequestForEmployee());
+        AreaOfExpertise aoe4 = new AreaOfExpertise("Web programiranje", new ArrayList<>());
         aoe4.getSpecializations().add("Java");
         e2.getAreaOfExpertises().add(aoe4);
         
-        AreaOfExpertise aoe5 = new AreaOfExpertise("AI", new ArrayList<>(), e1, new RequestForEmployee());
+        AreaOfExpertise aoe5 = new AreaOfExpertise("AI", new ArrayList<>());
         aoe5.getSpecializations().add("Soft Kompjuting");
         e2.getAreaOfExpertises().add(aoe5);
         
-        AreaOfExpertise aoe6 = new AreaOfExpertise("Data Science", new ArrayList<>(), e1, new RequestForEmployee());
+        AreaOfExpertise aoe6 = new AreaOfExpertise("Data Science", new ArrayList<>());
         aoe6.getSpecializations().add("MY SQL");
         e2.getAreaOfExpertises().add(aoe6);
         
@@ -94,7 +94,7 @@ public class ExpertisesSpecializationsRuleTest {
         Employee e3 = new Employee();
         e3.setAreaOfExpertises(new HashSet<>());
         
-        AreaOfExpertise aoe7 = new AreaOfExpertise("Data Science", new ArrayList<>(), e1, new RequestForEmployee());
+        AreaOfExpertise aoe7 = new AreaOfExpertise("Data Science", new ArrayList<>());
         aoe7.getSpecializations().add("SQL");
         aoe7.getSpecializations().add("MY SQL");
         aoe7.getSpecializations().add("Mongo");

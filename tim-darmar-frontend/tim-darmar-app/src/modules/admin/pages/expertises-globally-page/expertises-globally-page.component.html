@@ -1,0 +1,21 @@
+<form class="row p-4 align-items-center justify-content-center" (submit)="$event.preventDefault()">
+    <div class="col-4 align-items-center justify-content-center">
+        <mat-form-field class="example-form-field" appearance="fill" style="width: 100%">
+            <mat-label>Command</mat-label>
+            <input id="searchFieldInput" matInput type="text" [(ngModel)]='inputValue' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <div class="example-button-row">
+            <button mat-raised-button style="margin-right: 20px;" (click)="createArea()">Create</button>
+            <button mat-raised-button style="margin-right: 20px;" color="primary" (click)="updateArea()">Update</button>
+            <button mat-raised-button color="accent" (click)="deleteArea()">Remove</button>
+        </div>
+        <div style="margin-top: 50px;">
+            <ul *ngFor="let expertise of expertises">
+                <li class="parentNav">{{ expertise.nameOfArea }}</li>
+                <ul>
+                    <li *ngFor="let specialization of expertise.specializations">{{ specialization }}</li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+</form>

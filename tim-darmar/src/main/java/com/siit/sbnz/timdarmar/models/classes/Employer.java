@@ -1,5 +1,6 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,8 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import com.siit.sbnz.timdarmar.models.enums.EmployerRecklessnessType;
+import com.siit.sbnz.timdarmar.models.dtos.RegistrationDTO;
 import com.siit.sbnz.timdarmar.models.enums.EmployerCarelessnessType;
+import com.siit.sbnz.timdarmar.models.enums.EmployerRecklessnessType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +25,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 public class Employer extends Client{
 	private static final long serialVersionUID = 1L;
-	
-	@Column(nullable = false)
-	private String companyName;
-	
+
 	@Column(nullable = false)
 	private double companyAverageRating;
 	
@@ -50,4 +49,16 @@ public class Employer extends Client{
 	
 	@OneToMany(mappedBy="employer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<WorkExperience> workExperiences;
+	
+	public Employer (RegistrationDTO reg) {
+		super(reg);
+		this.companyAverageRating = 0.0;
+		this.penaltyPoints = 0;
+		this.penalty = false;
+		this.employerRecklessnessType = EmployerRecklessnessType.NOT_RECKLESS;
+		this.employerCarelessnessType = EmployerCarelessnessType.NOT_CARELESS;
+		this.requestsForEmployee = new HashSet<>();
+		this.requestsForStudent = new HashSet<>();
+		this.workExperiences = new HashSet<>();
+	}
 }

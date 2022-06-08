@@ -6,12 +6,16 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,19 +40,20 @@ public class AreaOfExpertise {
 	@NonNull
 	private String nameOfArea;
 	
-	@ElementCollection
+	@ElementCollection()
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@CollectionTable(name = "specializations", joinColumns = @JoinColumn(name = "id")) // 2
     @Column(name = "specialization") // 3
 	@NonNull
 	private List<String> specializations;
 	
-	@ManyToOne
-    @JoinColumn(name="employee_id", nullable=true)
-	@NonNull
-    private Employee employee;
-	
-	@ManyToOne
-    @JoinColumn(name="request_for_employee_id", nullable=true)
-	@NonNull
-    private RequestForEmployee request;
+//	@ManyToOne
+//    @JoinColumn(name="employee_id", nullable=true)
+//	@NonNull
+//    private Employee employee;
+//	
+//	@ManyToOne
+//    @JoinColumn(name="request_for_employee_id", nullable=true)
+//	@NonNull
+//    private RequestForEmployee request;
 }

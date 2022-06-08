@@ -1,5 +1,6 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.Min;
 
+import com.siit.sbnz.timdarmar.models.dtos.RegistrationDTO;
 import com.siit.sbnz.timdarmar.models.enums.FinancialStatus;
 import com.siit.sbnz.timdarmar.models.enums.StatusOfStudent;
 
@@ -47,4 +49,13 @@ public class Student extends Client{
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Project> uniProjects;
+	
+	public Student(RegistrationDTO reg) {
+		super(reg);
+		this.monthlyIncomeByFamilyMember = 0.0;
+		this.points = 0.0;
+		this.interships = new HashSet<>();
+		this.passedSubjects = new HashSet<>();
+		this.uniProjects = new HashSet<>();
+	}
 }

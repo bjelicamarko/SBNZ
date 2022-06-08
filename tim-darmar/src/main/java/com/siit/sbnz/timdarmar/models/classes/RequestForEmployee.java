@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.siit.sbnz.timdarmar.models.dtos.RequestForEmployeeDTO;
 import com.siit.sbnz.timdarmar.models.enums.TypeOfEmployment;
 
 import lombok.AllArgsConstructor;
@@ -62,6 +63,15 @@ public class RequestForEmployee {
 	@NonNull
     private Employer employer;
 	
-	@OneToMany(mappedBy="request", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<AreaOfExpertise> areaOfExpertises;
+	
+	public RequestForEmployee(RequestForEmployeeDTO request, Employer employer) {
+		this.employer = employer;
+		this.requiredLanguages = request.getRequiredLanguages();
+		this.typeOfEmployment = TypeOfEmployment.valueOf(request.getTypeOfEmployment());
+		this.requiredWorkingHours = request.getRequiredWorkingHours();
+		this.requiredSalary = request.getRequiredSalary();
+		this.areaOfExpertises = request.getAreaOfExpertises();
+	}
 }

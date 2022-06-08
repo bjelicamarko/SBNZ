@@ -1,5 +1,6 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,14 +13,19 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.validation.constraints.Min;
 
-import com.siit.sbnz.timdarmar.models.enums.StatusOfEmployee;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import com.siit.sbnz.timdarmar.models.dtos.RegistrationDTO;
+import com.siit.sbnz.timdarmar.models.enums.StatusOfEmployee;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +37,8 @@ import lombok.Setter;
 public class Employee extends Client{
 	private static final long serialVersionUID = 1L;
 
-	@ElementCollection
+	@ElementCollection()
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@CollectionTable(name = "languages", joinColumns = @JoinColumn(name = "id")) // 2
     @Column(name = "language") // 3
 	private List<String> languages;
@@ -56,7 +63,7 @@ public class Employee extends Client{
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Employee> friendsGroup;
 	
-	@OneToMany(mappedBy="employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<AreaOfExpertise> areaOfExpertises;
 	
 	@Enumerated(EnumType.STRING)
@@ -78,5 +85,17 @@ public class Employee extends Client{
 		}
 		//System.out.println("nije frend false");
 		return false;
+	}
+
+	public Employee (RegistrationDTO reg) {
+		super(reg);
+		this.languages = new ArrayList<>();
+		this.preferredWorkingHours = "not";
+		this.preferredSalary = 0.0;
+		this.points = 0.0;
+		this.approval = 0;
+		this.workExperiences = new HashSet<>();
+		this.areaOfExpertises = new HashSet<>();
+		// this.statusOfEmployee = StatusOfEmployee.UNEMPLOYED;
 	}
 }

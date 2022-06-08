@@ -8,10 +8,16 @@ import { MaterialExampleModule } from 'src/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
+import { RegistrationComponent } from './pages/registration/registration.component';
+import { ExpertisesGloballyPageComponent } from './pages/expertises-globally-page/expertises-globally-page.component';
+import { LanguagesPageComponent } from './pages/languages-page/languages-page.component';
 
 @NgModule({
   declarations: [
     HomePageComponent,
+    RegistrationComponent,
+    ExpertisesGloballyPageComponent,
+    LanguagesPageComponent,
   ],
   imports: [
     CommonModule,

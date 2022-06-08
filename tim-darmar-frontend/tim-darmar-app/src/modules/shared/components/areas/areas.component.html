@@ -1,0 +1,11 @@
+<div>
+    <ul *ngFor="let expertise of tempExpertises">
+        <li>{{ expertise.nameOfArea }}</li>
+        <ul>
+            <li *ngFor="let specialization of expertise.specializations"
+            ><input type="checkbox" [ngModelOptions]="{standalone: true}" [(ngModel)]="specialization.checked" 
+            [checked]="specialization.checked">  
+             {{ specialization.name }}</li>
+        </ul>
+    </ul>
+</div>
