@@ -2,8 +2,9 @@ import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AreaOfExpertiseGlobally } from 'src/modules/shared/models/AreaOfExpertiseGlobally';
 import { EmployeeDTO } from 'src/modules/shared/models/EmployeeDTO';
-import { LanguageGlobally } from 'src/modules/shared/models/LanguageGlobally';
 import { Temp } from 'src/modules/shared/models/Temp';
+import { WorkExperienceDTO } from 'src/modules/shared/models/WorkExperienceDTO';
+import { SnackBarService } from 'src/modules/shared/services/snack-bar.service';
 import { UtilService } from 'src/modules/shared/services/util.service';
 import { RequestForEmployee } from '../../models/RequestForEmployee';
 import { EmployerService } from '../../services/employer.service';
@@ -20,7 +21,7 @@ export class EmployeeProfileComponent implements AfterViewInit {
   typeOfEmployment: string = '';
 
   constructor(private utilService: UtilService, private employerService: EmployerService,
-    public dialogRef: MatDialogRef<EmployeeProfileComponent>,
+    public dialogRef: MatDialogRef<EmployeeProfileComponent>, private snackBarService: SnackBarService,
     @Inject(MAT_DIALOG_DATA) public employee: EmployeeDTO
   ) { }
 
@@ -44,4 +45,29 @@ export class EmployeeProfileComponent implements AfterViewInit {
     })
   }
 
+  saveWorkExperience(): void {
+    let expertises: AreaOfExpertiseGlobally[] = this.utilService.returnCheckedAreas(this.tempExpertises);
+    if (expertises.length === 1) {
+      let obj: WorkExperienceDTO = {
+        typeOfEmployment: this.typeOfEmployment,
+        employeeEmail: this.employee.email,
+        areaOfExpertise: expertises[0],
+        dateFrom: '',
+        dateFromVal: 0,
+        dateTo: '',
+        dateToVal: 0,
+        employerRating: 0,
+        employeeRating: 0,
+        paid: false,
+        employerEmail: '',
+        accepted: false
+      };
+      
+      this.employerService.saveWorkExperience(obj)
+      .subscribe((response) => {
+        this.snackBarService.openSnackBar(response.body as string);
+        this.dialogRef.close();
+      })
+    }
+  }
 }

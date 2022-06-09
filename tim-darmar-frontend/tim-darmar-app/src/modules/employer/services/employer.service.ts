@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { RequestForEmployee } from "../models/RequestForEmployee";
 import { EmployeeDTO } from "src/modules/shared/models/EmployeeDTO";
+import { WorkExperienceDTO } from "src/modules/shared/models/WorkExperienceDTO";
 
 @Injectable({
     providedIn: 'root'
@@ -35,5 +36,17 @@ export class EmployerService {
         };
 
       return this.http.get<HttpResponse<RequestForEmployee>>("sbnz/api/request-for-employee/getRequest", queryParams);
+    }
+
+    saveWorkExperience(obj: WorkExperienceDTO): Observable<HttpResponse<string>> {
+      let queryParams = {};
+    
+        queryParams = {
+          headers: this.headers,
+          observe: "response",
+          responseType: "text"
+        };
+
+      return this.http.post<HttpResponse<string>>("sbnz/api/work-experience/saveWorkExperience", obj, queryParams);
     }
 }

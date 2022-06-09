@@ -16,7 +16,7 @@ rule "Previous work experiences from employee"
 		$e: Employee(points >= 0.7, approval >= 2, $id : id, $workExperiences : workExperiences)
 		$value: Number() from accumulate 
 		(
-			WorkExperience($we1: this, $id1 : id, $employerRating : employerRating,
+			WorkExperience($we1: this, $id1 : id, $employeeRating : employeeRating,
 			dateFrom >= LocalDate.now().minusMonths(6).getLong(ChronoField.EPOCH_DAY)) 
 			from $workExperiences 
 			and
@@ -25,7 +25,7 @@ rule "Previous work experiences from employee"
 			$id != $we2.getEmployee().getId()) 
 			from  $we1.getEmployer().getWorkExperiences()),
 			
-			average($employerRating)
+			average($employeeRating)
 		)
 		eval($value.doubleValue() > 6)
     then
