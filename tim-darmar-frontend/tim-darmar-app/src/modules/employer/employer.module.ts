@@ -10,13 +10,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { RequestForEmployeePageComponent } from './pages/request-for-employee-page/request-for-employee-page.component';
 import { EmployeeRecommendationComponent } from './pages/employee-recommendation/employee-recommendation.component';
+import { RequestForStudentPageComponent } from './pages/request-for-student-page/request-for-student-page.component';
+import { StudentRecommendationComponent } from './pages/student-recommendation/student-recommendation.component';
 
 
 @NgModule({
   declarations: [
     HomepageComponent,
     RequestForEmployeePageComponent,
-    EmployeeRecommendationComponent
+    EmployeeRecommendationComponent,
+    RequestForStudentPageComponent,
+    StudentRecommendationComponent
   ],
   imports: [
     CommonModule,
