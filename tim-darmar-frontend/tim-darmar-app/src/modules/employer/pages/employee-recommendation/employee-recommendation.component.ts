@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeDTO } from 'src/modules/shared/models/EmployeeDTO';
+import { EmployeeProfileComponent } from '../../components/employee-profile/employee-profile.component';
 import { SharedEmployeeService } from '../../services/shared-employee.service';
 
 @Component({
@@ -17,7 +19,8 @@ export class EmployeeRecommendationComponent implements AfterViewInit {
   dataSource = new MatTableDataSource(this.employees);
   _liveAnnouncer: any;
   
-  constructor(private sharedEmployeeService: SharedEmployeeService) { 
+  constructor(private sharedEmployeeService: SharedEmployeeService, 
+    public dialog: MatDialog) { 
     this.sharedEmployeeService.getData().subscribe(res => this.employees = res);
   }
   
@@ -35,5 +38,14 @@ export class EmployeeRecommendationComponent implements AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  show(row: any){
+    this.dialog.open(EmployeeProfileComponent, {
+      width: '1000px',
+      data: row,
+      autoFocus: false,
+      maxHeight: '90vh'
+    });
   }
 }

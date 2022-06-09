@@ -38,7 +38,7 @@ public class WorkExperience {
 	@NonNull
 	private TypeOfEmployment typeOfEmployment;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@NonNull
 	private Long dateFrom;
 	
@@ -75,5 +75,7 @@ public class WorkExperience {
 	@NonNull
     private AreaOfExpertise areaOfExpertise;
 	
-	
+	@Column(nullable = false)
+	@NonNull
+	private Boolean accepted;
 }

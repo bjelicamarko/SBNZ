@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
+import com.siit.sbnz.timdarmar.models.classes.RequestForEmployee;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,14 @@ public class RequestForEmployeeDTO {
 	private String requiredWorkingHours;
 	private double requiredSalary;
 	private Set<AreaOfExpertise> areaOfExpertises;
+	
+	public RequestForEmployeeDTO(RequestForEmployee r) {
+		this.requiredLanguages = r.getRequiredLanguages();
+		this.typeOfEmployment = r.getTypeOfEmployment().toString();
+		this.requiredWorkingHours = r.getRequiredWorkingHours();
+		this.requiredSalary = r.getRequiredSalary();
+		this.areaOfExpertises = r.getAreaOfExpertises();
+	}
 	
 	@Override
 	public String toString() {

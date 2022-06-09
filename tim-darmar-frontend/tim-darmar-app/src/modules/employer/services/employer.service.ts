@@ -25,4 +25,15 @@ export class EmployerService {
         return this.http.post<HttpResponse<EmployeeDTO[]>>("sbnz/api/employee/getEmployeesFromRecommendation", objx, queryParams);
     }
 
+    getRequest(): Observable<HttpResponse<RequestForEmployee>>{
+      let queryParams = {};
+    
+        queryParams = {
+          headers: this.headers,
+          observe: "response",
+        
+        };
+
+      return this.http.get<HttpResponse<RequestForEmployee>>("sbnz/api/request-for-employee/getRequest", queryParams);
+    }
 }
