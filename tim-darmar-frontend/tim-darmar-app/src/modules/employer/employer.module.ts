@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { RequestForEmployeePageComponent } from './pages/request-for-employee-page/request-for-employee-page.component';
 import { EmployeeRecommendationComponent } from './pages/employee-recommendation/employee-recommendation.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
+import { WorkExperiencesPageComponent } from './pages/work-experiences-page/work-experiences-page.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { EmployeeProfileComponent } from './components/employee-profile/employee
     HomepageComponent,
     RequestForEmployeePageComponent,
     EmployeeRecommendationComponent,
-    EmployeeProfileComponent
+    EmployeeProfileComponent,
+    WorkExperiencesPageComponent
   ],
   imports: [
     CommonModule,

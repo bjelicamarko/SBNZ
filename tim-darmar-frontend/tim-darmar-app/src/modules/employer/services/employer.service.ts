@@ -49,4 +49,15 @@ export class EmployerService {
 
       return this.http.post<HttpResponse<string>>("sbnz/api/work-experience/saveWorkExperience", obj, queryParams);
     }
+
+    getWorkExperiencesFromEmployer(): Observable<HttpResponse<WorkExperienceDTO[]>> {
+      let queryParams = {};
+    
+        queryParams = {
+          headers: this.headers,
+          observe: "response",
+        };
+
+      return this.http.get<HttpResponse<WorkExperienceDTO[]>>("sbnz/api/work-experience/getWorkExperiencesFromEmployer", queryParams);
+    }
 }

@@ -71,13 +71,13 @@ insert into employee_area_of_expertises(employee_client, area_of_expertises_id) 
 
 insert into area_of_expertise(name_of_area) values ('Web programiranje');
 insert into specializations(id, specialization) values (2, 'Backend');
-insert into work_experience(type_of_employment, date_from, date_to, company_rating, employer_rating, paid,
+insert into work_experience(type_of_employment, date_from, date_to, employer_rating, employee_rating, paid,
 employer_id, employee_id, area_of_expertise_id, accepted) values 
 ('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 4, 2, true);
 
 insert into area_of_expertise(name_of_area) values ('Web programiranje');
 insert into specializations(id, specialization) values (3, 'Frontend');
-insert into work_experience(type_of_employment, date_from, date_to, company_rating, employer_rating, paid,
+insert into work_experience(type_of_employment, date_from, date_to, employer_rating, employee_rating, paid,
 employer_id, employee_id, area_of_expertise_id, accepted) values 
 ('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 4, 3, true);
 
@@ -98,7 +98,7 @@ insert into employee_area_of_expertises(employee_client, area_of_expertises_id) 
 
 insert into area_of_expertise(name_of_area) values ('AI');
 insert into specializations(id, specialization) values (5, 'Machine-Learning');
-insert into work_experience(type_of_employment, date_from, date_to, company_rating, employer_rating, paid,
+insert into work_experience(type_of_employment, date_from, date_to, employer_rating, employee_rating, paid,
 employer_id, employee_id, area_of_expertise_id, accepted) values 
 ('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 5, 5, true);
 
