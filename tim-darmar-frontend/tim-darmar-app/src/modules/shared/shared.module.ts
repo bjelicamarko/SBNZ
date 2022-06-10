@@ -12,6 +12,7 @@ import { MaterialExampleModule } from 'src/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WorkExperiencesTableComponent } from './components/work-experiences-table/work-experiences-table.component';
 import { WorkExperienceInfoComponent } from './components/work-experience-info/work-experience-info.component';
+import { WorkExperienceUtilService } from './services/work-experience-util.service';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { WorkExperienceInfoComponent } from './components/work-experience-info/w
   providers: [
     SnackBarService,
     UtilService,
+    WorkExperienceUtilService,
     { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
   ]
 })

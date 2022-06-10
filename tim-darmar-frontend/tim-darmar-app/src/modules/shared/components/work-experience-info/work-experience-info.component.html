@@ -1,1 +1,114 @@
-<p>work-experience-info works!</p>
+<div class="main-content" style="margin-top: 20px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Work of experience</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-5">
+                                  <mat-form-field class="example-full-width">
+                                      <input readonly type="text" [(ngModel)]="workExperience.typeOfEmployment" name="typeOfEmployment" 
+                                      matInput placeholder="Type of Employment">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                  <mat-form-field class="example-full-width">
+                                    <input readonly matInput placeholder="Date from" type="text"
+                                    [(ngModel)]="workExperience.dateFrom" name="dateFrom">
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                  <mat-form-field class="example-full-width">
+                                    <input readonly matInput placeholder="Date to" type="text"
+                                    [(ngModel)]="workExperience.dateTo" name="dateTo">
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                  <mat-form-field class="example-full-width">
+                                    <input readonly matInput placeholder="Paid" type="text"
+                                    [(ngModel)]="workExperience.paid" name="paid">
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input readonly matInput placeholder="Accepted" type="text"
+                                        [(ngModel)]="workExperience.accepted" name="accepted">
+                                      </mat-form-field>
+                                </div>
+                            </div> 
+                        </form>
+                        <a class="btn btn-primary btn-round"
+                        *ngIf="workExperience.accepted && !workExperience.dateTo" 
+                        (click)="finishWorkExperience()">Finish</a>
+                        <a style="margin-left: 20px;" class="btn btn-primary btn-round"
+                        *ngIf="!workExperience.paid && workExperience.accepted && role === 'ROLE_EMPLOYER'" 
+                        (click)="payWorkExperience()">Pay</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-body">
+                        <h6 class="card-category text-gray">Employee and Employer info</h6>
+                        <p class="card-description">
+                            <b>{{workExperience.employerEmail}}</b>
+                        </p>
+                        <p class="card-description">
+                            <mat-form-field class="example-full-width">
+                                <input [readonly]="!(workExperience.accepted && role === 'ROLE_EMPLOYEE')" 
+                                matInput placeholder="Employer Rating" type="number"
+                                [(ngModel)]="workExperience.employerRating" name="employerRating"
+                                min="0" max="10">
+                            </mat-form-field>
+                        </p>
+                        <p class="card-description">
+                            <b>{{workExperience.employeeEmail}}</b>
+                        </p>
+                        <p class="card-description">
+                            <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Employee Rating" type="number"
+                               [readonly]="!(workExperience.accepted && role === 'ROLE_EMPLOYER')"
+                                [(ngModel)]="workExperience.employeeRating" name="employeeRating"
+                                min="0" max="10">
+                            </mat-form-field>
+                        </p>
+                        <a *ngIf="workExperience.accepted && role === 'ROLE_EMPLOYEE'" 
+                        (click)="markEmployer()" class="btn btn-primary btn-round">Mark Employer</a>
+                        <a *ngIf="workExperience.accepted && role === 'ROLE_EMPLOYER'" 
+                        (click)="markEmployee()" class="btn btn-primary btn-round">Mark Employee</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Parameters of work experience</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label  class="bold-label">Expertise and specializations:</label>
+                                    <label>{{workExperience.areaOfExpertise.nameOfArea}}</label>
+                                    <ul>
+                                        <li *ngFor="let specialization of workExperience.areaOfExpertise.specializations">{{ specialization }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <a *ngIf="!workExperience.accepted && role === 'ROLE_EMPLOYEE'" 
+                                (click)="acceptWorkExperience()" class="btn btn-primary btn-round">Accept</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

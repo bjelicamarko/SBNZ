@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
 import com.siit.sbnz.timdarmar.models.classes.WorkExperience;
 
@@ -16,6 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class WorkExperienceDTO {
 
+	private long id;
 	private String typeOfEmployment;
 	private String dateFrom;
 	private long dateFromVal;
@@ -29,9 +31,11 @@ public class WorkExperienceDTO {
 	private AreaOfExpertise areaOfExpertise;
 	private boolean accepted;
 	
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	@JsonIgnore
+	static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	
 	public WorkExperienceDTO(WorkExperience we) {
+		this.id = we.getId();
 		this.typeOfEmployment = we.getTypeOfEmployment().toString();
 		if (we.getDateFrom() != null) {
 			LocalDateTime dateTime =
@@ -45,7 +49,7 @@ public class WorkExperienceDTO {
 			        LocalDateTime.ofInstant(Instant.ofEpochMilli(we.getDateTo()), 
 			                                TimeZone.getDefault().toZoneId()); 
 			this.dateTo = dateTime.format(formatter);
-			this.dateToVal = we.getDateFrom();
+			this.dateToVal = we.getDateTo();
 		}
 		if (we.getEmployerRating() != null) {
 			this.employerRating = we.getEmployerRating();

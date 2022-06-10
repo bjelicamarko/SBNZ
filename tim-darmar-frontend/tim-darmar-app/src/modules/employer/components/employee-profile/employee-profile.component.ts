@@ -60,7 +60,8 @@ export class EmployeeProfileComponent implements AfterViewInit {
         employeeRating: 0,
         paid: false,
         employerEmail: '',
-        accepted: false
+        accepted: false,
+        id: 0
       };
       
       this.employerService.saveWorkExperience(obj)

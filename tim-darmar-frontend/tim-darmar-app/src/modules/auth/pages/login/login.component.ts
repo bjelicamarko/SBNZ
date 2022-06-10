@@ -47,13 +47,13 @@ export class LoginComponent implements OnInit {
       const role = info.role;
 
       if (role === "ROLE_ADMIN") {
-        this.router.navigate(["darmar-app/admin/home-page"]);
+        this.router.navigate(["darmar-app/admin/expertises-and-specializations"]);
       }
       else if (role === "ROLE_EMPLOYER") {
-        this.router.navigate(["darmar-app/employer/home-page"]);
+        this.router.navigate(["darmar-app/employer/work-experiences"]);
       }
       else if (role === "ROLE_EMPLOYEE") {
-        this.router.navigate(["darmar-app/employee/home-page"]);
+        this.router.navigate(["darmar-app/employee/work-experiences"]);
       }
       else if (role === "ROLE_STUDENT") {
         this.router.navigate(["darmar-app/student/home-page"]);

@@ -14,4 +14,14 @@ public interface WorkExperienceService {
 	List<WorkExperience> getWorkExperiencesFromEmployee(String email);
 	
 	List<WorkExperience> getWorkExperiencesFromEmployer(String email);
+	
+	WorkExperience acceptWorkExperience(WorkExperienceDTO we);
+	
+	WorkExperience finishWorkExperience(WorkExperienceDTO we);
+	
+	WorkExperience payWorkExperience(WorkExperienceDTO we);
+	
+	WorkExperience markEmployee(WorkExperienceDTO we);
+	
+	WorkExperience markEmployer(WorkExperienceDTO we);
 }

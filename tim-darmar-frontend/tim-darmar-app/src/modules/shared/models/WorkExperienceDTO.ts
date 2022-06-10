@@ -1,6 +1,7 @@
 import { AreaOfExpertiseGlobally } from "./AreaOfExpertiseGlobally";
 
 export interface WorkExperienceDTO {
+    id: number;
     typeOfEmployment: string;
     dateFrom: string;
     dateFromVal: number;

@@ -44,4 +44,47 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
 	public List<WorkExperience> getWorkExperiencesFromEmployer(String email) {
 		return workExperienceRepository.getWorkExperiencesFromEmployer(email);
 	}
+
+	@Override
+	public WorkExperience acceptWorkExperience(WorkExperienceDTO we) {
+		WorkExperience w = workExperienceRepository.getWorkExperienceById(we.getId());
+		w.setAccepted(true);
+		w.setDateFrom(System.currentTimeMillis());
+		workExperienceRepository.save(w);
+		return w;
+	}
+
+	@Override
+	public WorkExperience finishWorkExperience(WorkExperienceDTO we) {
+		WorkExperience w = workExperienceRepository.getWorkExperienceById(we.getId());
+		w.setDateTo(System.currentTimeMillis());
+		workExperienceRepository.save(w);
+		return w;
+	}
+
+	@Override
+	public WorkExperience payWorkExperience(WorkExperienceDTO we) {
+		WorkExperience w = workExperienceRepository.getWorkExperienceById(we.getId());
+		w.setPaid(true);
+		workExperienceRepository.save(w);
+		return w;
+	}
+
+	@Override
+	public WorkExperience markEmployee(WorkExperienceDTO we) {
+		WorkExperience w = workExperienceRepository.getWorkExperienceById(we.getId());
+		w.setEmployeeRating(we.getEmployeeRating());
+		workExperienceRepository.save(w);
+		return w;
+	}
+
+	@Override
+	public WorkExperience markEmployer(WorkExperienceDTO we) {
+		WorkExperience w = workExperienceRepository.getWorkExperienceById(we.getId());
+		w.setEmployerRating(we.getEmployerRating());
+		workExperienceRepository.save(w);
+		return w;
+	}
+
+	
 }

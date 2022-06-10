@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeService } from 'src/modules/employee/services/employee.service';
 import { EmployerService } from 'src/modules/employer/services/employer.service';
 import { WorkExperienceDTO } from '../../models/WorkExperienceDTO';
 import { UtilService } from '../../services/util.service';
+import { WorkExperienceInfoComponent } from '../work-experience-info/work-experience-info.component';
 
 @Component({
   selector: 'app-work-experiences-table',
@@ -24,7 +26,7 @@ export class WorkExperiencesTableComponent  implements AfterViewInit {
   _liveAnnouncer: any;
   
   constructor(private employerService: EmployerService, private employeeService: EmployeeService,
-    private utilService: UtilService) { 
+    private utilService: UtilService, public dialog: MatDialog) { 
   }
   
   ngAfterViewInit(): void {
@@ -59,7 +61,30 @@ export class WorkExperiencesTableComponent  implements AfterViewInit {
   }
 
   show(row: any){
-    console.log(row);
+    const dialogRef = this.dialog.open(WorkExperienceInfoComponent, {
+      width: '1200px',
+      data: row,
+      autoFocus: false,
+      maxHeight: '90vh'
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      if (this.role === 'ROLE_EMPLOYER') {
+        this.employerService.getWorkExperiencesFromEmployer()
+        .subscribe((response) => {
+          this.workExperiences = response.body as WorkExperienceDTO[];
+          this.dataSource = new MatTableDataSource(this.workExperiences);
+          this.dataSource.sort = this.sort;
+        })
+      } else if (this.role === 'ROLE_EMPLOYEE') {
+        this.employeeService.getWorkExperiencesFromEmployee()
+        .subscribe((response) => {
+          this.workExperiences = response.body as WorkExperienceDTO[];
+          this.dataSource = new MatTableDataSource(this.workExperiences);
+          this.dataSource.sort = this.sort;
+        })
+      }
+    });
   }
 
 }

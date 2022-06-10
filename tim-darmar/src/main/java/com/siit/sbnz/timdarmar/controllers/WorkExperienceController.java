@@ -60,4 +60,39 @@ public class WorkExperienceController {
 			dtos.add(new WorkExperienceDTO(w));
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
+	
+	@PostMapping("/acceptWorkExperience")
+	@PreAuthorize("hasRole('EMPLOYEE')")
+	public ResponseEntity<WorkExperienceDTO> acceptWorkExperience(@RequestBody WorkExperienceDTO we) {
+		WorkExperience w = workExperienceService.acceptWorkExperience(we);
+		return new ResponseEntity<>(new WorkExperienceDTO(w), HttpStatus.OK);
+	}
+	
+	@PostMapping("/finishWorkExperience")
+	@PreAuthorize("hasAnyRole('EMPLOYEE', 'EMPLOYER')")
+	public ResponseEntity<WorkExperienceDTO> finishWorkExperience(@RequestBody WorkExperienceDTO we) {
+		WorkExperience w = workExperienceService.finishWorkExperience(we);
+		return new ResponseEntity<>(new WorkExperienceDTO(w), HttpStatus.OK);
+	}
+	
+	@PostMapping("/payWorkExperience")
+	@PreAuthorize("hasAnyRole('EMPLOYER')")
+	public ResponseEntity<WorkExperienceDTO> payWorkExperience(@RequestBody WorkExperienceDTO we) {
+		WorkExperience w = workExperienceService.payWorkExperience(we);
+		return new ResponseEntity<>(new WorkExperienceDTO(w), HttpStatus.OK);
+	}
+	
+	@PostMapping("/markEmployee")
+	@PreAuthorize("hasRole('EMPLOYER')")
+	public ResponseEntity<WorkExperienceDTO> markEmployee(@RequestBody WorkExperienceDTO we) {
+		WorkExperience w = workExperienceService.markEmployee(we);
+		return new ResponseEntity<>(new WorkExperienceDTO(w), HttpStatus.OK);
+	}
+	
+	@PostMapping("/markEmployer")
+	@PreAuthorize("hasRole('EMPLOYEE')")
+	public ResponseEntity<WorkExperienceDTO> markEmployer(@RequestBody WorkExperienceDTO we) {
+		WorkExperience w = workExperienceService.markEmployer(we);
+		return new ResponseEntity<>(new WorkExperienceDTO(w), HttpStatus.OK);
+	}
 }
