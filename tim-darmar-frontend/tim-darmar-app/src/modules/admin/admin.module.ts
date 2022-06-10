@@ -13,6 +13,7 @@ import { LanguagesPageComponent } from './pages/languages-page/languages-page.co
 import { AddIntershipPageComponent } from './pages/add-intership-page/add-intership-page.component';
 import { AddCollegeInfoComponent } from './pages/add-college-info/add-college-info.component';
 import { AddUniProjectsComponent } from './pages/add-uni-projects/add-uni-projects.component';
+import { EmployersViewComponent } from './pages/employers-view/employers-view.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AddUniProjectsComponent } from './pages/add-uni-projects/add-uni-projec
     AddIntershipPageComponent,
     AddCollegeInfoComponent,
     AddUniProjectsComponent,
+    EmployersViewComponent,
   ],
   imports: [
     CommonModule,

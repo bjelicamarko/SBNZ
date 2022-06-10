@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { AreaOfExpertiseGlobally } from '../models/AreaOfExpertiseGlobally';
+import { EmployerDTO } from '../models/EmployerDTO';
 import { LanguageGlobally } from '../models/LanguageGlobally';
 import { Temp } from '../models/Temp';
 
@@ -83,5 +84,29 @@ export class UtilService {
       }
     }
     return l;
+  }
+
+  findEmployerByEmail(email: string): Observable<HttpResponse<EmployerDTO>>{
+    let queryParams = {};
+  
+      queryParams = {
+        headers: this.headers,
+        observe: "response",
+      
+      };
+
+    return this.http.get<HttpResponse<EmployerDTO>>("sbnz/api/employer/findEmployerByEmail/"+email, queryParams);
+  }
+
+  unbanEmployer(email: string): Observable<HttpResponse<EmployerDTO>>{
+    let queryParams = {};
+  
+      queryParams = {
+        headers: this.headers,
+        observe: "response",
+      
+      };
+
+    return this.http.get<HttpResponse<EmployerDTO>>("sbnz/api/employer/unbanEmployer/"+email, queryParams);
   }
 }

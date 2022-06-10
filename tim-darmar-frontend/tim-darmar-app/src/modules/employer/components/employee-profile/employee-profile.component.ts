@@ -69,6 +69,8 @@ export class EmployeeProfileComponent implements AfterViewInit {
         this.snackBarService.openSnackBar(response.body as string);
         this.dialogRef.close();
       })
+    } else {
+      this.snackBarService.openSnackBar("invalid inputs");
     }
   }
 }

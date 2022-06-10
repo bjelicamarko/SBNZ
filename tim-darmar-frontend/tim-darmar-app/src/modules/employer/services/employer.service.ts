@@ -6,6 +6,7 @@ import { EmployeeDTO } from "src/modules/shared/models/EmployeeDTO";
 import { WorkExperienceDTO } from "src/modules/shared/models/WorkExperienceDTO";
 import { StudentDTO } from "src/modules/shared/models/StudentDTO";
 import { RequestForStudent } from "../models/RequestForStudent";
+import { EmployerDTO } from "src/modules/shared/models/EmployerDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -73,5 +74,16 @@ export class EmployerService {
         };
 
       return this.http.get<HttpResponse<WorkExperienceDTO[]>>("sbnz/api/work-experience/getWorkExperiencesFromEmployer", queryParams);
+    }
+
+    profileOfEmployer(): Observable<HttpResponse<EmployerDTO>> {
+      let queryParams = {};
+    
+        queryParams = {
+          headers: this.headers,
+          observe: "response",
+        };
+
+      return this.http.get<HttpResponse<EmployerDTO>>("sbnz/api/employer/profileOfEmployer", queryParams);
     }
 }

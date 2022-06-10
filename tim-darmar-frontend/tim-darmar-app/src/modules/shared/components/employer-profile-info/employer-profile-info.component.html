@@ -1,0 +1,75 @@
+<div class="main-content" style="margin-top: 20px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Profile Info</h4>
+                        <p class="card-category">Employer information</p>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-5">
+                                  <label class="bolded-label">First Name:</label>
+                                  <mat-form-field class="example-full-width">
+                                      <input readonly type="text" [(ngModel)]="employer.firstName" 
+                                      name="firstName" matInput placeholder="First Name">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="bolded-label">Last Name:</label>
+                                    <mat-form-field class="example-full-width">
+                                      <input readonly matInput placeholder="Last Name" type="text"
+                                      [(ngModel)]="employer.lastName" name="lastName">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="bolded-label">Recklessness:</label> 
+                                  <mat-form-field class="example-full-width">
+                                    <input readonly matInput placeholder="Employer Recklessness Type"
+                                     type="text"
+                                    [(ngModel)]="employer.employerRecklessnessType" name="employerRecklessnessType">
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="bolded-label">Carelessness:</label>
+                                  <mat-form-field class="example-full-width">
+                                    <input readonly matInput placeholder="Employer Carelessness Type"
+                                     type="text"
+                                    [(ngModel)]="employer.employerCarelessnessType" name="employerCarelessnessType">
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                        <a class="btn btn-primary btn-round"
+                        *ngIf="employer.penalty && role === 'ROLE_ADMIN'" 
+                        (click)="unbanEmployee()">Unban</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-body">
+                        <h6 class="card-category text-gray">Employer</h6>
+                        <h4 class="card-title">{{employer.firstName}} {{employer.lastName}}</h4>
+                        <p class="card-description">
+                            Email: <b>{{employer.email}}</b>
+                        </p>
+                        <p class="card-description">
+                            Company average rating: <b>{{employer.companyAverageRating}}</b>
+                        </p>
+                        <p class="card-description">
+                            Penalty points: <b>{{employer.penaltyPoints}}</b>
+                        </p>
+                        <p class="card-description">
+                            Penalty: <b>{{employer.penalty}}</b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

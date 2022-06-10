@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AreaOfExpertiseGlobally } from 'src/modules/shared/models/AreaOfExpertiseGlobally';
+import { EmployerDTO } from 'src/modules/shared/models/EmployerDTO';
 import { LanguageGlobally } from 'src/modules/shared/models/LanguageGlobally';
 
 import { RegistrationDTO } from "../models/RegistrationDTO";
@@ -148,5 +149,17 @@ export class AdminService {
     };
 
     return this.http.post<HttpResponse<LanguageGlobally[]>>("sbnz/api/languages/deleteLanguage", inputText, queryParams);
+  }
+
+  findAllEmployers(): Observable<HttpResponse<EmployerDTO[]>> {
+    let queryParams = {};
+
+    queryParams = {
+      headers: this.headers,
+      observe: "response",
+
+    };
+
+    return this.http.get<HttpResponse<EmployerDTO[]>>("sbnz/api/employer/findAllEmployers", queryParams);
   }
 }

@@ -5,6 +5,7 @@ import { RequestForEmployeePageComponent } from "./pages/request-for-employee-pa
 import { WorkExperiencesPageComponent } from "./pages/work-experiences-page/work-experiences-page.component";
 import { RequestForStudentPageComponent } from "./pages/request-for-student-page/request-for-student-page.component";
 import { StudentRecommendationComponent } from "./pages/student-recommendation/student-recommendation.component";
+import { EmployerPageComponent } from "./pages/employer-page/employer-page.component";
 
 export const EmployerRoutes: Routes = [
     {
@@ -39,6 +40,13 @@ export const EmployerRoutes: Routes = [
       path: "student-recommendation",
       pathMatch: "full",
       component: StudentRecommendationComponent,
+      canActivate: [RoleGuard],
+      data: { expectedRoles: "ROLE_EMPLOYER" },
+    },
+    {
+      path: "profile",
+      pathMatch: "full",
+      component: EmployerPageComponent,
       canActivate: [RoleGuard],
       data: { expectedRoles: "ROLE_EMPLOYER" },
     },

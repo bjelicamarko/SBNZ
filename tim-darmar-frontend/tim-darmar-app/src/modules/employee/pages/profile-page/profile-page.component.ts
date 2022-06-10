@@ -33,13 +33,14 @@ export class ProfilePageComponent implements AfterViewInit {
   expertisesEmployee: AreaOfExpertiseGlobally[] = [];
 
   constructor(private employeeService: EmployeeService, private snackBarService: SnackBarService,
-    private utilService: UtilService, public dialog: MatDialog) { }
+    public dialog: MatDialog) { }
   
   ngAfterViewInit(): void {
     this.employeeService.profileOfEmployee()
     .subscribe((response) => {
       this.employee = response.body as EmployeeDTO;
-      console.log(this.employee);
+      this.languagesEmployee = this.employee.languages;
+      this.expertisesEmployee = this.employee.areaOfExpertises;
     })
 
   }
@@ -57,11 +58,16 @@ export class ProfilePageComponent implements AfterViewInit {
   }
 
   updateEmployee() {
-    this.employee.languages = this.languagesEmployee;
-    this.employee.areaOfExpertises = this.expertisesEmployee;
-    this.employeeService.updateEmployee(this.employee)
-    .subscribe((response) => {
-      this.employee = response.body as EmployeeDTO;
-    })
+    if (this.languagesEmployee.length > 0 && this.expertisesEmployee.length > 0 && 
+      this.employee.preferredSalary > 0) {
+      this.employee.languages = this.languagesEmployee;
+      this.employee.areaOfExpertises = this.expertisesEmployee;
+      this.employeeService.updateEmployee(this.employee)
+      .subscribe((response) => {
+        this.employee = response.body as EmployeeDTO;
+      })
+    } else {
+      this.snackBarService.openSnackBar("invalid inputs");
+    } 
   }
 }

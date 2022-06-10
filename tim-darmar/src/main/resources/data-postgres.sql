@@ -50,7 +50,6 @@ employer_recklessness_type, employer_carelessness_type) values
 (3, 10.0, 0, false, 'NOT_RECKLESS', 'NOT_CARELESS');
 insert into client_authority (client_id, authority_id) values (3, 2); -- employer
 
-
 ---- ***************** ZAPOSLENI ******************
 -- ZAPOSLEN #1
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
@@ -152,15 +151,15 @@ insert into intership_intership_projects(intership_id, intership_projects_id) va
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
 values ('luka@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 
 'Luka', 'Doncic', 'ROLE_STUDENT', false, false);
-insert into client_authority (client_id, authority_id) values (5, 4); -- student
+insert into client_authority (client_id, authority_id) values (6, 4); -- student
 
-insert into student(client, financial_status, status_of_student, points, monthly_income_by_family_member) values (5, 'MIDDLE_CLASS', null, 0.0, 3000.0);
-insert into student_interships(student_client, interships_id) values (5, 1);
-insert into student_passed_subjects(student_client, passed_subjects_id) values (5, 1);
-insert into student_uni_projects(student_client, uni_projects_id) values (5, 1);
-insert into student_uni_projects(student_client, uni_projects_id) values (5, 2);
-insert into student_uni_projects(student_client, uni_projects_id) values (5, 3);
-insert into student_uni_projects(student_client, uni_projects_id) values (5, 4);
+insert into student(client, financial_status, status_of_student, points, monthly_income_by_family_member) values (6, 'MIDDLE_CLASS', null, 0.0, 3000.0);
+insert into student_interships(student_client, interships_id) values (6, 1);
+insert into student_passed_subjects(student_client, passed_subjects_id) values (6, 1);
+insert into student_uni_projects(student_client, uni_projects_id) values (6, 1);
+insert into student_uni_projects(student_client, uni_projects_id) values (6, 2);
+insert into student_uni_projects(student_client, uni_projects_id) values (6, 3);
+insert into student_uni_projects(student_client, uni_projects_id) values (6, 4);
 
 --
 ---- projekti vezani za Luku
@@ -180,3 +179,11 @@ insert into student_uni_projects(student_client, uni_projects_id) values (5, 4);
 --insert into mark_mentor(mark, mentor) values ('6.4', 'Dusko');
 --insert into mark_mentor(mark, mentor) values ('4.3', 'Dunja');
 ---- kraj praksi
+
+insert into client(email, password, first_name, last_name, role, blocked, deleted)
+values ('platon@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
+'Platon', 'Platon', 'ROLE_EMPLOYER', false, false);
+insert into employer(client, company_average_rating, penalty_points, penalty, 
+employer_recklessness_type, employer_carelessness_type) values 
+(7, 10.0, 0, true, 'NOT_RECKLESS', 'NOT_CARELESS');
+insert into client_authority (client_id, authority_id) values (7, 2); -- employer

@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WorkExperiencesTableComponent } from './components/work-experiences-table/work-experiences-table.component';
 import { WorkExperienceInfoComponent } from './components/work-experience-info/work-experience-info.component';
 import { WorkExperienceUtilService } from './services/work-experience-util.service';
+import { EmployerProfileInfoComponent } from './components/employer-profile-info/employer-profile-info.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { WorkExperienceUtilService } from './services/work-experience-util.servi
     LanguagesComponent,
        AreasComponent,
        WorkExperiencesTableComponent,
-       WorkExperienceInfoComponent
+       WorkExperienceInfoComponent,
+       EmployerProfileInfoComponent
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,11 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { EmployerDTO } from '../../models/EmployerDTO';
 import { WorkExperienceDTO } from '../../models/WorkExperienceDTO';
+import { SnackBarService } from '../../services/snack-bar.service';
 import { UtilService } from '../../services/util.service';
 import { WorkExperienceUtilService } from '../../services/work-experience-util.service';
+import { EmployerProfileInfoComponent } from '../employer-profile-info/employer-profile-info.component';
 
 @Component({
   selector: 'app-work-experience-info',
@@ -17,7 +20,8 @@ export class WorkExperienceInfoComponent implements AfterViewInit {
   constructor( public dialogRef: MatDialogRef<WorkExperienceInfoComponent>,
     @Inject(MAT_DIALOG_DATA) public workExperience: WorkExperienceDTO,
     private utilService: UtilService, private workExperienceUtilService:
-    WorkExperienceUtilService) { }
+    WorkExperienceUtilService, private snackBarService: SnackBarService, 
+    public dialog: MatDialog) { }
 
 
   ngAfterViewInit(): void {
@@ -46,16 +50,38 @@ export class WorkExperienceInfoComponent implements AfterViewInit {
   }
 
   markEmployee(): void {
-    this.workExperienceUtilService.markEmployee(this.workExperience)
-    .subscribe((response) => {
-      this.workExperience = response.body as WorkExperienceDTO;
-    })
+    if (this.workExperience.employeeRating >= 0 && this.workExperience.employeeRating <= 10){
+      this.workExperienceUtilService.markEmployee(this.workExperience)
+      .subscribe((response) => {
+        this.workExperience = response.body as WorkExperienceDTO;
+      })
+    } else {
+      this.snackBarService.openSnackBar("Invalid inputs");
+    }
   }
 
   markEmployer(): void {
-    this.workExperienceUtilService.markEmployer(this.workExperience)
+    if (this.workExperience.employerRating >= 0 && this.workExperience.employerRating <= 10) {
+      this.workExperienceUtilService.markEmployer(this.workExperience)
+      .subscribe((response) => {
+        this.workExperience = response.body as WorkExperienceDTO;
+      })
+    } else {
+      this.snackBarService.openSnackBar("Invalid inputs");
+    }
+  }
+
+  infoEmployer(): void {
+    this.utilService.findEmployerByEmail(this.workExperience.employerEmail)
     .subscribe((response) => {
-      this.workExperience = response.body as WorkExperienceDTO;
+      let objs = response.body as EmployerDTO;
+      this.dialog.open(EmployerProfileInfoComponent, {
+        width: '1000px',
+        data: objs,
+        autoFocus: false,
+        maxHeight: '90vh'
+      });
+  
     })
   }
 }

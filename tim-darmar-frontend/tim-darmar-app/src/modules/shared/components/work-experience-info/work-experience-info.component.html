@@ -84,6 +84,8 @@
                         (click)="markEmployer()" class="btn btn-primary btn-round">Mark Employer</a>
                         <a *ngIf="workExperience.accepted && role === 'ROLE_EMPLOYER'" 
                         (click)="markEmployee()" class="btn btn-primary btn-round">Mark Employee</a>
+                        <a style="margin-left: 10px;" *ngIf="role === 'ROLE_EMPLOYEE'" 
+                        (click)="infoEmployer()" class="btn btn-primary btn-round">Info Employer</a>
                     </div>
                 </div>
             </div>

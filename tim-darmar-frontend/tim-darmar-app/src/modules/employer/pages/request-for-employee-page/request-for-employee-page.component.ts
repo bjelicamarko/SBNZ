@@ -67,7 +67,7 @@ export class RequestForEmployeePageComponent implements AfterViewInit {
   submit() {
     let languages: string[] =  this.utilService.returnCheckedLangages(this.languages);
     let expertises: AreaOfExpertiseGlobally[] = this.utilService.returnCheckedAreas(this.tempExpertises);
-    if (this.requiredWorkingHours && this.requiredSalary && this.typeOfEmployment
+    if (this.requiredWorkingHours && this.requiredSalary > 0 && this.typeOfEmployment
       && languages.length > 0 && expertises.length > 0) {
         let obj: RequestForEmployee = {
           requiredLanguages: languages,
@@ -86,6 +86,8 @@ export class RequestForEmployeePageComponent implements AfterViewInit {
             this.snackBarService.openSnackBar("Empty list!");
           }
         })
-    } 
+    } else {
+      this.snackBarService.openSnackBar("Invalid inputs");
+    }
   }
 }
