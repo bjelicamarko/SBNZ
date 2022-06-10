@@ -1,5 +1,6 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -38,7 +39,7 @@ public class WorkExperience {
 	@NonNull
 	private TypeOfEmployment typeOfEmployment;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@NonNull
 	private Long dateFrom;
 	
@@ -48,32 +49,34 @@ public class WorkExperience {
 	
 	@Column(nullable = true)
 	@Min(0) @Max(10)
-	@NonNull
-	private Double companyRating;
+	@NonNull // znaci ovo daje radnik poslodavcu
+	private Double employerRating;
 	
 	@Column(nullable = true)
 	@Min(0) @Max(10)
-	@NonNull
-	private Double employerRating;
+	@NonNull // ovo poslodavac radniku
+	private Double employeeRating;
 	
 	@Column(nullable = true)
 	@NonNull
 	private Boolean paid;
 	
-	@ManyToOne
+	@ManyToOne()
     @JoinColumn(name="employer_id", nullable=false)
 	@NonNull
     private Employer employer;
 	
-	@ManyToOne
+	@ManyToOne()
     @JoinColumn(name="employee_id", nullable=false)
 	@NonNull
     private Employee employee;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="area_of_expertise_id", nullable=false)
 	@NonNull
     private AreaOfExpertise areaOfExpertise;
 	
-	
+	@Column(nullable = false)
+	@NonNull
+	private Boolean accepted;
 }

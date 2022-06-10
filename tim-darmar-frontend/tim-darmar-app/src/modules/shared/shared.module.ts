@@ -8,26 +8,38 @@ import { Interceptor } from './interceptors/interceptor.interceptor';
 import { LanguagesComponent } from './components/languages/languages.component';
 import { AreasComponent } from './components/areas/areas.component';
 
-import { FormsModule } from '@angular/forms';
+import { MaterialExampleModule } from 'src/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { WorkExperiencesTableComponent } from './components/work-experiences-table/work-experiences-table.component';
+import { WorkExperienceInfoComponent } from './components/work-experience-info/work-experience-info.component';
+import { WorkExperienceUtilService } from './services/work-experience-util.service';
+
 
 @NgModule({
   declarations: [
   
     LanguagesComponent,
-       AreasComponent
+       AreasComponent,
+       WorkExperiencesTableComponent,
+       WorkExperienceInfoComponent
   ],
   imports: [
     CommonModule,
+    MaterialExampleModule,
     MatSnackBarModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     AreasComponent,
-    LanguagesComponent
+    LanguagesComponent,
+    WorkExperiencesTableComponent,
+    WorkExperienceInfoComponent
   ],
   providers: [
     SnackBarService,
     UtilService,
+    WorkExperienceUtilService,
     { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
   ]
 })

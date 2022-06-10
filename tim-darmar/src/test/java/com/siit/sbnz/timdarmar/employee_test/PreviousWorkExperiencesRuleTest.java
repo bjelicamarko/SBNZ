@@ -77,7 +77,7 @@ public class PreviousWorkExperiencesRuleTest {
         we1.setEmployee(ee1);
         ee1.getWorkExperiences().add(we1);
         we1.setDateFrom(1653256800L);
-        we1.setEmployerRating(8.0);
+        we1.setEmployeeRating(8.0);
         experiences.add(we1);
            
         WorkExperience we2 = new WorkExperience();
@@ -87,7 +87,7 @@ public class PreviousWorkExperiencesRuleTest {
         we2.setEmployee(ee2);
         ee2.getWorkExperiences().add(we2);
         we2.setDateFrom(1653256800L);
-        we2.setEmployerRating(9.0);
+        we2.setEmployeeRating(9.0);
         experiences.add(we2);
         
         WorkExperience we3 = new WorkExperience();
@@ -97,7 +97,7 @@ public class PreviousWorkExperiencesRuleTest {
         we3.setEmployee(ee3);
         ee3.getWorkExperiences().add(we3);
         we3.setDateFrom(1653256800L);
-        we3.setEmployerRating(7.0);
+        we3.setEmployeeRating(7.0);
         experiences.add(we3);
         
         WorkExperience we4 = new WorkExperience();
@@ -107,7 +107,7 @@ public class PreviousWorkExperiencesRuleTest {
         we4.setEmployee(ee4);
         ee4.getWorkExperiences().add(we4);
         we4.setDateFrom(1653256800L);
-        we4.setEmployerRating(6.0);
+        we4.setEmployeeRating(6.0);
         experiences.add(we4);
         
         WorkExperience we5 = new WorkExperience();
@@ -117,7 +117,7 @@ public class PreviousWorkExperiencesRuleTest {
         we5.setEmployee(ee1);
         ee1.getWorkExperiences().add(we5);
         we5.setDateFrom(1653256800L);
-        we5.setEmployerRating(7.0);
+        we5.setEmployeeRating(7.0);
         experiences.add(we5);
         
         WorkExperience we6 = new WorkExperience();
@@ -127,7 +127,7 @@ public class PreviousWorkExperiencesRuleTest {
         we6.setEmployee(ee2);
         ee2.getWorkExperiences().add(we6);
         we6.setDateFrom(1653256800L);
-        we6.setEmployerRating(8.5);
+        we6.setEmployeeRating(8.5);
         experiences.add(we6);
         
         
@@ -148,7 +148,7 @@ public class PreviousWorkExperiencesRuleTest {
 		we1.setEmployee(test);
 		test.getWorkExperiences().add(we1);
 		we1.setDateFrom(1653256800L);
-        we1.setEmployerRating(8.0);
+        we1.setEmployeeRating(8.0);
         
 		WorkExperience we2 = new WorkExperience();
 		we2.setId(8L);
@@ -157,7 +157,7 @@ public class PreviousWorkExperiencesRuleTest {
 		we2.setEmployee(test);
 		test.getWorkExperiences().add(we2);
 		we2.setDateFrom(1653256800L);
-        we2.setEmployerRating(9.0);
+        we2.setEmployeeRating(9.0);
         
         KieBase kieBase = kieContainer.getKieBase("classic");
 		KieSession kieSession = kieBase.newKieSession();

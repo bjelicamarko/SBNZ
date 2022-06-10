@@ -47,7 +47,7 @@ end
 rule "Calculating avg rating from marked working experiences from employer"
 	when
 		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience,
-		$we.dateTo != null, $we.companyRating != null, $we.employerRating != null, 
+		$we.dateTo != null, $we.employeeRating != null, $we.employerRating != null, 
 		$we.paid == true)
 		$counter: CounterForAvgMark()
 		from accumulate
@@ -58,7 +58,7 @@ rule "Calculating avg rating from marked working experiences from employer"
 				$ew2.getEmployer().getId() == $e.getId(),
 				$ew2.getWorkExperience().getId() != $we.getId(),
 				$ew2.getWorkExperience().getDateTo() != null,
-				$ew2.getWorkExperience().getCompanyRating() != null,
+				$ew2.getWorkExperience().getEmployeeRating() != null,
 				$ew2.getWorkExperience().getEmployerRating() != null,
 				$ew2.getWorkExperience().getPaid() == true,
 				this meets[24h] $ew
@@ -96,7 +96,7 @@ end
 rule "Catching umarked working experiences from employer"
 	when
 		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience, 
-		$we.dateTo != null, $we.companyRating == null, $we.paid == true)
+		$we.dateTo != null, $we.employeeRating == null, $we.paid == true)
 		$value: Number(intValue >= 2) 
 		from accumulate 
 		(
@@ -106,7 +106,7 @@ rule "Catching umarked working experiences from employer"
 				$ew2.getEmployer().getId() == $e.getId(),
 				$ew2.getWorkExperience().getId() != $we.getId(),
 				$ew2.getWorkExperience().getDateTo() != null,
-				$ew2.getWorkExperience().getCompanyRating() == null,
+				$ew2.getWorkExperience().getEmployeeRating() == null,
 				$ew2.getWorkExperience().getPaid() == true,
 				this meets[24h] $ew
 			),

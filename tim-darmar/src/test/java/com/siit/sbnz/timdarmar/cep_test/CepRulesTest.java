@@ -267,16 +267,16 @@ public class CepRulesTest {
 		we9.setId(9L);
 		we9.setPaid(true);
 		we9.setDateTo(1654812000000L); // 10.6.2022
-		we9.setCompanyRating(5.0);
-		we9.setEmployerRating(6.0);
+		we9.setEmployerRating(5.0);
+		we9.setEmployeeRating(6.0);
 		EmployerWorkExperienceEvent ew9 = new  EmployerWorkExperienceEvent(e, we9);
 		
 		WorkExperience we10 = new WorkExperience();
 		we10.setId(10L);
 		we10.setPaid(true);
 		we10.setDateTo(1654812000000L); // 10.6.2022
-		we10.setCompanyRating(5.0);
 		we10.setEmployerRating(5.0);
+		we10.setEmployeeRating(5.0);
 		EmployerWorkExperienceEvent ew10 = new  EmployerWorkExperienceEvent(e, we10);
 		
 		kieSession.insert(e);

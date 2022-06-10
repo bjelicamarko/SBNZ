@@ -19,6 +19,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.siit.sbnz.timdarmar.models.dtos.RequestForEmployeeDTO;
 import com.siit.sbnz.timdarmar.models.enums.TypeOfEmployment;
 
@@ -42,6 +45,7 @@ public class RequestForEmployee {
 	private Long id;
 	
 	@ElementCollection
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@CollectionTable(name = "required_languages", joinColumns = @JoinColumn(name = "id")) // 2
     @Column(name = "language") // 3
 	private List<String> requiredLanguages;

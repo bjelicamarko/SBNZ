@@ -18,4 +18,10 @@ public class RequestForEmployeeServiceImpl implements RequestForEmployeeService 
 		return requestForEmployeeRepository.save(requestForEmployee);
 	}
 
+	@Override
+	public RequestForEmployee getRequest(String email) {
+		return requestForEmployeeRepository
+				.getRequests(email).get(0);
+	}
+
 }

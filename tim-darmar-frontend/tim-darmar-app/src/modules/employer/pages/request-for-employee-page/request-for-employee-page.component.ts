@@ -23,9 +23,9 @@ export class RequestForEmployeePageComponent implements AfterViewInit {
   
   languages: LanguageGlobally[] = [];
 
-  typeOfEmployment: string = '';
-  requiredWorkingHours: string = '';
-  requiredSalary: number = 0;
+  typeOfEmployment: string = 'FULL_TIME';
+  requiredWorkingHours: string = '09:00-19:00';
+  requiredSalary: number = 10000;
 
   public employees: EmployeeDTO[] = [];
 
@@ -86,7 +86,6 @@ export class RequestForEmployeePageComponent implements AfterViewInit {
             this.snackBarService.openSnackBar("Empty list!");
           }
         })
-    }
-    
+    } 
   }
 }
