@@ -11,6 +11,8 @@ import { RequestForEmployeePageComponent } from './pages/request-for-employee-pa
 import { EmployeeRecommendationComponent } from './pages/employee-recommendation/employee-recommendation.component';
 import { EmployeeProfileComponent } from './components/employee-profile/employee-profile.component';
 import { WorkExperiencesPageComponent } from './pages/work-experiences-page/work-experiences-page.component';
+import { RequestForStudentPageComponent } from './pages/request-for-student-page/request-for-student-page.component';
+import { StudentRecommendationComponent } from './pages/student-recommendation/student-recommendation.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { WorkExperiencesPageComponent } from './pages/work-experiences-page/work
     RequestForEmployeePageComponent,
     EmployeeRecommendationComponent,
     EmployeeProfileComponent,
-    WorkExperiencesPageComponent
+    WorkExperiencesPageComponent,
+    RequestForStudentPageComponent,
+    StudentRecommendationComponent
   ],
   imports: [
     CommonModule,

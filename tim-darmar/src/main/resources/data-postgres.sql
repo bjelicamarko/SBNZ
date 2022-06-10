@@ -102,12 +102,66 @@ insert into work_experience(type_of_employment, date_from, date_to, employer_rat
 employer_id, employee_id, area_of_expertise_id, accepted) values 
 ('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 5, 5, true);
 
+-- ***************** STVARI ZA STUDENTE ******************
+-- TODO videti dal se ovo moze spojiti sa onim gore
+insert into area_of_expertise_intership(name_of_area) values ('Web programiranje');
+insert into specializations_intership(id, specialization) values (1, 'Backend');
+insert into specializations_intership(id, specialization) values (1, 'Frontend');
+insert into specializations_intership(id, specialization) values (1, 'Devops');
+insert into specializations_intership(id, specialization) values (1, 'NodeJS');
+
+insert into area_of_expertise_intership(name_of_area) values ('AI');
+insert into specializations_intership(id, specialization) values (2, 'Machine-Learning');
+insert into specializations_intership(id, specialization) values (2, 'Soft-compjuting');
+
+insert into area_of_expertise_intership(name_of_area) values ('Information engineering');
+insert into specializations_intership(id, specialization) values (3, 'SQL');
+insert into specializations_intership(id, specialization) values (3, 'Mongo');
+insert into specializations_intership(id, specialization) values (3, 'MySQL');
+
+insert into area_of_expertise_intership(name_of_area) values ('Databases');
+insert into specializations_intership(id, specialization) values (4, 'SQL');
+insert into specializations_intership(id, specialization) values (4, 'MySQL');
+
+-- predmeti na faxy
+insert into uni_subject (name) values ('OOP');
+insert into uni_subject_subject_area_of_expertises (uni_subject_id, subject_area_of_expertises_id) values (1, 4);
+
+-- ocene mentora
+insert into mark_mentor (mark, mentor) values (7.0, 'Djura');
+insert into mark_mentor (mark, mentor) values (9.0, 'Pera');
+
+-- fax projekti
+insert into project(mark, project_type, difficulty) values (9.0, 'TEAM', 7);
+insert into project(mark, project_type, difficulty) values (10.0, 'INDIVIDUAL', 8);
+insert into project(mark, project_type, difficulty) values (9.0, 'TEAM', 7);
+insert into project(mark, project_type, difficulty) values (8.5, 'INDIVIDUAL', 8);
+
+-- praksa projekti
+insert into project(mark, project_type, difficulty) values (10.0, 'TEAM', 7);
+insert into project(mark, project_type, difficulty) values (10.0, 'INDIVIDUAL', 8);
+
+-- prakse
+insert into intership(date_from, date_to) values (1618264800, 1618876800);
+insert into intership_mentor_marks(intership_id, mentor_marks_id) values (1, 1);
+insert into intership_mentor_marks(intership_id, mentor_marks_id) values (1, 2);
+insert into intership_intership_projects(intership_id, intership_projects_id) values (1, 5);
+insert into intership_intership_projects(intership_id, intership_projects_id) values (1, 6);
+
 -- ***************** STUDENTI ******************
---insert into client(email, password, first_name, last_name, role, blocked, deleted)
---values ('luka@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 
---'Luka', 'Doncic', 'ROLE_STUDENT', false, false);
---insert into student(client, financial_status, status_of_student, points) values (5, 'MIDDLE_CLASS', 'DILIGENT_AND_GOOD', 0.0);
---insert into client_authority (client_id, authority_id) values (5, 4); -- student
+insert into client(email, password, first_name, last_name, role, blocked, deleted)
+values ('luka@maildrop.cc', '$2a$12$z2SQcqZu3nwufrN74D4QdertkMnJBsn.Z7FMygO8iqmhxLd5fQQHa', 
+'Luka', 'Doncic', 'ROLE_STUDENT', false, false);
+insert into client_authority (client_id, authority_id) values (5, 4); -- student
+
+insert into student(client, financial_status, status_of_student, points, monthly_income_by_family_member) values (5, 'MIDDLE_CLASS', null, 0.0, 3000.0);
+insert into student_interships(student_client, interships_id) values (5, 1);
+insert into student_passed_subjects(student_client, passed_subjects_id) values (5, 1);
+insert into student_uni_projects(student_client, uni_projects_id) values (5, 1);
+insert into student_uni_projects(student_client, uni_projects_id) values (5, 2);
+insert into student_uni_projects(student_client, uni_projects_id) values (5, 3);
+insert into student_uni_projects(student_client, uni_projects_id) values (5, 4);
+
 --
 ---- projekti vezani za Luku
 --insert into project(mark, project_type, difficulty) values (10.0, 'TEAM', 5);

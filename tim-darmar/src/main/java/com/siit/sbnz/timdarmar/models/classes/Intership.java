@@ -39,9 +39,9 @@ public class Intership {
 	@NonNull
 	private Long dateTo;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<MarkMentor> mentorMarks;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Project> intershipProjects;
 }

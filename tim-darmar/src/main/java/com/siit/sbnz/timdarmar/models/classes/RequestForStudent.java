@@ -1,15 +1,21 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.siit.sbnz.timdarmar.models.dtos.RequestForStudentDTO;
 import com.siit.sbnz.timdarmar.models.enums.WorkMethods;
 
 import lombok.AllArgsConstructor;
@@ -40,8 +46,12 @@ public class RequestForStudent {
 	@NonNull
     private Employer employer;
 	
-	@ManyToOne
-    @JoinColumn(name="area_of_expertise_id", nullable=false)
-	@NonNull
-    private AreaOfExpertiseIntership areaOfExpertiseIntership;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<AreaOfExpertiseIntership> areaOfExpertiseIntership; //TODO proveriti ovu izmenu u drools i testovima
+	
+	public RequestForStudent(RequestForStudentDTO req, Employer emp) {
+		this.workMethods = req.getWorkMethods();
+		this.areaOfExpertiseIntership = req.getAreaOfExpertises();
+		this.employer = emp;
+	}
 }

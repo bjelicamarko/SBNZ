@@ -110,7 +110,10 @@ public class PlaceExpertiseProjectRuleTest {
         aR.setNameOfArea("oop");
         aR.setSpecializations(Stream.of("klase", "podaci").collect(Collectors.toList()));
         
-        requestForStudent.setAreaOfExpertiseIntership(aR);
+        HashSet<AreaOfExpertiseIntership> setic = new HashSet();
+        setic.add(aR);
+        
+        requestForStudent.setAreaOfExpertiseIntership(setic);
 	}
 	
 	@Test

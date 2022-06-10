@@ -117,7 +117,10 @@ public class StudentForwardChainingTest {
         aR.setNameOfArea("oop");
         aR.setSpecializations(Stream.of("klase", "podaci").collect(Collectors.toList()));
         
-        requestForStudent.setAreaOfExpertiseIntership(aR);
+        HashSet<AreaOfExpertiseIntership> setic = new HashSet();
+        setic.add(aR);
+        
+        requestForStudent.setAreaOfExpertiseIntership(setic);
         
         Intership i1 = new Intership();
         Instant dateToMili = Instant.now();
