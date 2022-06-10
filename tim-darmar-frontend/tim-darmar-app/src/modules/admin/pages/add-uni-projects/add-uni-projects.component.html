@@ -1,0 +1,60 @@
+<div class="row justify-content-center align-items-center loginForm">
+    <form class="col-md-12 box">
+        <fieldset>
+            <p class="login-label">Add college projects</p>
+
+            <div class="form-group row">
+                <label class="bold-label">Select student</label>
+                <div id="role-div" class="col-md">
+                    <mat-form-field>
+                        <mat-label>Students</mat-label>
+                        <mat-select [(ngModel)]="selectedID" [ngModelOptions]="{standalone: true}">
+                            <mat-option *ngFor="let stud of students" [value]="stud.id">{{stud.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="bold-label">Add finished college projects</label>
+                <div class="row d-flex justify-content-center">
+                    <mat-form-field class="example-form-field m-2" appearance="fill" style="width: 40%;">
+                        <mat-label>Project type</mat-label>
+                        <mat-select [(ngModel)]="projType" [ngModelOptions]="{standalone: true}">
+                            <mat-option value="INDIVIDUAL" selected>INDIVIDUAL</mat-option>
+                            <mat-option value="TEAM" selected>TEAM</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-form-field  m-2" appearance="fill" style="width: 40%;">
+                        <mat-label>Mark</mat-label>
+                        <input matInput type="number" [(ngModel)]="projMark" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+
+                    <mat-form-field class="example-form-field  m-2" appearance="fill" style="width: 40%;">
+                        <mat-label>Difficulty</mat-label>
+                        <input matInput type="number" [(ngModel)]="projDifficulty"
+                            [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+
+                    <div class="example-form-field  m-2" appearance="fill" style="width: 10%;">
+                        <button mat-raised-button (click)="addProject()">Add</button>
+                    </div>
+                </div>
+
+                <mat-label *ngIf="selectedProjs.length > 0"><b>Projects</b></mat-label>
+                <div class="row d-flex justify-content-center" *ngFor="let proj of selectedProjs">
+                    <mat-label>difficulty: {{proj.difficulty}}, mark: {{proj.mark}}, type:
+                        {{proj.projectType}}
+                    </mat-label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <button (click)="submitProjects()" class="btn btn-primary">
+                    Add subject
+                </button>
+            </div>
+        </fieldset>
+    </form>
+</div>

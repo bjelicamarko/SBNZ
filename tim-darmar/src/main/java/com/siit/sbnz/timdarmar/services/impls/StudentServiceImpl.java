@@ -2,6 +2,7 @@ package com.siit.sbnz.timdarmar.services.impls;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.kie.api.KieBase;
@@ -13,10 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
 import com.siit.sbnz.timdarmar.models.classes.Employee;
+import com.siit.sbnz.timdarmar.models.classes.Intership;
 import com.siit.sbnz.timdarmar.models.classes.RequestForEmployee;
 import com.siit.sbnz.timdarmar.models.classes.RequestForStudent;
 import com.siit.sbnz.timdarmar.models.classes.Student;
+import com.siit.sbnz.timdarmar.models.dtos.IntershipCreateDTO;
+import com.siit.sbnz.timdarmar.models.dtos.ProjectCreateDTO;
+import com.siit.sbnz.timdarmar.models.dtos.UniSubjectCreateDTO;
 import com.siit.sbnz.timdarmar.repositories.EmployeeRepository;
+import com.siit.sbnz.timdarmar.repositories.IntershipRepository;
 import com.siit.sbnz.timdarmar.repositories.StudentRepository;
 import com.siit.sbnz.timdarmar.services.StudentService;
 
@@ -31,6 +37,9 @@ public class StudentServiceImpl implements StudentService{
 	@Autowired
 	private StudentRepository studentRepository;
 
+	@Autowired
+	private IntershipRepository intershipRepository;
+	
 	@Autowired
 	private KieContainer kieContainer;
 	
@@ -61,6 +70,45 @@ public class StudentServiceImpl implements StudentService{
 		Collections.sort(students, (s1, s2) -> Double.valueOf(s1.getPoints()).compareTo(Double.valueOf(s2.getPoints())));
 		
 		return students;
+	}
+
+	@Override
+	public boolean addIntershipToStudent(IntershipCreateDTO createInterDTO) {
+		Optional<Student> stud = studentRepository.findById(createInterDTO.getStudentID());
+		if (!stud.isPresent())
+			return false;
+		
+		Student student = stud.get();
+		student.getInterships().add(createInterDTO.getIntership());
+		
+		studentRepository.save(student);
+		return true;
+	}
+
+	@Override
+	public boolean addUniSubjectToStudent(UniSubjectCreateDTO createSubDTO) {
+		Optional<Student> stud = studentRepository.findById(createSubDTO.getStudentID());
+		if (!stud.isPresent())
+			return false;
+		
+		Student student = stud.get();
+		student.getPassedSubjects().add(createSubDTO.getUniSubject());
+		
+		studentRepository.save(student);
+		return true;
+	}
+
+	@Override
+	public boolean addProjectsToStudent(ProjectCreateDTO request) {
+		Optional<Student> stud = studentRepository.findById(request.getStudentID());
+		if (!stud.isPresent())
+			return false;
+		
+		Student student = stud.get();
+		student.getUniProjects().addAll(request.getProjects());
+		
+		studentRepository.save(student);
+		return true;
 	}
 
 }

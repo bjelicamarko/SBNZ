@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +21,14 @@ import com.siit.sbnz.timdarmar.models.classes.RequestForEmployee;
 import com.siit.sbnz.timdarmar.models.classes.RequestForStudent;
 import com.siit.sbnz.timdarmar.models.classes.Student;
 import com.siit.sbnz.timdarmar.models.dtos.EmployeeDTO;
+import com.siit.sbnz.timdarmar.models.dtos.IntershipCreateDTO;
+import com.siit.sbnz.timdarmar.models.dtos.ProjectCreateDTO;
 import com.siit.sbnz.timdarmar.models.dtos.RequestForEmployeeDTO;
 import com.siit.sbnz.timdarmar.models.dtos.RequestForStudentDTO;
+import com.siit.sbnz.timdarmar.models.dtos.StudentBasicInfoDTO;
 import com.siit.sbnz.timdarmar.models.dtos.StudentDTO;
+import com.siit.sbnz.timdarmar.models.dtos.UniSubjectCreateDTO;
+import com.siit.sbnz.timdarmar.repositories.StudentRepository;
 import com.siit.sbnz.timdarmar.services.StudentService;
 
 @RestController
@@ -31,6 +37,9 @@ public class StudentController {
 
 	@Autowired
 	private StudentService studentService;
+	
+	@Autowired
+	private StudentRepository studentRepository;
 	
 	@PostMapping(value = "/getStudentsFromRecommendation")
 	@PreAuthorize("hasRole('EMPLOYER')")
@@ -45,5 +54,46 @@ public class StudentController {
 		for (Student s : students)
 			dtos.add(new StudentDTO(s));
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/createIntershipForStudent")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<String> createIntershipForStudent(@RequestBody IntershipCreateDTO request ) {
+		boolean createBol = studentService.addIntershipToStudent(request);
+		if (createBol)
+			return new ResponseEntity<>("Created intership!", HttpStatus.CREATED);
+		else
+			return new ResponseEntity<>("Couldn't create intership!", HttpStatus.BAD_REQUEST);
+	}
+	
+	@PostMapping(value = "/createUniSubjectForStudent")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<String> createUniSubjectForStudent(@RequestBody UniSubjectCreateDTO request ) {
+		boolean createBol = studentService.addUniSubjectToStudent(request);
+		if (createBol)
+			return new ResponseEntity<>("Created college subject!", HttpStatus.CREATED);
+		else
+			return new ResponseEntity<>("Couldn't create college subject!", HttpStatus.BAD_REQUEST);
+	}
+	
+	@PostMapping(value = "/createProjectsForStudent")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<String> createProjectsForStudent(@RequestBody ProjectCreateDTO request ) {
+		boolean createBol = studentService.addProjectsToStudent(request);
+		if (createBol)
+			return new ResponseEntity<>("Created college projects!", HttpStatus.CREATED);
+		else
+			return new ResponseEntity<>("Couldn't create college projects!", HttpStatus.BAD_REQUEST);
+	}
+	
+	@GetMapping(value = "/getStudentsNamesWithIDs")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<StudentBasicInfoDTO>> getStudentsNamesWithIDs() {
+		List<Student> studs = studentRepository.findAllStudents();
+		List<StudentBasicInfoDTO> studsDTO = new ArrayList<>();
+		for (Student st : studs) {
+			studsDTO.add(new StudentBasicInfoDTO(st));
+		}
+		return new ResponseEntity<>(studsDTO, HttpStatus.OK);
 	}
 }

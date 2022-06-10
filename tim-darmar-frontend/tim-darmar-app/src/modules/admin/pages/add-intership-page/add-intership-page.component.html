@@ -1,0 +1,105 @@
+<div class="row justify-content-center align-items-center loginForm">
+    <form class="col-md-12 box">
+        <fieldset>
+            <p class="login-label">Add intership</p>
+
+            <div class="form-group row">
+                <label class="bold-label">Select student</label>
+                <div id="role-div" class="col-md">
+                    <mat-form-field>
+                        <mat-label>Students</mat-label>
+                        <mat-select [(ngModel)]="selectedID" [ngModelOptions]="{standalone: true}">
+                            <mat-option *ngFor="let stud of students" [value]="stud.id">{{stud.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="bold-label">Select intership date</label>
+                <div id="role-div" class="col-md">
+                    <mat-form-field>
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                            <input matStartDate formControlName="start" placeholder="Start date">
+                            <input matEndDate formControlName="end" placeholder="End date">
+                        </mat-date-range-input>
+                        <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+
+                        <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date
+                        </mat-error>
+                        <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="bold-label">Add mentor mark</label>
+                <div class="row d-flex justify-content-center">
+                    <mat-form-field class="example-form-field m-2" appearance="fill" style="width: 40%;">
+                        <mat-label>Mentor name</mat-label>
+                        <input matInput type="text" [(ngModel)]="mentorName" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+
+                    <mat-form-field class="example-form-field  m-2" appearance="fill" style="width: 40%;">
+                        <mat-label>Mentor grade</mat-label>
+                        <input matInput type="number" [(ngModel)]="mentorMark" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+
+                    <div class="example-form-field  m-2" appearance="fill" style="width: 10%;">
+                        <button mat-raised-button (click)="addMentor()">Add</button>
+                    </div>
+                </div>
+
+                <mat-label *ngIf="selectedMentors.length > 0"><b>Mentor marks</b></mat-label>
+                <div class="row d-flex justify-content-center" *ngFor="let mentor of selectedMentors">
+                    <mat-label>{{mentor.mentor}}, mark: {{mentor.mark}}</mat-label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="bold-label">Add intership project</label>
+                <div class="row d-flex justify-content-center">
+                    <mat-form-field class="example-form-field m-2" appearance="fill" style="width: 40%;">
+                        <mat-label>Project type</mat-label>
+                        <mat-select [(ngModel)]="projType" [ngModelOptions]="{standalone: true}">
+                            <mat-option value="INDIVIDUAL" selected>INDIVIDUAL</mat-option>
+                            <mat-option value="TEAM" selected>TEAM</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-form-field  m-2" appearance="fill" style="width: 40%;">
+                        <mat-label>Mark</mat-label>
+                        <input matInput type="number" [(ngModel)]="projMark" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+
+                    <mat-form-field class="example-form-field  m-2" appearance="fill" style="width: 40%;">
+                        <mat-label>Difficulty</mat-label>
+                        <input matInput type="number" [(ngModel)]="projDifficulty"
+                            [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+
+                    <div class="example-form-field  m-2" appearance="fill" style="width: 10%;">
+                        <button mat-raised-button (click)="addProject()">Add</button>
+                    </div>
+                </div>
+
+                <mat-label *ngIf="selectedProjs.length > 0"><b>Projects</b></mat-label>
+                <div class="row d-flex justify-content-center" *ngFor="let proj of selectedProjs">
+                    <mat-label>difficulty: {{proj.difficulty}}, mark: {{proj.mark}}, type:
+                        {{proj.projectType}}
+                    </mat-label>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <button (click)="submitIntership()" class="btn btn-primary">
+                    Add intership
+                </button>
+            </div>
+        </fieldset>
+    </form>
+</div>
