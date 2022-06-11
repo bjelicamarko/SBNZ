@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.siit.sbnz.timdarmar.models.classes.Employee;
 import com.siit.sbnz.timdarmar.models.classes.Employer;
 import com.siit.sbnz.timdarmar.models.classes.RequestForEmployee;
+import com.siit.sbnz.timdarmar.models.dtos.EmployeeBasicInfoDTO;
 import com.siit.sbnz.timdarmar.models.dtos.EmployeeDTO;
+import com.siit.sbnz.timdarmar.models.dtos.EmployeeSearchResDTO;
 import com.siit.sbnz.timdarmar.models.dtos.RequestForEmployeeDTO;
 import com.siit.sbnz.timdarmar.services.EmployeeService;
 import com.siit.sbnz.timdarmar.services.RequestForEmployeeService;
@@ -72,5 +74,72 @@ public class EmployeeController {
 		Employee e  = employeeService.findEmployeeByEmail(employee.getEmail());
 		employeeService.updateEmployee(emp, e);
 		return new ResponseEntity<>(new EmployeeDTO(e), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/getFriendsOfEmployee")
+	@PreAuthorize("hasRole('EMPLOYEE')")
+	public ResponseEntity<List<EmployeeBasicInfoDTO>> getFriendsOfEmployee() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Employee employee = (Employee)auth.getPrincipal();
+		
+		Employee e  = employeeService.getEmployeeWithFriends(employee.getId());
+		
+		List<EmployeeBasicInfoDTO> res = new ArrayList<>();
+		
+		for (Employee emp : e.getFriendsGroup()) {
+			res.add(new EmployeeBasicInfoDTO(emp));
+		}
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/getNonFriendsOfEmployee")
+	@PreAuthorize("hasRole('EMPLOYEE')")
+	public ResponseEntity<List<EmployeeBasicInfoDTO>> getNonFriendsOfEmployee() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Employee employee = (Employee)auth.getPrincipal();
+		
+		Employee e  = employeeService.getEmployeeWithFriends(employee.getId());
+		
+		List<Long> friendIDS = new ArrayList<>();
+		
+		for (Employee emp : e.getFriendsGroup()) {
+			friendIDS.add(emp.getId());
+		}
+		
+		if (friendIDS.size() == 0)
+			friendIDS.add(e.getId());
+		
+		System.out.println("friends: " + friendIDS.size());
+		List<Employee> employees  = employeeService.findNonFriendsOfEmployee(employee.getId(), friendIDS);
+		System.out.println("non friends: " + employees.size());
+		
+		List<EmployeeBasicInfoDTO> res = new ArrayList<>();
+		
+		for (Employee emp : employees) {
+			res.add(new EmployeeBasicInfoDTO(emp));
+		}
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/getEmployeeSearchResults/{spec}")
+	@PreAuthorize("hasRole('EMPLOYEE')")
+	public ResponseEntity<EmployeeSearchResDTO> getEmployeeFromSearchResults(@PathVariable(value="spec") String spec) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Employee employee = (Employee)auth.getPrincipal();
+		
+		Employee e  = employeeService.searchFriendNetworkForOneWithExperience(employee.getId(), spec);
+		
+		if (employee.getId().equals(e.getId())) {
+			return new ResponseEntity<>(null, HttpStatus.ALREADY_REPORTED);
+		}
+		
+		if (e == null)
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		
+		System.out.println("res: " + e.getId());
+		return new ResponseEntity<>(new EmployeeSearchResDTO(e), HttpStatus.ALREADY_REPORTED);
+		
 	}
 }

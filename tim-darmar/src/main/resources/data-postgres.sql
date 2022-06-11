@@ -101,6 +101,8 @@ insert into work_experience(type_of_employment, date_from, date_to, employer_rat
 employer_id, employee_id, area_of_expertise_id, accepted) values 
 ('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 5, 5, true);
 
+insert into employee_friends_group (employee_client, friends_group_client) values (4, 5);
+
 -- ***************** STVARI ZA STUDENTE ******************
 -- TODO videti dal se ovo moze spojiti sa onim gore
 insert into area_of_expertise_intership(name_of_area) values ('Web programiranje');
@@ -187,3 +189,34 @@ insert into employer(client, company_average_rating, penalty_points, penalty,
 employer_recklessness_type, employer_carelessness_type) values 
 (7, 10.0, 0, true, 'NOT_RECKLESS', 'NOT_CARELESS');
 insert into client_authority (client_id, authority_id) values (7, 2); -- employer
+
+-- ZAPOSLENI 3
+insert into client(email, password, first_name, last_name, role, blocked, deleted)
+values ('nikoladjuricko@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
+'Nikola', 'Jokic', 'ROLE_EMPLOYEE', false, false);
+insert into employee(client, preferred_working_hours, preferred_salary, points, approval, 
+status_of_employee) 
+values (8, '10:00-18:00', 5000.0, 0.0, 0, 'EMPLOYED');
+insert into client_authority (client_id, authority_id) values (8, 3); -- employee
+
+insert into languages(id, language) values (8, 'English');
+insert into languages(id, language) values (8, 'Serbian');
+
+insert into area_of_expertise(name_of_area) values ('Web programiranje');
+insert into specializations(id, specialization) values (6, 'Backend');
+insert into specializations(id, specialization) values (6, 'Frontend');
+insert into employee_area_of_expertises(employee_client, area_of_expertises_id) values (8, 6);
+
+insert into area_of_expertise(name_of_area) values ('Web programiranje');
+insert into specializations(id, specialization) values (7, 'Backend');
+insert into work_experience(type_of_employment, date_from, date_to, employer_rating, employee_rating, paid,
+employer_id, employee_id, area_of_expertise_id, accepted) values 
+('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 8, 7, true);
+
+insert into area_of_expertise(name_of_area) values ('Web programiranje');
+insert into specializations(id, specialization) values (8, 'FrontendReact');
+insert into work_experience(type_of_employment, date_from, date_to, employer_rating, employee_rating, paid,
+employer_id, employee_id, area_of_expertise_id, accepted) values 
+('FULL_TIME', 1640991600000, 1642201200000, 10.0, 10.0, true, 3, 8, 8, true);
+
+insert into employee_friends_group (employee_client, friends_group_client) values (5, 8);

@@ -10,12 +10,14 @@ import { SharedModule } from '../shared/shared.module';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { AreasLanguagesDialogComponent } from './components/areas-languages-dialog/areas-languages-dialog.component';
 import { WorkExperiencesPageComponent } from './pages/work-experiences-page/work-experiences-page.component';
+import { FriendListComponent } from './pages/friend-list/friend-list.component';
 
 @NgModule({
   declarations: [
     ProfilePageComponent,
     AreasLanguagesDialogComponent,
-    WorkExperiencesPageComponent
+    WorkExperiencesPageComponent,
+    FriendListComponent
   ],
   imports: [
     CommonModule,

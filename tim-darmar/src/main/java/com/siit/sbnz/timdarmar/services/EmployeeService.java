@@ -13,7 +13,13 @@ public interface EmployeeService {
 	List<Employee> getEmployeesFromRecommendation(RequestForEmployee requestForEmployee, Set<AreaOfExpertise> expertises,
 			List<String> languages);
 	
+	List<Employee> findNonFriendsOfEmployee(Long id, List<Long> friendsList);
+	
 	Employee findEmployeeByEmail(String email);
 	
+	Employee getEmployeeWithFriends(Long id);
+	
 	void updateEmployee(EmployeeDTO emp, Employee e);
+	
+	Employee searchFriendNetworkForOneWithExperience(Long id, String specialization);
 }

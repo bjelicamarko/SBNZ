@@ -1,13 +1,18 @@
 package com.siit.sbnz.timdarmar.services.impls;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.QueryResults;
+import org.kie.api.runtime.rule.QueryResultsRow;
+import org.kie.api.runtime.rule.Variable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
 import com.siit.sbnz.timdarmar.models.classes.Employee;
@@ -69,6 +74,51 @@ public class EmployeeServiceImpl implements EmployeeService {
 		e.setLanguages(emp.getLanguages());
 		e.setAreaOfExpertises(emp.getAreaOfExpertises());
 		employeeRepository.save(e);
+	}
+
+	@Override
+	public Employee getEmployeeWithFriends(Long id) {
+		return employeeRepository.findEmployeeWithFriends(id);
+	}
+
+	@Override
+	public List<Employee> findNonFriendsOfEmployee(Long id, List<Long> friendsList) {
+		return employeeRepository.findNonFriendsOfEmployee(id, friendsList);
+	}
+
+	@Override
+	@Transactional
+	public Employee searchFriendNetworkForOneWithExperience(Long id, String specialization) {
+		KieBase kieBase = kieContainer.getKieBase("backward_chain");
+		KieSession kieSession = kieBase.newKieSession();
+		
+		List<Employee> emps = employeeRepository.findAllActiveEmployees();
+		for (Employee em : emps) { //ovo treba da bude lista svih drugara od onog za koga trazimo
+			kieSession.insert(em);
+		}
+		
+		HashSet<Long> initSet = new HashSet<Long>();
+		initSet.add(id);
+
+		QueryResults results = kieSession.getQueryResults("hasFriend", new Object[] {  Variable.v, id, specialization, initSet, new HashSet<Long>()});
+		
+		HashSet<String> setic = new HashSet<String>();
+		System.out.println("results");
+		Long resLong = null;
+		for (QueryResultsRow queryResult : results) {
+			HashSet<Long> resID = (HashSet<Long>) queryResult.get("rez");
+			resLong = resID.iterator().next();
+			System.out.println(resLong);
+		}
+		
+		for (Employee em : emps) { 
+			if (em.getId().equals(resLong)) {
+				kieSession.dispose();
+				return em;
+			}
+		}
+		kieSession.dispose();
+		return null;
 	}
 	
 }
