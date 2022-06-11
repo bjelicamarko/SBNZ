@@ -27,6 +27,7 @@ import com.siit.sbnz.timdarmar.models.dtos.RequestForEmployeeDTO;
 import com.siit.sbnz.timdarmar.models.dtos.RequestForStudentDTO;
 import com.siit.sbnz.timdarmar.models.dtos.StudentBasicInfoDTO;
 import com.siit.sbnz.timdarmar.models.dtos.StudentDTO;
+import com.siit.sbnz.timdarmar.models.dtos.StudentProfileViewDTO;
 import com.siit.sbnz.timdarmar.models.dtos.UniSubjectCreateDTO;
 import com.siit.sbnz.timdarmar.repositories.StudentRepository;
 import com.siit.sbnz.timdarmar.services.StudentService;
@@ -56,6 +57,15 @@ public class StudentController {
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/profileView")
+	@PreAuthorize("hasRole('STUDENT')")
+	public ResponseEntity<StudentProfileViewDTO> getStudentForProfileView() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Student student = (Student)auth.getPrincipal();
+
+		return new ResponseEntity<>(new StudentProfileViewDTO(student), HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/createIntershipForStudent")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> createIntershipForStudent(@RequestBody IntershipCreateDTO request ) {
@@ -64,6 +74,17 @@ public class StudentController {
 			return new ResponseEntity<>("Created intership!", HttpStatus.CREATED);
 		else
 			return new ResponseEntity<>("Couldn't create intership!", HttpStatus.BAD_REQUEST);
+	}
+	
+	@PostMapping(value = "/setMonthlyIncome")
+	@PreAuthorize("hasRole('STUDENT')")
+	public ResponseEntity<String> setMonthlyIncome(@RequestBody double income ) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Student student = (Student)auth.getPrincipal();
+		
+		student.setMonthlyIncomeByFamilyMember(income);
+		studentRepository.save(student);
+		return new ResponseEntity<>("Monthly income set!", HttpStatus.CREATED);
 	}
 	
 	@PostMapping(value = "/createUniSubjectForStudent")

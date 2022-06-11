@@ -1,0 +1,78 @@
+<div class="row justify-content-center align-items-center loginForm">
+    <form class="col-md-12 box">
+        <fieldset>
+            <p class="login-label">Friends</p>
+
+            <div class="row">
+                <label class="bold-label">Add new friend</label>
+                <div id="role-div">
+                    <mat-form-field>
+                        <mat-label>Users</mat-label>
+                        <mat-select [(ngModel)]="selectedID" [ngModelOptions]="{standalone: true}">
+                            <mat-option *ngFor="let user of nonFriendUsers" [value]="user.id">{{user.firstName}}
+                                {{user.lastName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <button class="btn btn-primary">
+                        Add friend
+                    </button>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <label class="bold-label">Friends</label>
+                <div class="row mt-1" *ngFor="let emp of friends">
+                    <label>&nbsp;&nbsp;&nbsp;
+                        - {{emp.firstName}} {{emp.lastName}}</label>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <form class="mt-5 col-md-12 box">
+        <fieldset>
+            <p class="login-label">Search friend network</p>
+
+            <div class="row">
+                <label class="bold-label">Select area of specialization for required user</label>
+                <div id="role-div">
+                    <mat-form-field>
+                        <mat-label>Specializations</mat-label>
+                        <mat-select [(ngModel)]="selectedSpec" [ngModelOptions]="{standalone: true}">
+                            <mat-option *ngFor="let spec of specs" [value]="spec">{{spec}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <button class="btn btn-primary" (click)="search()">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+    <form class="mt-5 col-md-12 box" *ngIf="resultEmployee">
+        <fieldset>
+            <p class="login-label">Search result</p>
+
+            <div class="row">
+                <label class="bold-label">Select area of specialization for required user</label>
+                <div>
+                    {{resultEmployee.firstName}} {{resultEmployee.lastName}}
+                </div>
+                <div>
+                    &nbsp;&nbsp;&nbsp;Work experience in:
+                    <div *ngFor="let exp of resultEmployee.areasOfExperienceFromWorkExperiences">
+                        <div>
+                            <label *ngFor="let spec of exp.specializations">&nbsp;&nbsp;&nbsp;-{{spec}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    &nbsp;Contact him at {{resultEmployee.email}}!
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

@@ -6,6 +6,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ public class AreaOfExpertiseIntership {
 	@NonNull
 	private String nameOfArea;
 	
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name = "specializations_intership", joinColumns = @JoinColumn(name = "id")) // 2
     @Column(name = "specialization") // 3
 	private List<String> specializations;

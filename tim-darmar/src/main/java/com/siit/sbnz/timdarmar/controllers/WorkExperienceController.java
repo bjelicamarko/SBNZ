@@ -1,6 +1,7 @@
 package com.siit.sbnz.timdarmar.controllers;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
 import com.siit.sbnz.timdarmar.models.classes.Employee;
 import com.siit.sbnz.timdarmar.models.classes.Employer;
 import com.siit.sbnz.timdarmar.models.classes.WorkExperience;
 import com.siit.sbnz.timdarmar.models.dtos.WorkExperienceDTO;
+import com.siit.sbnz.timdarmar.repositories.AreaOfExpertiseRepository;
 import com.siit.sbnz.timdarmar.services.WorkExperienceService;
 
 @RestController
@@ -27,6 +30,9 @@ public class WorkExperienceController {
 
 	@Autowired
 	private WorkExperienceService workExperienceService;
+	
+	@Autowired
+	private AreaOfExpertiseRepository areaOfExpertiseRepository;
 	
 	@PostMapping("/saveWorkExperience")
 	@PreAuthorize("hasRole('EMPLOYER')")
@@ -94,5 +100,15 @@ public class WorkExperienceController {
 	public ResponseEntity<WorkExperienceDTO> markEmployer(@RequestBody WorkExperienceDTO we) {
 		WorkExperience w = workExperienceService.markEmployer(we);
 		return new ResponseEntity<>(new WorkExperienceDTO(w), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getSpecializationsFromWorkExperiences")
+	@PreAuthorize("hasRole('EMPLOYEE')")
+	public ResponseEntity<HashSet<String>> getSpecializationsFromWorkExperiences() {
+		List<AreaOfExpertise> areas = areaOfExpertiseRepository.findAll();
+		HashSet<String> setic = new HashSet<>();
+		for (AreaOfExpertise area : areas)
+			setic.addAll(area.getSpecializations());
+		return new ResponseEntity<>(setic, HttpStatus.OK);
 	}
 }

@@ -1,1 +1,102 @@
-<p>homepage works!</p>
+<div class="main-content" style="margin-top: 20px;">
+    <div class="container-fluid" *ngIf="student">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Profile Info</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="bolded-label">First Name:&nbsp;&nbsp;&nbsp;</label>
+                                <label>{{student.firstName}}</label>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="bolded-label">Last Name:&nbsp;&nbsp;&nbsp;</label>
+                                <label>{{student.lastName}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <label class="bolded-label">Email:&nbsp;&nbsp;&nbsp;</label>
+                                <label>{{student.email}}</label>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-8">
+                                <label>Montlhy income: &nbsp;</label>
+                                <mat-form-field class="example-form-field">
+                                    <input matInput type="number" [(ngModel)]="montlhyIncome"
+                                        [ngModelOptions]="{standalone: true}">
+                                </mat-form-field>
+
+                                <button mat-raised-button class="ml-2" (click)="addMonthlyIncome()">Set</button>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <h5>Interships</h5>
+                            <div class="row mt-1" *ngFor="let intership of student.interships">
+                                <label>----</label>
+                                <div class="row ">
+                                    <div class="col-md-6">
+                                        <label class="bolded-label">Date from:&nbsp;&nbsp;&nbsp;</label>
+                                        <label>{{intership.dateFrom | date:'dd/MM/yyyy'}}</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="bolded-label">Date to:&nbsp;&nbsp;&nbsp;</label>
+                                        <label>{{intership.dateTo | date:'dd/MM/yyyy'}}</label>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <label>Marks:</label>
+                                    <label *ngFor="let mark of intership.mentorMarks">&nbsp;&nbsp;&nbsp;-
+                                        {{mark}}</label>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <label>Projects:</label>
+                                    <label *ngFor="let proj of intership.intershipProjects">&nbsp;&nbsp;&nbsp;
+                                        - type: {{proj.projectType}}, difficulty: {{proj.difficulty}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <h5>Passed subjects</h5>
+                            <div class="row mt-1" *ngFor="let subj of student.passedSubjects">
+                                <label>----</label>
+                                <div class="row ">
+                                    <div class="col-md-6">
+                                        <label class="bolded-label">Subject name:&nbsp;&nbsp;&nbsp;</label>
+                                        <label>{{subj.name}}</label>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <label>Subject areas:</label>
+                                    <label *ngFor="let area of subj.subjectAreaOfExpertises">&nbsp;&nbsp;&nbsp;
+                                        - area: {{area.nameOfArea}}, specializations: <label
+                                            *ngFor="let spec of area.specializations">- {{spec}}</label></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <h5>College projects</h5>
+                            <div class="row mt-1" *ngFor="let proj of student.uniProjects">
+                                <label>----</label>
+                                <label>&nbsp;&nbsp;&nbsp;
+                                    - type: {{proj.projectType}}, difficulty: {{proj.difficulty}}, mark:
+                                    {{proj.mark}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
