@@ -18,19 +18,16 @@ import java.util.TimeZone;
 declare CarelessEvent
 	@role(event)
 	employer: Employer
-	reason: String
 end
 
 declare RecklessEvent
 	@role(event)
 	employer: Employer
-	reason: String
 end
 
 declare PunishmentEvent
 	@role(event)
 	employer: Employer
-	reason: String
 end
 
 declare PotentialBan
@@ -50,7 +47,7 @@ rule "Calculating avg rating from marked working experiences from employer"
 		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience,
 		$we.dateTo != null, $we.employeeRating != null, $we.employerRating != null, 
 		$we.paid == true)
-		$counter: CounterForAvgMark()
+		$counter: CounterForAvgMark(inc >= 2)
 		from accumulate
 		(
 			$ew2: EmployerWorkExperienceEvent 
@@ -81,17 +78,14 @@ rule "Calculating avg rating from marked working experiences from employer"
 			)
 		)
 		not (PotentialBan(employer == $e, reason == "Low avg"))
-		not (PotentialBan(employer == $e, reason == "not"))
 	then
+		System.out.println("Calculating avg rating from marked working experiences from employer");
 		double val = $counter.getVal() + $we.getEmployerRating();
 		int inc = $counter.getInc() + 1;
 		double avg = val/inc;
-		String indikator;
-		if (avg < 6.0)
-			indikator = "Low avg";
-		else
-			indikator = "not";
-		insert(new PotentialBan($e, indikator));
+		String indikator =  "Low avg";
+		if (avg <= 6)
+			insert(new PotentialBan($e, indikator));
 end
 
 rule "Catching umarked working experiences from employer"
@@ -114,19 +108,17 @@ rule "Catching umarked working experiences from employer"
 			),
 			count($ew2)
 		)
-		not (CarelessEvent(employer == $e, reason == "Little Careless")) 
-		not (CarelessEvent(employer == $e, reason == "Careless"))
+		not (CarelessEvent(employer == $e)) 
 	then
+		System.out.println("Catching umarked working experiences from employer");
 		int value = $value.intValue() + 1;
-		if (value >= 3 && value <= 5)
-			insert(new CarelessEvent($e, "Little Careless"));
-		else
-			insert(new CarelessEvent($e, "Careless"));	
+		if (value >= 3)
+			insert(new CarelessEvent($e));
 end
 
 declare CounterForEvent
-	littleReckless: int
-	reckless: int
+	points: int
+	cnt: int
 end
 
 rule "Catching unpaid working experiences from employer"
@@ -134,7 +126,7 @@ rule "Catching unpaid working experiences from employer"
 	when
 		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience,
 		$we.dateTo != null, $we.paid == false)
-		$counter: CounterForEvent() 
+		$counter: CounterForEvent(cnt >= 2) 
 		from accumulate 
 		(
 			$ew2: EmployerWorkExperienceEvent 
@@ -149,8 +141,8 @@ rule "Catching unpaid working experiences from employer"
 			init
 			(
 				CounterForEvent c = new CounterForEvent();
-				c.setLittleReckless(0);
-				c.setReckless(0);
+				c.setPoints(1);
+				c.setCnt(1);
 			),
 			action
 			(
@@ -161,129 +153,50 @@ rule "Catching unpaid working experiences from employer"
                         
                 if (YearMonth.now().atDay(1).minusDays(1).isBefore(tempTime.toLocalDate()) && 
                 YearMonth.now().atDay(1).plusDays(5).isAfter(tempTime.toLocalDate()))
-                	c.setLittleReckless(c.getLittleReckless() + 1);
+                	c.setPoints(c.getPoints() + 1);
                 else if (YearMonth.now().atDay(1).plusDays(5).isEqual(tempTime.toLocalDate())
                  || YearMonth.now().atDay(1).plusDays(5).isBefore(tempTime.toLocalDate()))
-                 c.setReckless(c.getReckless() + 1);
+                 	c.setPoints(c.getPoints() + 2);
+                c.setCnt(c.getCnt() + 1); 
 			),
 			result
 			(
 				c
 			)
 		)
-		not (RecklessEvent(employer == $e, reason == "Little Reckless"))
-		not (RecklessEvent(employer == $e, reason == "Reckless"))
+		not (RecklessEvent(employer == $e))
 	then
-		if ($counter.getLittleReckless() - $counter.getReckless() > 0)
-			insert(new RecklessEvent($e, "Little Reckless"));
-		else
-			insert(new RecklessEvent($e, "Reckless"));	
+		System.out.println("Catching unpaid working experiences from employer");
+		if ($counter.getPoints() >= 4)
+			insert(new RecklessEvent($e));
 end
 
-
-rule "inserting PunishmentEvent one"
+rule "inserting PunishmentEvent"
 	agenda-group "cep"
 	when
-		CarelessEvent($e:employer, reason == "Little Careless")
-		RecklessEvent($e1:employer, reason == "Little Reckless")
+		CarelessEvent($e:employer)
+		RecklessEvent($e1:employer)
 		eval($e.getId() == $e1.getId())
-		not (PunishmentEvent(employer == $e, reason == "Punishment One"))
+		not (PunishmentEvent(employer == $e))
 	then
-		insert(new PunishmentEvent($e, "Punishment One"));		
+		insert(new PunishmentEvent($e));		
 end
 
-rule "Catching a punishment event one"
+rule "Catching a punishment event"
 	agenda-group "cep"
 	when
-		PunishmentEvent($e:employer, reason == "Punishment One", $reason: reason)
-	then
-		System.out.println("Id: " + $e.getId() + " reason: " + $reason);
-		
-		$e.setEmployerRecklessnessType(EmployerRecklessnessType.LITTLE_RECKLESS);
-        $e.setEmployerCarelessnessType(EmployerCarelessnessType.LITTLE_CARELESS); 
-      
-		update($e);
-end
-
-
-rule "inserting PunishmentEvent two"
-	agenda-group "cep"
-	when
-		CarelessEvent($e:employer, reason == "Little Careless")
-		RecklessEvent($e1:employer, reason == "Reckless")
-		eval($e.getId() == $e1.getId())
-		not (PunishmentEvent(employer == $e, reason == "Punishment Two"))
-	then		
-		insert(new PunishmentEvent($e, "Punishment Two"));
-end
-
-rule "Catching a punishment event two"
-	agenda-group "cep"
-	when
-		PunishmentEvent($e:employer, reason == "Punishment Two", $reason: reason)
-	then
-		System.out.println("Id: " + $e.getId() + " reason: " + $reason);
-		
-		$e.setEmployerRecklessnessType(EmployerRecklessnessType.RECKLESS);
-        $e.setEmployerCarelessnessType(EmployerCarelessnessType.LITTLE_CARELESS); 
-      
-		update($e);
-end
-
-
-rule "inserting PunishmentEvent three"
-	agenda-group "cep"
-	when
-		CarelessEvent($e:employer, reason == "Careless")
-		RecklessEvent($e1:employer, reason == "Little Reckless")
-		eval($e.getId() == $e1.getId())
-		not (PunishmentEvent(employer == $e, reason == "Punishment Three"))
-	then		
-		insert(new PunishmentEvent($e, "Punishment Three"));
-end
-
-rule "Catching a punishment event three"
-	agenda-group "cep"
-	when
-		PunishmentEvent($e:employer, reason == "Punishment Three", $reason: reason)
+		PunishmentEvent($e:employer)
 		not (PotentialBan(employer == $e, reason == "Punishment"))
 	then
-		System.out.println("Id: " + $e.getId() + " reason: " + $reason);
+		System.out.println("Id: " + $e.getId() + " reason: punishment. ");
 		
-		$e.setEmployerRecklessnessType(EmployerRecklessnessType.LITTLE_RECKLESS);
+		$e.setEmployerRecklessnessType(EmployerRecklessnessType.RECKLESS);
         $e.setEmployerCarelessnessType(EmployerCarelessnessType.CARELESS); 
+      
 		update($e);
 		
 		insert(new PotentialBan($e, "Punishment"));
 end
-
-
-rule "inserting PunishmentEvent four"
-	agenda-group "cep"
-	when
-		CarelessEvent($e:employer, reason == "Careless")
-		RecklessEvent($e1:employer, reason == "Reckless")
-		eval($e.getId() == $e1.getId())
-		not (PunishmentEvent(employer == $e, reason == "Punishment Four"))
-	then		
-		insert(new PunishmentEvent($e, "Punishment Four"));
-end
-
-rule "Catching a punishment event four"
-	agenda-group "cep"
-	when
-		PunishmentEvent($e:employer, reason == "Punishment Four", $reason: reason)
-		not (PotentialBan(employer == $e, reason == "Punishment"))
-	then
-		System.out.println("Id: " + $e.getId() + " reason: " + $reason);
-		
-		$e.setEmployerRecklessnessType(EmployerRecklessnessType.RECKLESS);
-        $e.setEmployerCarelessnessType(EmployerCarelessnessType.CARELESS);   
-		update($e);
-		
-		insert(new PotentialBan($e, "Punishment"));
-end
-
 
 rule "Ban scenario"
 	agenda-group "cep"
