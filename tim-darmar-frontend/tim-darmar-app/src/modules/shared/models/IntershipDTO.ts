@@ -4,5 +4,5 @@ export interface IntershipDTO {
     dateFrom: number;
     dateTo: number;
     mentorMarks: number[];
-    intershipProjects: ProjectDTO;
+    intershipProjects: ProjectDTO[];
 }
