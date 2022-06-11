@@ -79,4 +79,22 @@ public class WorkExperience {
 	@Column(nullable = false)
 	@NonNull
 	private Boolean accepted;
+
+	public WorkExperience(WorkExperience we) {
+		this.id = we.getId();
+		this.paid = we.getPaid();
+		this.dateTo = we.getDateTo();
+		this.employeeRating = we.getEmployeeRating();
+		this.employerRating = we.getEmployerRating();
+	}
+	
+	@Override
+	public String toString() {
+		return "WorkExperience [id=" + id + ", typeOfEmployment=" + typeOfEmployment + ", dateFrom=" + dateFrom
+				+ ", dateTo=" + dateTo + ", employerRating=" + employerRating + ", employeeRating=" + employeeRating
+				+ ", paid=" + paid + ", employer=" + employer + ", employee=" + employee + ", areaOfExpertise="
+				+ areaOfExpertise + ", accepted=" + accepted + "]";
+	}
+	
+	
 }

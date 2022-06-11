@@ -15,4 +15,8 @@ public interface EmployerService {
 	Employer unbanEmployer(String email);
 	
 	List<Employer> findAllEmployers();
+	
+	Employer save(Employer e);
+	
+	List<Employer> findAllEmployersFetched();
 }

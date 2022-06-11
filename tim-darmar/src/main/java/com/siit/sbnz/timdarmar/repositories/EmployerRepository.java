@@ -20,4 +20,8 @@ public interface EmployerRepository extends JpaRepository<Employer, Long>{
 	
 	@Query("select distinct e from Employer e where e.penalty = false")
 	List<Employer> findAllNotBannedEmployers();
+	
+	@Query("select distinct e from Employer e left join fetch e.requestsForEmployee"
+			+ " left join fetch e.requestsForStudent")
+	List<Employer> findAllEmployers();
 }

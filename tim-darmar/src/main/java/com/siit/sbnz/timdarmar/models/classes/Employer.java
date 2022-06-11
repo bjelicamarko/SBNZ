@@ -65,4 +65,11 @@ public class Employer extends Client{
 		this.requestsForStudent = new HashSet<>();
 		this.workExperiences = new HashSet<>();
 	}
+	
+	public Employer (Employer e) {
+		this.id = e.getId();
+		this.employerRecklessnessType = e.getEmployerRecklessnessType();
+		this.employerCarelessnessType = e.getEmployerCarelessnessType();
+		this.penalty = e.penalty;
+	}
 }

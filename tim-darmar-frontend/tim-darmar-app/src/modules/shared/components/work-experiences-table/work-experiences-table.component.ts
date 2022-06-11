@@ -19,7 +19,7 @@ export class WorkExperiencesTableComponent  implements AfterViewInit {
 
   role: string = '';
 
-  displayedColumns: string[] = ['typeOfEmployment', 'dateFrom', 'dateTo', 
+  displayedColumns: string[] = ['id', 'typeOfEmployment', 'dateFrom', 'dateTo', 
   'employerRating', 'employeeRating', 'paid', 
   'employerEmail', 'employeeEmail', 'accepted'];
   dataSource = new MatTableDataSource(this.workExperiences);

@@ -45,6 +45,7 @@ declare CounterForAvgMark
 end
 
 rule "Calculating avg rating from marked working experiences from employer"
+	agenda-group "cep"
 	when
 		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience,
 		$we.dateTo != null, $we.employeeRating != null, $we.employerRating != null, 
@@ -94,6 +95,7 @@ rule "Calculating avg rating from marked working experiences from employer"
 end
 
 rule "Catching umarked working experiences from employer"
+	agenda-group "cep"
 	when
 		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience, 
 		$we.dateTo != null, $we.employeeRating == null, $we.paid == true)
@@ -112,11 +114,11 @@ rule "Catching umarked working experiences from employer"
 			),
 			count($ew2)
 		)
-		not (CarelessEvent(employer == $e, reason == "Little Careless"))
+		not (CarelessEvent(employer == $e, reason == "Little Careless")) 
 		not (CarelessEvent(employer == $e, reason == "Careless"))
 	then
 		int value = $value.intValue() + 1;
-		if (value >= 2 && value <= 5)
+		if (value >= 3 && value <= 5)
 			insert(new CarelessEvent($e, "Little Careless"));
 		else
 			insert(new CarelessEvent($e, "Careless"));	
@@ -128,6 +130,7 @@ declare CounterForEvent
 end
 
 rule "Catching unpaid working experiences from employer"
+	agenda-group "cep"
 	when
 		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience,
 		$we.dateTo != null, $we.paid == false)
@@ -179,6 +182,7 @@ end
 
 
 rule "inserting PunishmentEvent one"
+	agenda-group "cep"
 	when
 		CarelessEvent($e:employer, reason == "Little Careless")
 		RecklessEvent($e1:employer, reason == "Little Reckless")
@@ -189,6 +193,7 @@ rule "inserting PunishmentEvent one"
 end
 
 rule "Catching a punishment event one"
+	agenda-group "cep"
 	when
 		PunishmentEvent($e:employer, reason == "Punishment One", $reason: reason)
 	then
@@ -202,6 +207,7 @@ end
 
 
 rule "inserting PunishmentEvent two"
+	agenda-group "cep"
 	when
 		CarelessEvent($e:employer, reason == "Little Careless")
 		RecklessEvent($e1:employer, reason == "Reckless")
@@ -212,6 +218,7 @@ rule "inserting PunishmentEvent two"
 end
 
 rule "Catching a punishment event two"
+	agenda-group "cep"
 	when
 		PunishmentEvent($e:employer, reason == "Punishment Two", $reason: reason)
 	then
@@ -225,6 +232,7 @@ end
 
 
 rule "inserting PunishmentEvent three"
+	agenda-group "cep"
 	when
 		CarelessEvent($e:employer, reason == "Careless")
 		RecklessEvent($e1:employer, reason == "Little Reckless")
@@ -235,6 +243,7 @@ rule "inserting PunishmentEvent three"
 end
 
 rule "Catching a punishment event three"
+	agenda-group "cep"
 	when
 		PunishmentEvent($e:employer, reason == "Punishment Three", $reason: reason)
 		not (PotentialBan(employer == $e, reason == "Punishment"))
@@ -250,6 +259,7 @@ end
 
 
 rule "inserting PunishmentEvent four"
+	agenda-group "cep"
 	when
 		CarelessEvent($e:employer, reason == "Careless")
 		RecklessEvent($e1:employer, reason == "Reckless")
@@ -260,6 +270,7 @@ rule "inserting PunishmentEvent four"
 end
 
 rule "Catching a punishment event four"
+	agenda-group "cep"
 	when
 		PunishmentEvent($e:employer, reason == "Punishment Four", $reason: reason)
 		not (PotentialBan(employer == $e, reason == "Punishment"))
@@ -275,6 +286,7 @@ end
 
 
 rule "Ban scenario"
+	agenda-group "cep"
 	when
 		PotentialBan($e:employer, reason == "Punishment")
 		PotentialBan($e1:employer, reason == "Low avg")

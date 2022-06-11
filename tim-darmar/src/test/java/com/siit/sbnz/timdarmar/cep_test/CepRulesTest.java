@@ -20,6 +20,8 @@ public class CepRulesTest {
 	
 	private static KieContainer kieContainer;
 	
+	private static final String agenda = "cep";
+	
 	@Before
     public void beforeClass() {
 		KieServices kieServices = KieServices.Factory.get();
@@ -30,6 +32,7 @@ public class CepRulesTest {
 	public void testPunishmentOneEvent() {
 		KieBase kieBase = kieContainer.getKieBase("cep");
 		KieSession kieSession = kieBase.newKieSession();
+		kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
 		// little reckless and little careless
 		
 		Employer e = new Employer();
@@ -83,6 +86,7 @@ public class CepRulesTest {
 	public void testPunishmentTwoEvent() {
 		KieBase kieBase = kieContainer.getKieBase("cep");
 		KieSession kieSession = kieBase.newKieSession();
+		kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
 		// reckless and little careless
 		
 		Employer e = new Employer();
@@ -136,6 +140,7 @@ public class CepRulesTest {
 	public void testPunishmentThreeEvent() {
 		KieBase kieBase = kieContainer.getKieBase("cep");
 		KieSession kieSession = kieBase.newKieSession();
+		kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
 		// little reckless and  careless
 		
 		Employer e = new Employer();
@@ -210,6 +215,7 @@ public class CepRulesTest {
 	public void testBanScenario() {
 		KieBase kieBase = kieContainer.getKieBase("cep");
 		KieSession kieSession = kieBase.newKieSession();
+		kieSession.getAgenda().getAgendaGroup(agenda).setFocus();
 		// reckless and careless and low avg = ban scenario
 	
 		Employer e = new Employer();

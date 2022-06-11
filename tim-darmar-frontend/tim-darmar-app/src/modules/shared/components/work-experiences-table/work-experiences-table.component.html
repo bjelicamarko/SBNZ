@@ -4,6 +4,12 @@
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
         matSort (matSortChange)="announceSortChange($event)">
     
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef
+                mat-sort-header sortActionDescription="Sort by id">id </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            </ng-container>
+
             <ng-container matColumnDef="typeOfEmployment">
                 <th mat-header-cell *matHeaderCellDef
                 mat-sort-header sortActionDescription="Sort by typeOfEmployment">Type Of Employment </th>

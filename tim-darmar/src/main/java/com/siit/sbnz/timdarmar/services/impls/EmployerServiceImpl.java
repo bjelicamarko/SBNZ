@@ -47,4 +47,14 @@ public class EmployerServiceImpl implements EmployerService{
 		return employerRepository.findAll();
 	}
 
+	@Override
+	public Employer save(Employer e) {
+		return employerRepository.save(e);
+	}
+
+	@Override
+	public List<Employer> findAllEmployersFetched() {
+		return employerRepository.findAllEmployers();
+	}
+
 }
