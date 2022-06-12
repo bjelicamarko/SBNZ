@@ -30,6 +30,15 @@ export class UtilService {
     return "";
   }
 
+  public getLoggedUsername(): string {
+    const item = localStorage.getItem("user");
+    if (item) {
+      const jwt: JwtHelperService = new JwtHelperService();
+      return jwt.decodeToken(item).sub;
+    }
+    return "";
+  }
+
   findAllExpertisesGlobally(): Observable<HttpResponse<AreaOfExpertiseGlobally[]>>{
     let queryParams = {};
   

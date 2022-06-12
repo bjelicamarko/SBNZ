@@ -1,6 +1,5 @@
 package com.siit.sbnz.timdarmar.models.classes;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;

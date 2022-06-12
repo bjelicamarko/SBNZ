@@ -39,6 +39,8 @@ public class WorkExperienceController {
 	public ResponseEntity<String> saveWorkExperience(@RequestBody WorkExperienceDTO we) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Employer employer = (Employer)auth.getPrincipal();
+		if (employer.isPenalty())
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		workExperienceService.saveWorkExperience(we, employer);
 		return new ResponseEntity<>("Sucessfully added", HttpStatus.OK);
 	}
@@ -48,6 +50,8 @@ public class WorkExperienceController {
 	public ResponseEntity<List<WorkExperienceDTO>> getWorkExperiencesFromEmployer() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Employer employer = (Employer)auth.getPrincipal();
+		if (employer.isPenalty())
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		List<WorkExperience> works = workExperienceService.getWorkExperiencesFromEmployer(employer.getEmail());
 		List<WorkExperienceDTO> dtos = new ArrayList<>();
 		for (WorkExperience w: works)

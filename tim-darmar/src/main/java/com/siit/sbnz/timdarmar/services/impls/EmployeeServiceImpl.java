@@ -53,8 +53,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		kieSession.fireAllRules();
 		kieSession.getAgenda().getAgendaGroup("workingHours_salary").setFocus();
 		kieSession.fireAllRules();
-//		kieSession.getAgenda().getAgendaGroup("previous_work_experiences").setFocus();
-//		kieSession.fireAllRules();
+		kieSession.getAgenda().getAgendaGroup("previous_work_experiences").setFocus();
+		kieSession.fireAllRules();
 		
 		kieSession.dispose();
 		

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EmployerDTO } from '../../models/EmployerDTO';
 import { WorkExperienceDTO } from '../../models/WorkExperienceDTO';
@@ -21,11 +21,12 @@ export class WorkExperienceInfoComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public workExperience: WorkExperienceDTO,
     private utilService: UtilService, private workExperienceUtilService:
     WorkExperienceUtilService, private snackBarService: SnackBarService, 
-    public dialog: MatDialog) { }
+    public dialog: MatDialog, private cdr: ChangeDetectorRef) { }
 
 
   ngAfterViewInit(): void {
     this.role = this.utilService.getLoggedUserRole();
+    this.cdr.detectChanges();
   }
 
   acceptWorkExperience(): void {

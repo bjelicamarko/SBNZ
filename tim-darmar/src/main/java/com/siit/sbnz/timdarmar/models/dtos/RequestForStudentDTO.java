@@ -1,9 +1,7 @@
 package com.siit.sbnz.timdarmar.models.dtos;
 
-import java.util.List;
 import java.util.Set;
 
-import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
 import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertiseIntership;
 import com.siit.sbnz.timdarmar.models.enums.WorkMethods;
 

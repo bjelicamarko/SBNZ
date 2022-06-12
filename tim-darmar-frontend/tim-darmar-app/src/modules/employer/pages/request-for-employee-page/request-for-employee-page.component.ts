@@ -85,6 +85,9 @@ export class RequestForEmployeePageComponent implements AfterViewInit {
           } else {
             this.snackBarService.openSnackBar("Empty list!");
           }
+        },
+        (err) => {
+          this.snackBarService.openSnackBar("Banned user!");
         })
     } else {
       this.snackBarService.openSnackBar("Invalid inputs");

@@ -7,8 +7,6 @@ import java.util.stream.Collectors;
 import com.siit.sbnz.timdarmar.models.classes.Intership;
 import com.siit.sbnz.timdarmar.models.classes.MarkMentor;
 import com.siit.sbnz.timdarmar.models.classes.Project;
-import com.siit.sbnz.timdarmar.models.enums.FinancialStatus;
-import com.siit.sbnz.timdarmar.models.enums.StatusOfStudent;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

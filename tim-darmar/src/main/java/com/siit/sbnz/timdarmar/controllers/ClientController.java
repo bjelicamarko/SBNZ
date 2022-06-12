@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.siit.sbnz.timdarmar.models.classes.Client;
+import com.siit.sbnz.timdarmar.models.classes.Employer;
 import com.siit.sbnz.timdarmar.models.dtos.ClientTokenStateDTO;
 import com.siit.sbnz.timdarmar.models.dtos.RegistrationDTO;
 import com.siit.sbnz.timdarmar.security.TokenUtils;
@@ -43,6 +44,11 @@ public class ClientController {
 
         // Create a token for client
         Client client = (Client) authentication.getPrincipal();
+        if (client.getRole().equals("ROLE_EMPLOYER")) { 
+        	if (((Employer)client).isPenalty()) {
+        		return ResponseEntity.ok(null);
+        	}
+        }
         String jwt = tokenUtils.generateToken(client.getUsername(), client.getRole());
         int expiresIn = tokenUtils.getExpiredIn();
        

@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeService } from 'src/modules/employee/services/employee.service';
 import { EmployerService } from 'src/modules/employer/services/employer.service';
 import { WorkExperienceDTO } from '../../models/WorkExperienceDTO';
+import { SnackBarService } from '../../services/snack-bar.service';
 import { UtilService } from '../../services/util.service';
 import { WorkExperienceInfoComponent } from '../work-experience-info/work-experience-info.component';
 
@@ -26,7 +27,8 @@ export class WorkExperiencesTableComponent  implements AfterViewInit {
   _liveAnnouncer: any;
   
   constructor(private employerService: EmployerService, private employeeService: EmployeeService,
-    private utilService: UtilService, public dialog: MatDialog) { 
+    private utilService: UtilService, public dialog: MatDialog,
+    private snackBarService: SnackBarService) { 
   }
   
   ngAfterViewInit(): void {
@@ -44,6 +46,9 @@ export class WorkExperiencesTableComponent  implements AfterViewInit {
         this.workExperiences = response.body as WorkExperienceDTO[];
         this.dataSource = new MatTableDataSource(this.workExperiences);
         this.dataSource.sort = this.sort;
+      },
+      (err) => {
+        this.snackBarService.openSnackBar("Banned user!");
       })
     }
   }

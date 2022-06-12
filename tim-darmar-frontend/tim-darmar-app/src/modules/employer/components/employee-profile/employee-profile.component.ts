@@ -68,6 +68,9 @@ export class EmployeeProfileComponent implements AfterViewInit {
       .subscribe((response) => {
         this.snackBarService.openSnackBar(response.body as string);
         this.dialogRef.close();
+      },
+      (err) => {
+        this.snackBarService.openSnackBar("Banned user!");
       })
     } else {
       this.snackBarService.openSnackBar("invalid inputs");

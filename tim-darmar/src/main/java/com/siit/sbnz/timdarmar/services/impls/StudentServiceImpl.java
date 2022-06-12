@@ -3,7 +3,6 @@ package com.siit.sbnz.timdarmar.services.impls;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.kie.api.KieBase;
 import org.kie.api.runtime.KieContainer;
@@ -12,17 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
-import com.siit.sbnz.timdarmar.models.classes.Employee;
-import com.siit.sbnz.timdarmar.models.classes.Intership;
-import com.siit.sbnz.timdarmar.models.classes.RequestForEmployee;
 import com.siit.sbnz.timdarmar.models.classes.RequestForStudent;
 import com.siit.sbnz.timdarmar.models.classes.Student;
 import com.siit.sbnz.timdarmar.models.dtos.IntershipCreateDTO;
 import com.siit.sbnz.timdarmar.models.dtos.ProjectCreateDTO;
 import com.siit.sbnz.timdarmar.models.dtos.UniSubjectCreateDTO;
-import com.siit.sbnz.timdarmar.repositories.EmployeeRepository;
-import com.siit.sbnz.timdarmar.repositories.IntershipRepository;
 import com.siit.sbnz.timdarmar.repositories.StudentRepository;
 import com.siit.sbnz.timdarmar.services.StudentService;
 
@@ -36,9 +29,6 @@ public class StudentServiceImpl implements StudentService{
 	
 	@Autowired
 	private StudentRepository studentRepository;
-
-	@Autowired
-	private IntershipRepository intershipRepository;
 	
 	@Autowired
 	private KieContainer kieContainer;

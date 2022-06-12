@@ -2,10 +2,8 @@ package com.siit.sbnz.timdarmar.models.dtos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.siit.sbnz.timdarmar.models.classes.AreaOfExpertise;
 import com.siit.sbnz.timdarmar.models.classes.Intership;
 import com.siit.sbnz.timdarmar.models.classes.Project;
 import com.siit.sbnz.timdarmar.models.classes.Student;

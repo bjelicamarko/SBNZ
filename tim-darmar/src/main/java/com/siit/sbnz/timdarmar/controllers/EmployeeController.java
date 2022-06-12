@@ -41,6 +41,8 @@ public class EmployeeController {
 	public ResponseEntity<List<EmployeeDTO>> getEmployeesFromRecommendation(@RequestBody RequestForEmployeeDTO request ) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Employer employer = (Employer)auth.getPrincipal();
+		if (employer.isPenalty())
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		RequestForEmployee rfe = requestForEmployeeService.saveRequestForEmployee(new RequestForEmployee(request, employer));
 		List<Employee> employees = employeeService.getEmployeesFromRecommendation(rfe, 
 				request.getAreaOfExpertises(), request.getRequiredLanguages());

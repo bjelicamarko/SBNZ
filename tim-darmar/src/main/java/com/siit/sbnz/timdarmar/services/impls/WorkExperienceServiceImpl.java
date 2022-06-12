@@ -3,8 +3,6 @@ package com.siit.sbnz.timdarmar.services.impls;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,7 @@ import com.siit.sbnz.timdarmar.repositories.WorkExperienceRepository;
 import com.siit.sbnz.timdarmar.services.EmployeeService;
 import com.siit.sbnz.timdarmar.services.EmployerService;
 import com.siit.sbnz.timdarmar.services.WorkExperienceService;
+import com.siit.sbnz.timdarmar.websocket.WebSocketService;
 
 @Service
 public class WorkExperienceServiceImpl implements WorkExperienceService {
@@ -38,6 +37,8 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
 	@Qualifier(value = "cep")
 	private KieSession kieSession;
 	
+	@Autowired
+	private WebSocketService webSocketService;
 	
 	@Override
 	public void saveWorkExperience(WorkExperienceDTO weDTO, Employer e) {
@@ -106,6 +107,8 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
 		e.setPenalty(employerTemp.isPenalty());
 		employerService.save(e);
 		
+		if (e.isPenalty())
+			webSocketService.sendNotifications(we.getEmployerEmail());
 		return w;
 	}
 

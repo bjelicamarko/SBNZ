@@ -1,7 +1,6 @@
 package com.siit.sbnz.timdarmar.models.dtos;
 
 import com.siit.sbnz.timdarmar.models.classes.Employee;
-import com.siit.sbnz.timdarmar.models.classes.Student;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

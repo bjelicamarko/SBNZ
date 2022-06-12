@@ -37,26 +37,30 @@ export class LoginComponent implements OnInit {
     };
 
     this.authService.login(auth).subscribe((result: any) => {
-      this.snackBarService.openSnackBar("Successful login!");
+      if (result === null) {
+        this.snackBarService.openSnackBar("Banned user!");
+      } else {
+        this.snackBarService.openSnackBar("Successful login!");
 
-      const token = JSON.stringify(result);
-      localStorage.setItem("user", token);
+        const token = JSON.stringify(result);
+        localStorage.setItem("user", token);
 
-      const jwt: JwtHelperService = new JwtHelperService();
-      const info = jwt.decodeToken(token);
-      const role = info.role;
+        const jwt: JwtHelperService = new JwtHelperService();
+        const info = jwt.decodeToken(token);
+        const role = info.role;
 
-      if (role === "ROLE_ADMIN") {
-        this.router.navigate(["darmar-app/admin/expertises-and-specializations"]);
-      }
-      else if (role === "ROLE_EMPLOYER") {
-        this.router.navigate(["darmar-app/employer/work-experiences"]);
-      }
-      else if (role === "ROLE_EMPLOYEE") {
-        this.router.navigate(["darmar-app/employee/work-experiences"]);
-      }
-      else if (role === "ROLE_STUDENT") {
-        this.router.navigate(["darmar-app/student/home-page"]);
+        if (role === "ROLE_ADMIN") {
+          this.router.navigate(["darmar-app/admin/expertises-and-specializations"]);
+        }
+        else if (role === "ROLE_EMPLOYER") {
+          this.router.navigate(["darmar-app/employer/work-experiences"]);
+        }
+        else if (role === "ROLE_EMPLOYEE") {
+          this.router.navigate(["darmar-app/employee/work-experiences"]);
+        }
+        else if (role === "ROLE_STUDENT") {
+          this.router.navigate(["darmar-app/student/home-page"]);
+        }
       }
     },
       (err: any) => {
