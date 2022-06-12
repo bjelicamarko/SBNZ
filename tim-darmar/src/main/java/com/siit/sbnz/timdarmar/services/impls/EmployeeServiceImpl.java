@@ -2,6 +2,7 @@ package com.siit.sbnz.timdarmar.services.impls;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.kie.api.KieBase;
@@ -119,6 +120,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		kieSession.dispose();
 		return null;
+	}
+
+	@Override
+	@Transactional
+	public Employee addFriend(Employee emp, Long friend) {
+		Optional<Employee> fr = employeeRepository.findById(friend);
+		if (!fr.isPresent()) {
+			return null;
+		}
+		
+		Optional<Employee> original = employeeRepository.findById(emp.getId());
+		Employee origi = original.get();
+		
+		origi.getFriendsGroup().add(fr.get());
+		employeeRepository.save(origi);
+		return fr.get();
 	}
 	
 }

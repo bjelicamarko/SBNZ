@@ -64,4 +64,22 @@ export class FriendListComponent implements OnInit {
       );
   }
 
+  public addFriend() {
+    if (!this.selectedID)
+      return;
+
+    this.employeeService.addFriend(this.selectedID)
+      .subscribe((response) => {
+        if (!response.body) {
+          return;
+        }
+
+        this.snackBarService.openSnackBar("Friend added!");
+        this.friends.push(response.body);
+      }, (err) => {
+        this.snackBarService.openSnackBar("Couldn't add friend!");
+      }
+      );
+  }
+
 }

@@ -98,4 +98,16 @@ export class EmployeeService {
 
         return this.http.get<HttpResponse<EmployeeSearchDTO>>("sbnz/api/employee/getEmployeeSearchResults/" + expertise, queryParams);
     }
+
+    addFriend(id: string): Observable<HttpResponse<{ id: number, firstName: string, lastName: string }>> {
+        let queryParams = {};
+
+        queryParams = {
+            headers: this.headers,
+            observe: "response"
+
+        };
+
+        return this.http.post<HttpResponse<{ id: number, firstName: string, lastName: string }>>("sbnz/api/employee/addFriend", id, queryParams);
+    }
 }
