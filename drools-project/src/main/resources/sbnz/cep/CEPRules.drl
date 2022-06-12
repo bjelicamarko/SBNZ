@@ -44,7 +44,7 @@ end
 rule "Calculating avg rating from marked working experiences from employer"
 	agenda-group "cep"
 	when
-		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience,
+		$ew: EmployerWorkExperienceEvent($e: employer, employer.penalty == false, $we: WorkExperience,
 		$we.dateTo != null, $we.employeeRating != null, $we.employerRating != null, 
 		$we.paid == true)
 		$counter: CounterForAvgMark(inc >= 2)
@@ -91,7 +91,7 @@ end
 rule "Catching umarked working experiences from employer"
 	agenda-group "cep"
 	when
-		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience, 
+		$ew: EmployerWorkExperienceEvent($e: employer, employer.penalty == false, $we: WorkExperience, 
 		$we.dateTo != null, $we.employeeRating == null, $we.paid == true)
 		$value: Number(intValue >= 2) 
 		from accumulate 
@@ -124,7 +124,7 @@ end
 rule "Catching unpaid working experiences from employer"
 	agenda-group "cep"
 	when
-		$ew: EmployerWorkExperienceEvent($e: employer, $we: WorkExperience,
+		$ew: EmployerWorkExperienceEvent($e: employer, employer.penalty == false, $we: WorkExperience,
 		$we.dateTo != null, $we.paid == false)
 		$counter: CounterForEvent(cnt >= 2) 
 		from accumulate 
