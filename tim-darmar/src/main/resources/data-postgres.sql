@@ -163,25 +163,7 @@ insert into student_uni_projects(student_client, uni_projects_id) values (6, 2);
 insert into student_uni_projects(student_client, uni_projects_id) values (6, 3);
 insert into student_uni_projects(student_client, uni_projects_id) values (6, 4);
 
---
----- projekti vezani za Luku
---insert into project(mark, project_type, difficulty) values (10.0, 'TEAM', 5);
---insert into project(mark, project_type, difficulty) values (10.0, 'INDIVIDUAL', 6);
---insert into project(mark, project_type, difficulty) values (7.5, 'INDIVIDUAL', 8);
---insert into project(project_type, difficulty) values ('INDIVIDUAL', 5);
----- kraj projekata
---
----- prakse vezane za Luku
---insert into intership(date_from, date_to) values (1618264800, 1618876800);
---insert into mark_mentor(mark, mentor) values (6.9, 'Pera');
---insert into mark_mentor(mark, mentor) values (7.5, 'Dusko');
---
---insert into intership(date_from, date_to) values (1650412800, 1652572800);
---insert into mark_mentor(mark, mentor) values ('10.0', 'Pera');
---insert into mark_mentor(mark, mentor) values ('6.4', 'Dusko');
---insert into mark_mentor(mark, mentor) values ('4.3', 'Dunja');
----- kraj praksi
-
+-- BANOVAN POSLODAVAC
 insert into client(email, password, first_name, last_name, role, blocked, deleted)
 values ('platon@maildrop.cc', '$2a$12$ok67kLZVobeZU5lDdqHKIeaqOd61RI6fnH9oukE52E6uYyHDrPQ7u', 
 'Platon', 'Platon', 'ROLE_EMPLOYER', false, false);

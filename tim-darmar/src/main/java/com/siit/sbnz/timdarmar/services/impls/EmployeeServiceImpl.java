@@ -1,5 +1,6 @@
 package com.siit.sbnz.timdarmar.services.impls;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +59,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		kieSession.fireAllRules();
 		
 		kieSession.dispose();
+		
+		Collections.sort(employees, 
+				Collections.reverseOrder((s1, s2) -> Double.valueOf(s1.getPoints()).compareTo(Double.valueOf(s2.getPoints()))));
 		
 		return employees;
 	}

@@ -49,7 +49,8 @@
                         *ngIf="workExperience.accepted && !workExperience.dateTo" 
                         (click)="finishWorkExperience()">Finish</a>
                         <a style="margin-left: 20px;" class="btn btn-primary btn-round"
-                        *ngIf="!workExperience.paid && workExperience.accepted && role === 'ROLE_EMPLOYER'" 
+                        *ngIf="!workExperience.paid && workExperience.accepted && role === 'ROLE_EMPLOYER'
+                        && !workExperience.dateTo" 
                         (click)="payWorkExperience()">Pay</a>
                     </div>
                 </div>
@@ -80,9 +81,9 @@
                                 min="0" max="10">
                             </mat-form-field>
                         </p>
-                        <a *ngIf="workExperience.accepted && role === 'ROLE_EMPLOYEE'" 
+                        <a *ngIf="workExperience.accepted && role === 'ROLE_EMPLOYEE' && !workExperience.dateTo" 
                         (click)="markEmployer()" class="btn btn-primary btn-round">Mark Employer</a>
-                        <a *ngIf="workExperience.accepted && role === 'ROLE_EMPLOYER'" 
+                        <a *ngIf="workExperience.accepted && role === 'ROLE_EMPLOYER' && !workExperience.dateTo" 
                         (click)="markEmployee()" class="btn btn-primary btn-round">Mark Employee</a>
                         <a style="margin-left: 10px;" *ngIf="role === 'ROLE_EMPLOYEE'" 
                         (click)="infoEmployer()" class="btn btn-primary btn-round">Info Employer</a>

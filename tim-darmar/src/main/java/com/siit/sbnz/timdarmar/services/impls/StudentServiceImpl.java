@@ -57,7 +57,8 @@ public class StudentServiceImpl implements StudentService{
 		
 		kieSession.dispose();
 		
-		Collections.sort(students, (s1, s2) -> Double.valueOf(s1.getPoints()).compareTo(Double.valueOf(s2.getPoints())));
+		Collections.sort(students, 
+				Collections.reverseOrder((s1, s2) -> Double.valueOf(s1.getPoints()).compareTo(Double.valueOf(s2.getPoints()))));
 		
 		return students;
 	}
