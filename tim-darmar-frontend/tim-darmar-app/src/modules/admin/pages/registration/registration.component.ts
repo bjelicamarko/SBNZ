@@ -23,10 +23,10 @@ export class RegistrationComponent implements OnInit {
     private router: Router, private snackBarService: SnackBarService) {
       this.form = this.fb.group({
         email: [null, [Validators.required, EmailValidator]],          
-        password: new FormControl('', [Validators.required, Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#&()\-+=<>])([a-zA-Z0-9!@#&()–+=<>]){8,20}$")]),
+        password: new FormControl('', [Validators.required]),
         repeatPassword: new FormControl('', Validators.required),
-        firstname: [null, [Validators.required, BasicValidator, MinLengthValidator, MaxLengthValidator]],
-        lastname: [null, [Validators.required , BasicValidator, MinLengthValidator, MaxLengthValidator]],
+        firstname: [null, [Validators.required]],
+        lastname: [null, [Validators.required]],
         role: ['Employer', [Validators.required]]
       },
       { validator: MatchValidator('password', 'repeatPassword')});
@@ -52,7 +52,7 @@ export class RegistrationComponent implements OnInit {
     
     this.adminService.register(regDTO).subscribe((result: any) => {
       this.snackBarService.openSnackBar(result.body);
-      this.router.navigate(["darmar-app/admin/home-page"]);
+      this.router.navigate(["darmar-app/admin/expertises-and-specializations"]);
     },
       (err: any) => {
         this.snackBarService.openSnackBar(err.error);

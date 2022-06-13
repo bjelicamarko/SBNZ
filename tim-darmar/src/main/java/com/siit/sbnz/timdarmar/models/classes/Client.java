@@ -75,8 +75,8 @@ public abstract class Client implements UserDetails{
 	public Client(RegistrationDTO r) {
 		this.email = r.getEmail();		
 		this.password = r.getPassword();
-		this.firstName = r.getFirstName();
-		this.lastName = r.getLastName();
+		this.firstName = r.getFirstname();
+		this.lastName = r.getLastname();
 		this.role = r.getRole();
 		this.blocked = false;
 		this.deleted = false;
