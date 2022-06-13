@@ -22,4 +22,6 @@ public interface EmployeeService {
 	void updateEmployee(EmployeeDTO emp, Employee e);
 	
 	Employee searchFriendNetworkForOneWithExperience(Long id, String specialization);
+	
+	Employee addFriend(Employee emp, Long friend);
 }

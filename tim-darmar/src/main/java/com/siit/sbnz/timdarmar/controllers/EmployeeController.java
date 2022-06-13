@@ -144,4 +144,18 @@ public class EmployeeController {
 		return new ResponseEntity<>(new EmployeeSearchResDTO(e), HttpStatus.ALREADY_REPORTED);
 		
 	}
+	
+	@PostMapping(value = "/addFriend")
+	@PreAuthorize("hasRole('EMPLOYEE')")
+	public ResponseEntity<EmployeeBasicInfoDTO> addFriend(@RequestBody Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Employee employee = (Employee)auth.getPrincipal();
+		
+		Employee res = employeeService.addFriend(employee, id);
+		if (res == null)
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<>(new EmployeeBasicInfoDTO(res), HttpStatus.OK);
+		
+	}
 }
